@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fit for the Cross™ — Daily Spiritual Training</title>
+  <meta name="description" content="The world doesn't see your spiritual training. They see the evidence of it. Start your free training today." />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://fitforthecross.com" />
+  <meta property="og:title" content="Fit for the Cross™ — Daily Spiritual Training" />
+  <meta property="og:description" content="The world doesn't see your spiritual training. They see the evidence of it. Start your free training today." />
+  <meta property="og:image" content="https://fitforthecross.com/images/fftc-hero.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Fit for the Cross" />
+
+  <!-- Twitter / iMessage -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Fit for the Cross™ — Daily Spiritual Training" />
+  <meta name="twitter:description" content="The world doesn't see your spiritual training. They see the evidence of it. Start your free training today." />
+  <meta name="twitter:image" content="https://fitforthecross.com/images/fftc-hero.jpg" />
+  <link rel="icon" type="image/png" href="images/icons/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@400;500;600;700&family=Bebas+Neue&family=League+Spartan:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; width: 100%; overflow-x: hidden; }
+    img { max-width: 100%; display: block; }
+
+    :root {
+      --mystic-red: #FF5300;
+      --mystic-red-dark: #d94700;
+      --butter-creme: #f7f8e6;
+      --fftc-gradient: linear-gradient(135deg, #b2eacb 0%, #3dba7e 45%, #2a9d6f 100%);
+      --fftc-green: #3dba7e;
+      --fftc-green-dark: #2a9d6f;
+      --off-white: #faf9f7;
+      --light-grey: #f2f1ef;
+      --ink: #1a1a1a;
+      --ink-mid: #4a4a4a;
+      --ink-light: #888;
+      --white: #ffffff;
+      --font-head: 'League Spartan', sans-serif;
+      --font-body: 'Barlow', sans-serif;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--off-white);
+      color: var(--ink);
+      line-height: 1.6;
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    /* ── Shared ── */
+    .section-head {
+      font-family: var(--font-head);
+      font-weight: 900;
+      line-height: 1.0;
+      text-transform: uppercase;
+    }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .container--narrow {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ── Banner layout — centered statement style ── */
+    .banner {
+      text-align: center;
+      padding: 8rem 0;
+    }
+
+    .banner--grey { background: var(--light-grey); }
+    .banner--white { background: var(--white); }
+    .banner--off-white { background: var(--off-white); }
+    .banner--butter { background: var(--butter-creme); }
+
+    .banner__headline {
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      margin: 0 auto 1.75rem;
+      max-width: 22ch;
+      line-height: 1.0;
+    }
+
+    .banner__sub {
+      font-size: 1.15rem;
+      color: var(--ink-mid);
+      line-height: 1.8;
+      max-width: 56ch;
+      margin: 0 auto;
+    }
+
+    .banner__sub p + p { margin-top: 1.1rem; }
+
+    .banner__kicker {
+      font-family: var(--font-head);
+      font-weight: 900;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      color: var(--ink);
+      max-width: 36ch;
+      margin: 3.5rem auto 0;
+      line-height: 1.1;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .banner__divider {
+      width: 3rem;
+      height: 3px;
+      background: var(--mystic-red);
+      margin: 2.5rem auto;
+    }
+
+    .banner__callout {
+      background: var(--white);
+      border-top: 3px solid var(--mystic-red);
+      max-width: 640px;
+      margin: 3rem auto 0;
+      padding: 2rem 2.5rem;
+      font-size: 1.05rem;
+      color: var(--ink-mid);
+      line-height: 1.8;
+      font-style: italic;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-block;
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 1rem 2.5rem;
+      border-radius: 3px;
+      transition: background 0.2s, color 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn--white {
+      background: var(--white);
+      color: var(--fftc-green-dark);
+    }
+    .btn--white:hover { background: #f0f0f0; }
+    .btn--outline-white {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid rgba(255,255,255,0.6);
+    }
+    .btn--outline-white:hover { background: rgba(255,255,255,0.15); }
+    .btn--green {
+      background: var(--fftc-green-dark);
+      color: var(--white);
+    }
+    .btn--green:hover { background: #228a5e; }
+    .btn--outline-dark {
+      background: transparent;
+      color: var(--ink);
+      border: 2px solid rgba(0,0,0,0.25);
+    }
+    .btn--outline-dark:hover { background: rgba(0,0,0,0.05); }
+    .btn--red {
+      background: var(--mystic-red);
+      color: var(--white);
+    }
+    .btn--red:hover { background: var(--mystic-red-dark); }
+
+    /* ── Nav ── */
+    .nav-wrap {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+    }
+    .nav {
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+    .nav__logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+    .nav__logo-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.35rem;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      line-height: 1;
+      border: 2px solid var(--white);
+      padding: 0.3rem 0.45rem 0.1rem;
+      white-space: nowrap;
+    }
+    .nav__cta {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.6rem 1.5rem;
+      border: 2px solid rgba(255,255,255,0.7);
+      border-radius: 3px;
+      color: var(--white);
+      transition: background 0.2s;
+    }
+    .nav__cta:hover { background: rgba(255,255,255,0.15); }
+
+    /* ── Hero ── */
+    .hero {
+      background: #1a1a1a;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('images/fftc-hero.jpg');
+      background-size: cover;
+      background-position: 60% 30%;
+      opacity: 0.55;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(0,0,0,0.72) 40%, rgba(0,0,0,0.2) 100%);
+      pointer-events: none;
+    }
+    .hero__inner {
+      position: relative;
+      z-index: 1;
+      padding: 8rem 2rem 5rem;
+      max-width: 1080px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .hero__headline {
+      font-family: 'League Spartan', sans-serif;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 900;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+      max-width: 14ch;
+      letter-spacing: -0.01em;
+      line-height: 0.92;
+    }
+    .hero__sub {
+      font-size: 1.2rem;
+      color: rgba(255,255,255,0.9);
+      max-width: 52ch;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      font-weight: 400;
+    }
+    .hero__actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    /* ── Problem split ── */
+    .problem-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 80vh;
+    }
+    .problem-split__text {
+      background: var(--butter-creme);
+      display: flex;
+      align-items: center;
+      padding: 6rem 5rem 6rem 2rem;
+    }
+    .problem-split__text-inner {
+      max-width: 520px;
+      margin-left: auto;
+    }
+    .problem-split__headline {
+      font-size: clamp(2.5rem, 4vw, 4rem);
+      color: var(--ink);
+      margin-bottom: 2rem;
+      line-height: 1.0;
+    }
+    .problem-split__body p {
+      font-size: 1.05rem;
+      color: var(--ink-mid);
+      line-height: 1.85;
+      margin-bottom: 1.1rem;
+    }
+    .problem-split__body p:last-child { margin-bottom: 0; }
+    .problem-split--flip { direction: rtl; }
+    .problem-split--flip > * { direction: ltr; }
+    .problem-split__kicker {
+      font-family: var(--font-head);
+      font-weight: 900;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      color: var(--ink);
+      line-height: 1.15;
+      text-transform: uppercase;
+      text-align: center;
+      text-wrap: balance;
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 3px solid var(--mystic-red);
+    }
+    .problem-split__image {
+      background-image: url('images/fftc-problem.jpg');
+      background-size: cover;
+      background-position: center top;
+      min-height: 600px;
+    }
+
+    /* ── Framework splits ── */
+    .framework-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 72vh;
+    }
+    .framework-split--flip { direction: rtl; }
+    .framework-split--flip > * { direction: ltr; }
+
+    .framework-split__image {
+      background-size: cover;
+      background-position: center center;
+      min-height: 520px;
+    }
+    .framework-split__text {
+      background: var(--butter-creme);
+      display: flex;
+      align-items: center;
+      padding: 5rem 5rem 5rem 5rem;
+    }
+    .framework-split--flip .framework-split__text {
+      padding: 5rem 5rem 5rem 5rem;
+    }
+    .framework-split--white .framework-split__text {
+      background: var(--white);
+    }
+    .framework-split__inner {
+      max-width: 480px;
+    }
+    .framework-split__num {
+      font-family: var(--font-head);
+      font-weight: 900;
+      font-size: 6rem;
+      line-height: 1;
+      color: var(--mystic-red);
+      opacity: 0.25;
+      margin-bottom: -1rem;
+      letter-spacing: -0.02em;
+    }
+    .framework-split__title {
+      font-family: var(--font-head);
+      font-weight: 900;
+      font-size: clamp(2.5rem, 4vw, 3.5rem);
+      text-transform: uppercase;
+      color: var(--ink);
+      line-height: 1.0;
+      margin-bottom: 1.25rem;
+      border-bottom: 3px solid var(--mystic-red);
+      padding-bottom: 1.25rem;
+    }
+    .framework-split__body {
+      font-size: 1.05rem;
+      color: var(--ink-mid);
+      line-height: 1.85;
+      margin-bottom: 1.1rem;
+    }
+    .framework-split__body:last-child { margin-bottom: 0; }
+    .framework-split__link {
+      display: inline-block;
+      margin-top: 1.25rem;
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mystic-red-dark);
+      text-decoration: none;
+      border-bottom: 2px solid var(--mystic-red);
+      padding-bottom: 2px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .framework-split__link:hover { color: var(--ink); border-color: var(--ink); }
+
+    /* ── Framework coda ── */
+    .framework-split__coda {
+      font-family: var(--font-head);
+      font-weight: 900;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      text-transform: uppercase;
+      color: var(--ink);
+      line-height: 1.15;
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 3px solid var(--mystic-red);
+    }
+
+    /* ── Framework scripture ── */
+    .framework-scripture {
+      background: var(--light-grey);
+      text-align: center;
+      padding: 6rem 0;
+    }
+    .framework-scripture blockquote {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: clamp(1.8rem, 3.5vw, 2.75rem);
+      color: var(--ink);
+      line-height: 1.25;
+      max-width: 28ch;
+      margin: 0 auto 1rem;
+    }
+    .framework-scripture cite {
+      font-size: 0.95rem;
+      color: var(--ink-light);
+      font-style: normal;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Workouts / DAILY FUEL ── */
+    .workouts-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      margin-top: 5rem;
+      align-items: start;
+    }
+    .workouts-split__text p {
+      font-size: 1.05rem;
+      color: var(--ink-mid);
+      line-height: 1.85;
+      margin-bottom: 1.1rem;
+      text-align: left;
+    }
+    .workouts-split__text p:last-child { margin-bottom: 0; }
+    .workouts-split__pull {
+      font-family: var(--font-head);
+      font-weight: 900;
+      font-size: clamp(1.5rem, 2.5vw, 2.1rem);
+      text-transform: uppercase;
+      color: var(--ink);
+      line-height: 1.15;
+      text-align: center !important;
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-top: 3px solid var(--mystic-red);
+      border-bottom: 3px solid var(--mystic-red);
+      margin-top: 0.5rem;
+      margin-bottom: 1.1rem;
+    }
+    .workouts-split__image img {
+      border-radius: 6px;
+      width: 100%;
+      max-width: 340px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* ── Skills Carousel ── */
+    .skills-section { background: var(--white); padding: 6rem 0 5rem; overflow-x: hidden; }
+    .skills-section__eyebrow {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--mystic-red);
+      text-align: center;
+      margin: 0 0 0.75rem;
+    }
+    .skills-section__headline {
+      font-family: var(--font-head);
+      font-weight: 900;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      text-transform: uppercase;
+      color: var(--ink);
+      text-align: center;
+      line-height: 1.05;
+      margin: 0 0 3rem;
+    }
+    .skills-carousel-wrap { display: flex; align-items: center; gap: 1.25rem; margin-bottom: 1.25rem; }
+    .skills-viewport { overflow: hidden; flex: 1; }
+    .skills-track { display: flex; gap: 1.25rem; transition: transform 0.38s cubic-bezier(.4,0,.2,1); }
+    .skill-card {
+      flex-shrink: 0;
+      width: calc((100% - 2 * 1.25rem) / 3);
+      background: var(--off-white);
+      border-radius: 8px;
+      border-top: 3px solid var(--mystic-red);
+      padding: 2rem 2rem;
+      box-sizing: border-box;
+    }
+    @media (max-width: 900px) {
+      .skill-card { width: calc((100% - 1.25rem) / 2); }
+    }
+    @media (max-width: 600px) {
+      .skill-card { width: 100%; }
+    }
+    .skill-card__eyebrow {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--mystic-red);
+      margin: 0 0 0.5rem;
+    }
+    .skill-card__name {
+      font-family: var(--font-head);
+      font-weight: 900;
+      font-size: clamp(1.4rem, 1.9vw, 2rem);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ink);
+      line-height: 1.05;
+      margin: 0 0 0.35rem;
+      white-space: nowrap;
+    }
+    .skill-card__pop-label {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      margin: 2rem 0 0.75rem;
+    }
+    .skill-point { margin-bottom: 1.4rem; }
+    .skill-point:last-child { margin: 0; }
+    .skill-point__text {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--ink);
+      margin: 0 0 0.25rem;
+      line-height: 1.4;
+    }
+    .skill-point__verse {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-style: italic;
+      color: var(--ink-mid);
+      margin: 0;
+      line-height: 1.55;
+    }
+    .skill-point__ref {
+      display: block;
+      font-style: normal;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--mystic-red);
+      margin-top: 0.15rem;
+    }
+    .skills-arrow {
+      background: transparent;
+      border: 1.5px solid rgba(0,0,0,0.15);
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      min-width: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.4rem;
+      color: var(--ink);
+      line-height: 1;
+      transition: border-color 0.15s, background 0.15s, color 0.15s;
+    }
+    .skills-arrow:hover:not([disabled]) { border-color: var(--mystic-red); color: var(--mystic-red); }
+    .skills-arrow[disabled] { opacity: 0.2; cursor: default; }
+    .skills-dots { display: flex; gap: 7px; justify-content: center; margin-top: 1.5rem; }
+    .skills-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--ink-light);
+      opacity: 0.3;
+      cursor: pointer;
+      border: none;
+      padding: 0;
+      transition: background 0.2s, opacity 0.2s, transform 0.2s;
+    }
+    .skills-dot.active { background: var(--mystic-red); opacity: 1; transform: scale(1.4); }
+    .skills-section__ref {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-style: italic;
+      color: var(--ink-mid);
+      text-align: center;
+      max-width: 680px;
+      margin: 1.5rem auto 0;
+      line-height: 1.7;
+    }
+    .skills-section__ref span {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: var(--mystic-red);
+      letter-spacing: 0.05em;
+    }
+
+
+    /* ── Final CTA ── */
+    .final-cta {
+      background: linear-gradient(135deg, #ff7a3d 0%, #FF5300 60%, #d94700 100%);
+      padding: 8rem 0;
+      text-align: center;
+    }
+    .final-cta__headline {
+      font-size: clamp(3.5rem, 7vw, 6.5rem);
+      color: var(--white);
+      margin-bottom: 1.25rem;
+      line-height: 1.0;
+    }
+    .final-cta__sub {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.88);
+      max-width: 50ch;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+    .value-stack {
+      list-style: none;
+      padding: 0;
+      margin: 0 auto 3rem;
+      max-width: 580px;
+      text-align: left;
+    }
+    .value-stack li {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+    .value-stack li:last-child { border-bottom: none; }
+    .value-stack__check {
+      color: var(--white);
+      font-size: 1.2rem;
+      line-height: 1.4;
+      flex-shrink: 0;
+    }
+    .value-stack__label {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--white);
+      margin-bottom: 0.2rem;
+    }
+    .value-stack__desc {
+      font-size: 0.92rem;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.6;
+    }
+    .final-cta__free {
+      font-family: var(--font-head);
+      font-weight: 900;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      text-transform: uppercase;
+      color: var(--white);
+      margin: 0 0 2.5rem;
+      letter-spacing: 0.05em;
+    }
+    .final-cta__free span {
+      color: var(--white);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+    .final-cta__intro {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.88);
+      max-width: 52ch;
+      margin: 0 auto 2rem;
+      line-height: 1.7;
+      text-align: center;
+    }
+    .final-cta__actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      background: var(--ink);
+      padding: 3rem 0;
+    }
+    .footer__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .footer__brand {
+      font-family: var(--font-head);
+      font-weight: 900;
+      font-size: 1rem;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .footer__brand span {
+      color: rgba(255,255,255,0.25);
+      font-weight: 400;
+      font-size: 0.85rem;
+      display: block;
+      margin-top: 0.25rem;
+    }
+    .footer__link {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+    }
+    .footer__link:hover { color: rgba(255,255,255,0.7); }
+
+    /* ── Balanced text — no orphans at any viewport ── */
+    .section-head,
+    .banner__headline,
+    .banner__sub,
+    .banner__kicker,
+    .hero__headline,
+    .hero__sub,
+    .framework-split__title,
+    .framework-split__coda,
+    .workouts-split__pull,
+    .skills-section__headline,
+    .skills-section__ref,
+    .final-cta__headline,
+    .final-cta__sub { text-wrap: balance; }
+
+    /* ── Fuel lightbox link (hidden on desktop, shown on mobile) ── */
+    .fuel-preview-link {
+      display: none;
+      margin-top: 1rem;
+      margin-bottom: 1.5rem;
+      align-self: flex-start;
+      text-align: left;
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mystic-red);
+      text-decoration: none;
+      border-bottom: 2px solid var(--mystic-red);
+      padding-bottom: 2px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .problem-split { grid-template-columns: 1fr; min-height: unset; }
+      .problem-split__text { padding: 4rem 2rem; }
+      .problem-split__text-inner { max-width: 100%; margin-left: 0; }
+      .problem-split__image { min-height: 360px; order: -1; }
+      .framework-split { grid-template-columns: 1fr; min-height: unset; }
+      .framework-split--flip { direction: ltr; }
+      .framework-split__image { min-height: 360px; order: 1; }
+      .framework-split__text,
+      .framework-split--flip .framework-split__text { padding: 4rem 2rem; align-items: flex-start; }
+      .framework-split__inner { max-width: 100%; width: 100%; }
+      .workouts-split { grid-template-columns: 1fr; gap: 3rem; }
+      .workouts-split__image img { max-width: 100%; }
+      .skills-grid { grid-template-columns: repeat(3, 1fr); }
+      .skills-grid .skill-cell__name { writing-mode: horizontal-tb; transform: none; font-size: 0.9rem; }
+      .skills-grid .skill-cell { padding: 1.25rem 0.5rem; }
+    }
+    @media (max-width: 600px) {
+      .gethsemane-image { min-height: 220px !important; background-position: center 35% !important; order: -1; }
+      .banner { padding: 4rem 0; }
+      .skills-section { padding: 4rem 0; }
+      .final-cta { padding: 4rem 0; }
+      .skills-arrow { display: none; }
+      .skills-carousel-wrap { gap: 0; }
+      .hero__sub { font-size: 1.05rem; }
+      .hero__actions { flex-direction: column; align-items: flex-start; }
+      .final-cta__actions { flex-direction: column; align-items: center; }
+      .footer__inner { flex-direction: column; text-align: center; }
+      .workouts-split__image { display: none; }
+      .workouts-split { margin-top: 2rem; }
+      .workouts-split__text p { line-height: 1.7; margin-bottom: 0.75rem; }
+      .fuel-preview-link { display: block; width: fit-content; }
+      .nav__logo-text { font-size: 1rem; letter-spacing: 0.06em; }
+      .nav__cta { font-size: 0.75rem; padding: 0.5rem 1rem; white-space: nowrap; }
+    }
+
+    /* ── Fuel lightbox ── */
+    .fuel-lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .fuel-lightbox.is-open { display: flex; }
+    .fuel-lightbox__inner {
+      position: relative;
+      max-width: 100%;
+      max-height: 90vh;
+    }
+    .fuel-lightbox__inner img {
+      display: block;
+      max-width: 100%;
+      max-height: 88vh;
+      border-radius: 6px;
+    }
+    .fuel-lightbox__close {
+      position: absolute;
+      top: -2.25rem;
+      right: 0;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.6rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      font-family: var(--font-head);
+      font-weight: 700;
+    }
+
+    /* ── Signup Modal ── */
+    .signup-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .signup-modal.is-open { display: flex; }
+    .signup-modal__box {
+      background: var(--off-white);
+      border-radius: 8px;
+      padding: 3rem 2.5rem;
+      max-width: 480px;
+      width: 100%;
+      position: relative;
+    }
+    .signup-modal__close {
+      position: absolute;
+      top: 1rem;
+      right: 1.25rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      line-height: 1;
+      cursor: pointer;
+      color: var(--ink-mid);
+      font-family: var(--font-head);
+      font-weight: 700;
+    }
+    .signup-modal__kicker {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mystic-red);
+      margin-bottom: 0.5rem;
+    }
+    .signup-modal__headline {
+      font-family: var(--font-head);
+      font-weight: 900;
+      font-size: 2rem;
+      line-height: 1.05;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+      text-wrap: balance;
+    }
+    .signup-modal__sub {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--ink-mid);
+      margin-bottom: 2rem;
+      line-height: 1.5;
+    }
+    .signup-modal__row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .signup-modal__field {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
+      min-width: 0;
+    }
+    .signup-modal__field label {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      margin-bottom: 0.35rem;
+    }
+    .signup-modal__field input {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      padding: 0.65rem 0.85rem;
+      border: 1.5px solid #d0cfc9;
+      border-radius: 4px;
+      background: #fff;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.15s;
+      width: 100%;
+    }
+    .signup-modal__field input:focus { border-color: var(--mystic-red); }
+    .signup-modal__submit {
+      width: 100%;
+      margin-top: 0.5rem;
+      padding: 1rem;
+      background: var(--mystic-red);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-family: var(--font-head);
+      font-weight: 900;
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .signup-modal__submit:hover { background: var(--mystic-red-dark); }
+    .signup-modal__success {
+      display: none;
+      text-align: center;
+      padding: 1rem 0;
+    }
+    .signup-modal__success-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .signup-modal__success h3 {
+      font-family: var(--font-head);
+      font-weight: 900;
+      font-size: 1.75rem;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+    .signup-modal__success p {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--ink-mid);
+      line-height: 1.5;
+    }
+    @media (max-width: 480px) {
+      .signup-modal__box { padding: 2.5rem 1.5rem; }
+      .signup-modal__row { grid-template-columns: 1fr; gap: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <div class="nav-wrap">
+    <nav class="nav">
+      <a href="/" class="nav__logo">
+        <span class="nav__logo-text">Fit for the Cross</span>
+      </a>
+      <a href="#" class="nav__cta" data-modal="signup">Start Training</a>
+    </nav>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__bg"></div>
+    <div class="hero__inner">
+      <h1 class="section-head hero__headline">When God Calls, Will You Be Ready?</h1>
+      <p class="hero__sub">You already know what fitness training does for your body. It's time to try it for your soul. God has a purpose for your life — and Fit for the Cross™ is the free spiritual training program that increases your capacity to live into that&nbsp;purpose.</p>
+      <div class="hero__actions">
+        <a href="#" class="btn btn--red" data-modal="signup">Start Training Today</a>
+        <a href="https://thehopeproject.co" class="btn btn--outline-white">Bring It to Your Gym</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Framework intro -->
+  <section class="banner banner--white" style="padding-top: 4rem; padding-bottom: 4rem;">
+    <div class="container">
+      <h2 class="section-head banner__headline">Spiritual Growth Is Not&nbsp;Random.</h2>
+      <p class="banner__sub">It follows a process — the same kind of process that produces physical transformation. After years of spiritual training and more than 1,500 sessions delivered to people around the world, we understand what you need for spiritual growth and what it can&nbsp;produce.</p>
+    </div>
+  </section>
+
+  <!-- Framework 01: Fuel -->
+  <div class="framework-split">
+    <div class="framework-split__image" style="background-image: url('images/fftc-fuel.jpg'); background-position: center 30%;"></div>
+    <div class="framework-split__text">
+      <div class="framework-split__inner">
+        <div class="framework-split__num">01</div>
+        <div class="framework-split__title">Fuel</div>
+        <p class="framework-split__body">What you put in your body affects what your body can do — and spiritually, the same is true. You need spiritual nutrition, and we deliver that through DAILY FUEL: a structured training session designed to nourish your soul.</p>
+        <a href="#daily-fuel" class="framework-split__link">Learn more about DAILY FUEL &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Framework 02: Life -->
+  <div class="framework-split framework-split--flip">
+    <!-- alt: url('images/fftc-life.jpg') center 30% -->
+    <div class="framework-split__image" style="background-image: url('images/fftc-life-1.jpg'); background-position: 30% center;"></div>
+    <div class="framework-split__text framework-split__text--white" style="background: var(--white);">
+      <div class="framework-split__inner">
+        <div class="framework-split__num">02</div>
+        <div class="framework-split__title">Life</div>
+        <p class="framework-split__body">God has a workout for you every day — and life is the gym. The difficult conversation you didn't see coming. The moment you have to choose patience when frustration is winning. The day you have to find joy even though nothing is going your way. Life is where your spiritual capacity is revealed and refined.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Framework 03: Adaptation -->
+  <div class="framework-split">
+    <!-- alt: url('images/fftc-adaptation.jpg') center center -->
+    <div class="framework-split__image" style="background-image: url('images/fftc-adaptation-3.jpg'); background-position: center 20%;"></div>
+    <div class="framework-split__text">
+      <div class="framework-split__inner">
+        <div class="framework-split__num">03</div>
+        <div class="framework-split__title">Adaptation</div>
+        <p class="framework-split__body">The evidence that your spiritual training is working. A gradual, measurable shift in how you respond, who you are becoming, and what your life actually looks like. Adaptations are the first-fruits of the Spirit's transformation.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Framework 04: Transformation -->
+  <div class="framework-split framework-split--flip">
+    <!-- alt: url('images/fftc-transformation.jpg') center top -->
+    <div class="framework-split__image" style="background-image: url('images/fftc-transformation-6.jpg'); background-position: center 20%;"></div>
+    <div class="framework-split__text" style="background: var(--white);">
+      <div class="framework-split__inner">
+        <div class="framework-split__num">04</div>
+        <div class="framework-split__title">Transformation</div>
+        <p class="framework-split__body">When the changes God is doing on the inside become visible on the outside. Transformation is the result of many spiritual training cycles faithfully overseen by the Holy&nbsp;Spirit.</p>
+        <p class="framework-split__coda">You create the conditions.<br>The Spirit does what only He can do.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Problem -->
+  <section class="problem-split problem-split--flip" style="display:none;">
+    <div class="problem-split__text">
+      <div class="problem-split__text-inner">
+        <h2 class="section-head problem-split__headline">The Problem Isn't Access. It's Structure.</h2>
+        <div class="problem-split__body">
+          <p>You have 24/7, uninterrupted access to God. Access has never been the problem.</p>
+          <p>The problem is that most people treat their spiritual life the way a casual gym-goer treats a treadmill — they show up when they feel like it, do what feels comfortable, and wonder why nothing truly changes. They have access to everything they need. But what they really need is a structured spiritual training program.</p>
+          <p>When you train your body without structure, you plateau. When you train your soul without structure, you can miss. You can miss the depth of connection God is already making available to you. And when life gets hard — and it will — you can find yourself underprepared for the intensity of it.</p>
+        </div>
+        <p class="problem-split__kicker">Fit for the Cross™ gives your spiritual life the same training structure your fitness life already has.</p>
+      </div>
+    </div>
+    <div class="problem-split__image"></div>
+  </section>
+
+  <!-- The Workouts -->
+  <section class="banner banner--butter" id="daily-fuel" style="padding-top: 4rem; padding-bottom: 4rem;">
+    <div class="container">
+      <h2 class="section-head banner__headline">Train Your Soul Every&nbsp;Day.</h2>
+      <div class="workouts-split">
+        <div class="workouts-split__text">
+          <p>At its core, Fit for the Cross™ is all about daily spiritual training — delivered through DAILY FUEL. Drawing on the principles of strength training and the methodology of functional fitness, every DAILY FUEL session is designed to supply the spiritual nourishment you need for the challenges of life.</p>
+          <a class="fuel-preview-link" href="#" id="fuel-preview-trigger">View a FUEL Session →</a>
+          <p>Every morning, a FUEL session lands in your inbox. Sessions draw from 22 different spiritual disciplines — including Bible study, prayer, fasting, stillness, journaling, and worship — and our development team ensures you touch all 22 disciplines at least once a month. Most sessions can be completed in 15 minutes or less. You're training with the same spiritual practices as the ancient church.</p>
+          <p>But we mix it up. Because the same exercise repeated the same way produces the same result — and eventually, little or no result at all. Variety prevents the plateau that can lead to a spiritual rut. Plus it keeps it fresh, keeps it fun, and keeps you from having to figure out what you're going to do.</p>
+          <p>Each month follows a training focus that shapes everything — the books of the Bible you study, the verses of the day, and the monthly capstone sessions, which build in duration throughout the month. Think 4 minutes of silence in week one, growing to 12 minutes of silence by week four.</p>
+          <p class="workouts-split__pull">That's progressive overload applied to the soul.</p>
+          <p>Fit for the Cross™ also publishes a weekly email with devotionals, worship playlists, and tips and advice for getting the most out of your time with God, all included in your training — and all for free.</p>
+        </div>
+        <div class="workouts-split__image">
+          <img src="images/daily-fuel.png" alt="DAILY FUEL sample" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Transformation: copy + painting -->
+  <div class="framework-split">
+    <div class="framework-split__text" style="background: var(--light-grey);">
+      <div class="framework-split__inner">
+        <h2 class="section-head framework-split__title" style="font-size: clamp(2rem, 3.5vw, 3rem);">This Is What Spiritual Fitness Looks Like.</h2>
+        <p class="framework-split__body">If you want to look like a bodybuilder, you need to train like a bodybuilder. The same is true for any sport. So what does it look like to train for godliness?</p>
+        <p class="framework-split__body">If you want to look like a follower of Jesus, you need to train like He did. He fasted. He prayed. He went into solitude. He read and memorized Scripture. He worshipped. He did the disciplines.</p>
+        <p class="framework-split__body">But what people often miss isn't what He did — it's what it produced. The Bible doesn't describe Jesus' shoulders or quads. It describes His kindness, His faithfulness, His love. Scripture calls these the fruits of the Spirit — the visible evidence of a life trained in godliness.</p>
+        <p class="framework-split__body">At Fit for the Cross™, we call them spiritual skills. Not because they're easy. Because they can be trained. And like any great training program, over time they become proof that something real is happening — that the training is working.</p>
+      </div>
+    </div>
+    <div class="framework-split__image gethsemane-image" style="background-image: url('images/Christ_in_Gethsemane.jpg'); background-position: center top; min-height: 680px;"></div>
+  </div>
+
+  <!-- Skills Carousel -->
+  <section class="skills-section">
+    <div class="container">
+      <p class="skills-section__eyebrow">The Evidence of Spiritual Training</p>
+      <h2 class="skills-section__headline">The Fit for the Cross™<br>Nine Spiritual Skills</h2>
+      <div class="skills-carousel-wrap">
+        <button class="skills-arrow" id="skills-prev" aria-label="Previous skill">&#8249;</button>
+        <div class="skills-viewport">
+          <div class="skills-track" id="skills-track"></div>
+        </div>
+        <button class="skills-arrow" id="skills-next" aria-label="Next skill">&#8250;</button>
+      </div>
+      <div class="skills-dots" id="skills-dots"></div>
+      <p class="skills-section__ref">"But the fruit of the Spirit is love, joy, peace, patience, kindness, goodness,<br>faithfulness, gentleness, and self-control." &nbsp;&nbsp;&nbsp;<span>Galatians 5:22–23</span></p>
+      <div class="banner__divider" style="margin: 3rem auto 2rem;"></div>
+      <p class="banner__kicker">The world doesn't see your spiritual training. They see the evidence of it.</p>
+    </div>
+  </section>
+
+
+  <!-- Final CTA -->
+  <section class="final-cta" id="get-started">
+    <div class="container">
+      <h2 class="section-head final-cta__headline">Get Fit for the Cross™</h2>
+      <p class="final-cta__intro">Fit for the Cross™ is not another devotional or Bible study — it's a comprehensive spiritual training program with proven results. When you join, you'll receive:</p>
+      <ul class="value-stack">
+        <li>
+          <span class="value-stack__check">&#10003;</span>
+          <div>
+            <p class="value-stack__label">Daily FUEL — In Your Inbox Every Morning</p>
+            <p class="value-stack__desc">Each session draws from 22 spiritual disciplines — structured, progressive, and varied so you never plateau. Most sessions complete in 15 minutes or less.</p>
+          </div>
+        </li>
+        <li>
+          <span class="value-stack__check">&#10003;</span>
+          <div>
+            <p class="value-stack__label">Monthly Training Focus with Deep-Dive Disciplines</p>
+            <p class="value-stack__desc">Every session is shaped by a monthly theme — with intentional focus on specific disciplines. Imagine a month built around fasting, or a quarterly retreat designed around solitude.</p>
+          </div>
+        </li>
+        <li>
+          <span class="value-stack__check">&#10003;</span>
+          <div>
+            <p class="value-stack__label">Featured Spiritual Skills in Every Session</p>
+            <p class="value-stack__desc">The nine spiritual skills are woven into your FUEL sessions — so you're always training toward the visible evidence of a life shaped by God.</p>
+          </div>
+        </li>
+        <li>
+          <span class="value-stack__check">&#10003;</span>
+          <div>
+            <p class="value-stack__label">Weekly Devotionals, Worship Playlists &amp; Coaching Tips</p>
+            <p class="value-stack__desc">Every week, a curated email with devotionals, worship playlists, and tips to help you get the most out of your time with God.</p>
+          </div>
+        </li>
+        <li>
+          <span class="value-stack__check">&#10003;</span>
+          <div>
+            <p class="value-stack__label">Access to Our Coaches</p>
+            <p class="value-stack__desc">Connect with our coaches through digital gatherings and in-person events. You'll get personal insights and real-world feedback on how to get the most out of your training.</p>
+          </div>
+        </li>
+      </ul>
+      <p class="final-cta__free">All of it. <span>Free.</span></p>
+      <div class="final-cta__actions">
+        <a href="#" class="btn btn--white" data-modal="signup" style="color: var(--mystic-red); border: 2px solid transparent;">Start Training Today</a>
+        <a href="https://thehopeproject.co" class="btn btn--outline-white">Bring It to Your Gym</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          Fit for the Cross™
+          <span>Powered by The Hope Project</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script>
+  (function() {
+    const skills = [
+      {
+        name: 'Love',
+        points: [
+          { text: 'Patient and kind', verse: 'Love is patient, love is kind.', ref: '1 Corinthians 13:4' },
+          { text: 'How the world knows we belong to Jesus', verse: 'By this everyone will know that you are my disciples, if you love one another.', ref: 'John 13:35' },
+          { text: 'The greatest commandment', verse: 'Love the Lord your God with all your heart… and love your neighbor as yourself.', ref: 'Matthew 22:37–39' },
+        ]
+      },
+      {
+        name: 'Joy',
+        points: [
+          { text: 'Rejoices in every circumstance', verse: 'Rejoice always.', ref: '1 Thessalonians 5:16' },
+          { text: 'Hopeful in hardship', verse: 'Consider it pure joy… whenever you face trials of many kinds.', ref: 'James 1:2–3' },
+          { text: 'Overflows with gratitude', verse: 'Give thanks in all circumstances.', ref: '1 Thessalonians 5:18' },
+        ]
+      },
+      {
+        name: 'Peace',
+        points: [
+          { text: 'Trusts God instead of worrying', verse: 'You will keep in perfect peace those whose minds are steadfast, because they trust in you.', ref: 'Isaiah 26:3' },
+          { text: 'Remains calm in the storm', verse: 'Do not be anxious about anything… and the peace of God will guard your hearts and minds.', ref: 'Philippians 4:6–7' },
+          { text: 'Makes peace instead of conflict', verse: 'Blessed are the peacemakers.', ref: 'Matthew 5:9' },
+        ]
+      },
+      {
+        name: 'Patience',
+        points: [
+          { text: 'Keeps in step with the Spirit', verse: 'Since we live by the Spirit, let us keep in step with the Spirit.', ref: 'Galatians 5:25' },
+          { text: 'Slow to become angry', verse: 'Everyone should be quick to listen, slow to speak and slow to become angry.', ref: 'James 1:19' },
+          { text: 'Endures adversity', verse: 'Though the righteous fall seven times, they rise again.', ref: 'Proverbs 24:16' },
+        ]
+      },
+      {
+        name: 'Kindness',
+        points: [
+          { text: 'Serves others willingly', verse: 'The greatest among you will be your servant.', ref: 'Matthew 23:11' },
+          { text: 'Speaks with grace and purpose', verse: 'Let your conversation be always full of grace, seasoned with salt, so that you may know how to answer everyone.', ref: 'Colossians 4:6' },
+          { text: 'Shows compassion', verse: 'Be kind and compassionate to one another.', ref: 'Ephesians 4:32' },
+        ]
+      },
+      {
+        name: 'Goodness',
+        points: [
+          { text: 'Does what is right', verse: 'Learn to do right; seek justice.', ref: 'Isaiah 1:17' },
+          { text: 'Produces good works', verse: 'Created in Christ Jesus to do good works.', ref: 'Ephesians 2:10' },
+          { text: 'Refuses compromise', verse: 'Hate what is evil; cling to what is good.', ref: 'Romans 12:9' },
+        ]
+      },
+      {
+        name: 'Faithfulness',
+        points: [
+          { text: 'Can be counted on', verse: 'Many claim to have unfailing love, but a faithful person who can find?', ref: 'Proverbs 20:6' },
+          { text: 'Honors God in the small things', verse: 'Whoever can be trusted with very little can also be trusted with much.', ref: 'Luke 16:10' },
+          { text: 'Finishes what they start', verse: 'Well done, good and faithful servant.', ref: 'Matthew 25:21' },
+        ]
+      },
+      {
+        name: 'Gentleness',
+        points: [
+          { text: 'Receives correction', verse: 'Whoever heeds life-giving correction will be at home among the wise.', ref: 'Proverbs 15:31' },
+          { text: 'Restores the fallen', verse: 'Restore that person gently.', ref: 'Galatians 6:1' },
+          { text: 'Makes others feel safe', verse: 'A bruised reed he will not break, a smoldering wick he will not snuff out.', ref: 'Isaiah 42:3' },
+        ]
+      },
+      {
+        name: 'Self-Control',
+        points: [
+          { text: 'Practices discipline', verse: 'I discipline my body and keep it under control.', ref: '1 Corinthians 9:27' },
+          { text: 'Controls their words', verse: 'Those who guard their mouths and their tongues keep themselves from calamity.', ref: 'Proverbs 21:23' },
+          { text: 'Takes thoughts captive', verse: 'We take captive every thought to make it obedient to Christ.', ref: '2 Corinthians 10:5' },
+        ]
+      },
+    ];
+
+    const track = document.getElementById('skills-track');
+    const dotsEl = document.getElementById('skills-dots');
+    const prev = document.getElementById('skills-prev');
+    const next = document.getElementById('skills-next');
+    let cur = 0; // current page index
+
+    skills.forEach(function(s) {
+      var card = document.createElement('div');
+      card.className = 'skill-card';
+      card.innerHTML =
+        '<p class="skill-card__eyebrow">Spiritual Skill</p>' +
+        '<p class="skill-card__name">' + s.name + '</p>' +
+        '<p class="skill-card__pop-label">Points of Performance</p>' +
+        s.points.map(function(p) {
+          return '<div class="skill-point">' +
+            '<p class="skill-point__text">' + p.text + '</p>' +
+            '<p class="skill-point__verse">' + p.verse + ' <span class="skill-point__ref">' + p.ref + '</span></p>' +
+            '</div>';
+        }).join('');
+      track.appendChild(card);
+    });
+
+    function getVisible() {
+      var w = window.innerWidth;
+      if (w <= 600) return 1;
+      if (w <= 900) return 2;
+      return 3;
+    }
+
+    function pageCount() {
+      return Math.ceil(skills.length / getVisible());
+    }
+
+    function buildDots() {
+      dotsEl.innerHTML = '';
+      var pages = pageCount();
+      for (var i = 0; i < pages; i++) {
+        var dot = document.createElement('button');
+        dot.className = 'skills-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', 'Page ' + (i + 1));
+        (function(idx) { dot.addEventListener('click', function() { go(idx); }); })(i);
+        dotsEl.appendChild(dot);
+      }
+    }
+
+    function go(n) {
+      cur = Math.max(0, Math.min(n, pageCount() - 1));
+      var cardEl = track.children[0];
+      if (!cardEl) return;
+      var gap = 20; // 1.25rem in px
+      var perCard = cardEl.offsetWidth + gap;
+      var visible = getVisible();
+      track.style.transform = 'translateX(-' + (cur * visible * perCard) + 'px)';
+      document.querySelectorAll('.skills-dot').forEach(function(d, i) {
+        d.classList.toggle('active', i === cur);
+      });
+      prev.disabled = cur === 0;
+      next.disabled = cur === pageCount() - 1;
+    }
+
+    buildDots();
+    go(0);
+
+    var lastW = window.innerWidth;
+    window.addEventListener('resize', function() {
+      if (window.innerWidth === lastW) return;
+      lastW = window.innerWidth;
+      cur = 0;
+      buildDots();
+      go(0);
+    });
+
+    prev.addEventListener('click', function() { go(cur - 1); });
+    next.addEventListener('click', function() { go(cur + 1); });
+
+    var viewport = document.querySelector('.skills-viewport');
+    var tx = 0, ty = 0, swiping = false;
+    viewport.addEventListener('touchstart', function(e) {
+      tx = e.touches[0].clientX;
+      ty = e.touches[0].clientY;
+      swiping = false;
+    }, { passive: true });
+    viewport.addEventListener('touchmove', function(e) {
+      var dx = Math.abs(e.touches[0].clientX - tx);
+      var dy = Math.abs(e.touches[0].clientY - ty);
+      if (dx > dy && dx > 8) { swiping = true; e.preventDefault(); }
+    }, { passive: false });
+    viewport.addEventListener('touchend', function(e) {
+      if (!swiping) return;
+      var dx = e.changedTouches[0].clientX - tx;
+      if (Math.abs(dx) > 30) go(cur + (dx < 0 ? 1 : -1));
+      swiping = false;
+    });
+    viewport.addEventListener('touchcancel', function() { swiping = false; });
+  })();
+  </script>
+
+  <!-- Fuel lightbox -->
+  <!-- Signup Modal -->
+  <div class="signup-modal" id="signup-modal" role="dialog" aria-modal="true" aria-labelledby="signup-modal-headline">
+    <div class="signup-modal__box">
+      <button class="signup-modal__close" id="signup-modal-close" aria-label="Close">✕</button>
+      <div id="signup-modal-form-wrap">
+        <p class="signup-modal__kicker">Join Fit for the Cross</p>
+        <h2 class="signup-modal__headline" id="signup-modal-headline">Start Training Today</h2>
+        <p class="signup-modal__sub">Increase your capacity to live into God&rsquo;s purpose for your life.</p>
+        <iframe name="mc-hidden-frame" style="display:none;" aria-hidden="true"></iframe>
+        <form action="https://hopeinatx.us20.list-manage.com/subscribe/post?u=08c28cafddc184dc979b74298&amp;id=6951e60d22&amp;f_id=007b59eef0" method="post" id="signup-modal-form" target="mc-hidden-frame" novalidate>
+          <div class="signup-modal__row">
+            <div class="signup-modal__field">
+              <label for="mc-fname">First Name</label>
+              <input type="text" name="FNAME" id="mc-fname" autocomplete="given-name" required />
+            </div>
+            <div class="signup-modal__field">
+              <label for="mc-lname">Last Name</label>
+              <input type="text" name="LNAME" id="mc-lname" autocomplete="family-name" required />
+            </div>
+          </div>
+          <div class="signup-modal__field">
+            <label for="mc-email">Email Address</label>
+            <input type="email" name="EMAIL" id="mc-email" autocomplete="email" required />
+          </div>
+          <input type="hidden" name="tags" value="4217686,4217630,4217688,4217687" />
+          <!-- Mailchimp bot protection -->
+          <div style="position:absolute;left:-5000px;" aria-hidden="true">
+            <input type="text" name="b_08c28cafddc184dc979b74298_6951e60d22" tabindex="-1" value="" />
+          </div>
+          <button type="submit" class="signup-modal__submit">Start Your Training →</button>
+        </form>
+      </div>
+      <div class="signup-modal__success" id="signup-modal-success">
+        <div class="signup-modal__success-icon">✓</div>
+        <h3>You're In.</h3>
+        <p>Your first DAILY FUEL arrives tomorrow at 5AM. Welcome to Fit for the Cross.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="fuel-lightbox" id="fuel-lightbox" role="dialog" aria-modal="true">
+    <div class="fuel-lightbox__inner">
+      <button class="fuel-lightbox__close" id="fuel-lightbox-close" aria-label="Close">✕</button>
+      <img src="images/daily-fuel.png" alt="DAILY FUEL sample session" />
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var trigger = document.getElementById('fuel-preview-trigger');
+      var lightbox = document.getElementById('fuel-lightbox');
+      var close = document.getElementById('fuel-lightbox-close');
+      if (!trigger || !lightbox) return;
+      trigger.addEventListener('click', function(e) {
+        e.preventDefault();
+        lightbox.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+      });
+      function closeLightbox() {
+        lightbox.classList.remove('is-open');
+        document.body.style.overflow = '';
+      }
+      close.addEventListener('click', closeLightbox);
+      lightbox.addEventListener('click', function(e) {
+        if (e.target === lightbox) closeLightbox();
+      });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeLightbox();
+      });
+    })();
+  </script>
+
+  <script>
+    (function() {
+      var modal = document.getElementById('signup-modal');
+      var closeBtn = document.getElementById('signup-modal-close');
+      var form = document.getElementById('signup-modal-form');
+      var formWrap = document.getElementById('signup-modal-form-wrap');
+      var success = document.getElementById('signup-modal-success');
+
+      function openModal() {
+        modal.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+        var first = document.getElementById('mc-fname');
+        if (first) setTimeout(function() { first.focus(); }, 50);
+      }
+
+      function closeModal() {
+        modal.classList.remove('is-open');
+        document.body.style.overflow = '';
+      }
+
+      // Wire all CTA buttons with data-modal="signup"
+      document.querySelectorAll('[data-modal="signup"]').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          openModal();
+        });
+      });
+
+      // Open signup modal via ?join query param (Instagram-safe) or #join hash
+      if (new URLSearchParams(location.search).has('join') || location.hash === '#join') {
+        openModal();
+      }
+
+      closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) closeModal();
+      });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+      });
+
+      // Submit via hidden iframe so tags pass through correctly
+      var frame = document.querySelector('iframe[name="mc-hidden-frame"]');
+      frame.addEventListener('load', function() {
+        if (!form.dataset.submitted) return;
+        formWrap.style.display = 'none';
+        success.style.display = 'block';
+      });
+
+      form.addEventListener('submit', function(e) {
+        var fname = document.getElementById('mc-fname').value.trim();
+        var email = document.getElementById('mc-email').value.trim();
+        if (!fname || !email) {
+          e.preventDefault();
+          document.getElementById('mc-fname').focus();
+          return;
+        }
+        form.dataset.submitted = 'true';
+      });
+    })();
+  </script>
+
+</body>
+</html>
