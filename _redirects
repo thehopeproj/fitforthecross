@@ -1,1 +1,2 @@
-/join  /?join  301
+# /join and /fb are static redirect pages (join/index.html, fb/index.html) so they can
+# attach clean UTM tags and drop any params Instagram/Facebook append.

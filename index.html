@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4GXCXXJYKB"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-4GXCXXJYKB');
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fit for the Cross™ — Daily Spiritual Training</title>
@@ -1530,6 +1538,7 @@
       var frame = document.querySelector('iframe[name="mc-hidden-frame"]');
       frame.addEventListener('load', function() {
         if (!form.dataset.submitted) return;
+        if (typeof gtag === 'function') gtag('event', 'sign_up', { method: 'daily_fuel_modal' });
         formWrap.style.display = 'none';
         success.style.display = 'block';
       });
