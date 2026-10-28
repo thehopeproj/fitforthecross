@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Wallpapers | Fit for the Cross</title>
+<meta name="description" content="A free phone wallpaper every month, carrying one verse from DAILY FUEL. Three treatments: pick the one you like." />
+<meta property="og:title" content="Fit for the Cross Wallpapers" />
+<meta property="og:description" content="A free phone wallpaper every month, carrying one verse from DAILY FUEL." />
+<meta property="og:image" content="/wallpapers/2026-11/ink-thumb.jpg" />
+<link rel="icon" type="image/png" href="/images/icons/favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Bebas+Neue&family=League+Spartan:wght@500;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --red:#FF5300; --red-dark:#d94700; --ink:#1a1a1a; --mid:#4a4a4a; --ink-light:#888;
+    --off-white:#faf9f7; --light-grey:#f2f1ef; --white:#ffffff;
+    --line:rgba(26,26,26,.1); --line-shelf:rgba(26,26,26,.15);
+    --head:'League Spartan',sans-serif; --body:'Barlow',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--body);background:var(--off-white);color:var(--ink);line-height:1.6;overflow-x:hidden}
+  a{color:inherit}
+  .container{max-width:1180px;margin:0 auto;padding:0 2rem}
+
+  /* nav (matches homepage) */
+  .nav{padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;max-width:1180px;margin:0 auto;border-bottom:1px solid var(--line)}
+  .nav__logo{text-decoration:none}
+  .nav__logo-text{font-family:'Bebas Neue',sans-serif;font-size:1.35rem;color:var(--ink);letter-spacing:.1em;line-height:1;border:2px solid var(--ink);padding:.3rem .45rem .1rem;white-space:nowrap}
+  .nav__cta{font-family:var(--head);font-weight:800;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;padding:.6rem 1.5rem;border:2px solid rgba(26,26,26,.25);border-radius:3px;color:var(--ink)}
+  .nav__cta:hover{background:rgba(26,26,26,.06)}
+
+  /* hero */
+  .hero{padding:4.5rem 0 3.5rem;border-bottom:1px solid var(--line)}
+  .kicker{font-family:var(--head);font-weight:800;font-size:.85rem;letter-spacing:.18em;text-transform:uppercase;color:var(--red)}
+  .hero h1{font-family:var(--head);font-weight:900;text-transform:uppercase;font-size:clamp(3.2rem,9vw,7.5rem);line-height:.9;letter-spacing:-.02em;margin:.6rem 0 1.4rem;color:var(--ink)}
+  .hero p{max-width:52ch;font-size:1.15rem;color:var(--mid)}
+
+  /* the shelf */
+  .shelf{display:flex;gap:10px;align-items:flex-end;margin-top:3rem;padding-bottom:14px;border-bottom:6px solid var(--light-grey);overflow-x:auto;scrollbar-width:none}
+  .shelf::-webkit-scrollbar{display:none}
+  .spine{flex:0 0 auto;width:74px;height:300px;position:relative;text-decoration:none;border-radius:3px;overflow:hidden;transition:transform .25s}
+  .spine:hover{transform:translateY(-8px)}
+  .spine__word{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-90deg);font-family:var(--head);font-weight:900;font-size:2.4rem;letter-spacing:-.01em;white-space:nowrap;line-height:1}
+  .spine__date{position:absolute;left:0;right:0;bottom:10px;text-align:center;font-family:var(--head);font-weight:800;font-size:.68rem;letter-spacing:.14em}
+  .spine--live{background:var(--red);color:#fff}
+  .spine--next{border:2px dashed rgba(26,26,26,.2);color:rgba(26,26,26,.3)}
+  .spine--next .spine__word{font-size:1.05rem;letter-spacing:.2em;font-weight:800}
+  .spine--empty{width:74px;height:300px;border-left:1px solid rgba(26,26,26,.06)}
+  .shelf-note{margin-top:.9rem;font-size:.85rem;color:var(--ink-light)}
+
+  /* month */
+  .month{padding:5rem 0;border-bottom:1px solid var(--line);scroll-margin-top:1rem}
+  .month__grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:4rem;align-items:center}
+  .month__meta{display:flex;flex-wrap:wrap;gap:.6rem 1.4rem;font-family:var(--head);font-weight:800;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-light)}
+  .month__meta b{color:var(--red);font-weight:800}
+  .month__word{font-family:var(--head);font-weight:900;font-size:clamp(2.6rem,6vw,4.8rem);line-height:.9;letter-spacing:-.02em;margin:1.1rem 0 1.6rem;color:var(--red);overflow-wrap:anywhere;text-transform:uppercase}
+  .month__verse{font-family:var(--head);font-weight:700;font-size:clamp(1.35rem,2.4vw,1.75rem);line-height:1.2;letter-spacing:-.01em;max-width:24ch;color:var(--ink)}
+  .month__verse em{font-style:normal;color:var(--red)}
+  .month__ref{display:flex;align-items:center;gap:.9rem;margin-top:1.3rem;font-family:var(--head);font-weight:600;font-size:.85rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-light)}
+  .month__ref::before{content:"";width:34px;height:3px;background:var(--red)}
+
+  .variants{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.4rem}
+  .phone{position:relative;border-radius:14% / 6.5%;padding:5px;background:#0b0b0a;box-shadow:0 0 0 1.5px #3a3734,0 30px 60px -20px rgba(0,0,0,.35)}
+  .phone img{display:block;width:100%;aspect-ratio:1290/2796;object-fit:cover;border-radius:12.5% / 5.8%}
+  .phone::after{content:"";position:absolute;top:2.6%;left:50%;width:30%;height:3.2%;transform:translateX(-50%);background:#000;border-radius:99px}
+  .variant__name{margin-top:1.1rem;font-family:var(--head);font-weight:800;font-size:.85rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mid)}
+  .dl{display:flex;gap:.45rem;margin-top:.6rem}
+  .dl a{flex:1;text-align:center;text-decoration:none;font-family:var(--head);font-weight:800;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;padding:.7rem .3rem;border-radius:3px;border:2px solid rgba(26,26,26,.2);color:var(--ink);transition:background .2s,border-color .2s,color .2s}
+  .dl a:hover{border-color:var(--red);background:var(--red);color:#fff}
+  .dl a.primary{background:var(--ink);border-color:var(--ink);color:#fff}
+  .dl a.primary:hover{background:var(--red);border-color:var(--red)}
+
+  /* how-to + cta */
+  .howto{padding:4.5rem 2rem;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2.5rem;background:var(--light-grey)}
+  .howto h3{font-family:var(--head);font-weight:800;font-size:1rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.6rem;color:var(--ink)}
+  .howto h3 span{color:var(--red);margin-right:.5rem}
+  .howto p{font-size:.98rem;color:var(--mid)}
+  .cta{background:var(--white);color:var(--ink);text-align:center;padding:6rem 0;border-top:1px solid var(--line)}
+  .cta h2{font-family:var(--head);font-weight:900;text-transform:uppercase;font-size:clamp(2.2rem,5vw,3.8rem);line-height:.95;max-width:18ch;margin:0 auto 1.2rem}
+  .cta p{color:var(--mid);max-width:50ch;margin:0 auto 2rem;font-size:1.1rem}
+  .btn{display:inline-block;font-family:var(--head);font-weight:800;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;padding:1rem 2.5rem;border-radius:3px;background:var(--red);color:#fff}
+  .btn:hover{background:var(--red-dark)}
+  .footer{padding:3rem 0;font-family:var(--head);font-weight:900;font-size:1rem;color:var(--ink-light);text-transform:uppercase;letter-spacing:.08em;border-top:1px solid var(--line)}
+  .footer span{display:block;margin-top:.25rem;font-weight:400;font-size:.85rem;color:var(--ink-light);opacity:.6}
+
+  @media (max-width:900px){
+    .month__grid{grid-template-columns:1fr;gap:2.6rem}
+    .howto{grid-template-columns:1fr;gap:1.6rem}
+  }
+  @media (max-width:560px){
+    .container,.nav{padding-left:16px;padding-right:16px}
+    .nav__cta{padding:.5rem .9rem;font-size:.72rem}
+    .variants{grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem}
+    .dl{flex-direction:column;gap:.35rem}
+    .dl a{padding:.6rem .2rem;font-size:.66rem}
+    .variant__name{font-size:.72rem;letter-spacing:.1em}
+    .spine,.spine--empty{width:58px;height:240px}
+    .spine__word{font-size:1.9rem}
+    .month{padding:3.5rem 0}
+  }
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="/" class="nav__logo"><span class="nav__logo-text">Fit for the Cross</span></a>
+  <a href="/" class="nav__cta">Get Your First FUEL</a>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="kicker">Free download · New every month</div>
+    <h1>Wallpapers</h1>
+    <p>One verse a month from DAILY FUEL, one word to carry with you. Choose a treatment, set it as your lock screen, and let the Word meet you every time you pick up your phone.</p>
+    <div class="shelf" id="shelf"></div>
+    <div class="shelf-note">Each month adds a spine to the shelf. Tap one to jump to it.</div>
+  </div>
+</header>
+
+<main id="months"></main>
+
+<section class="container howto">
+  <div><h3><span>01</span>Pick one</h3><p>Ink, Orange, or Chalk. Same verse, three moods. Grab more than one and switch it up mid-month.</p></div>
+  <div><h3><span>02</span>Save it</h3><p><b>iPhone:</b> tap iPhone and the full-size image opens. Press and hold it, then choose <b>Save to Photos</b>. <b>Android:</b> tap Android and it downloads.</p></div>
+  <div><h3><span>03</span>Set it</h3><p>Open the photo, tap share, and choose <b>Use as Wallpaper</b>. It's built to sit just under your clock, so keep it full-size, no cropping needed.</p></div>
+</section>
+
+<section class="cta">
+  <div class="container">
+    <h2>Start Fueling Your Soul.</h2>
+    <p>The wallpaper is one verse. DAILY FUEL delivers the ancient spiritual disciplines to your inbox every morning at 5AM — free.</p>
+    <a class="btn" href="/">Get Your First FUEL</a>
+  </div>
+</section>
+
+<footer class="footer"><div class="container">Fit for the Cross™<span>Powered by The Hope Project</span></div></footer>
+
+<script>
+const MONTHS = [{"slug": "2026-11", "month": "November", "year": 2026, "focus": "Grace", "word": "SUFFICIENT", "verse": "My *grace* is sufficient for you, for my power is made perfect in weakness.", "ref": "2 Corinthians 12:9"}];           // oldest → newest; built by wallpapers.py
+const NEXT = {"label": "DECEMBER", "short": "DEC 1"};               // the month that's coming (or null)
+const VARIANTS = [["ink","Ink"],["orange","Orange"],["chalk","Chalk"]];
+const MON = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+
+const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const verseHTML = v => esc(v).replace(/\*(.+?)\*/g, "<em>$1</em>");
+const short = m => MON[+m.slug.slice(5,7)-1] + " " + String(m.year).slice(2);
+const titleCase = w => w.charAt(0) + w.slice(1).toLowerCase();
+
+// shelf: spines left → right in the order they were released, then the next one, then empty slots
+const shelf = document.getElementById("shelf");
+shelf.innerHTML =
+  MONTHS.map(m => `<a class="spine spine--live" href="#m-${m.slug}" title="${m.month} ${m.year}"><span class="spine__word">${esc(m.word)}</span><span class="spine__date">${short(m)}</span></a>`).join("") +
+  (NEXT ? `<div class="spine spine--next"><span class="spine__word">${esc(NEXT.label)}</span><span class="spine__date">${esc(NEXT.short)}</span></div>` : "") +
+  Array.from({length: Math.max(0, 11 - MONTHS.length)}, () => `<div class="spine--empty"></div>`).join("");
+
+// months: newest on top
+document.getElementById("months").innerHTML = MONTHS.slice().reverse().map(m => {
+  const base = `/wallpapers/${m.slug}/`;
+  const file = (v, d) => `${v.toLowerCase()}-${d.toLowerCase()}.jpg`;
+  return `<section class="month" id="m-${m.slug}"><div class="container month__grid">
+    <div>
+      <div class="month__meta"><span>${m.month} ${m.year}</span><span>Training Focus · <b>${esc(m.focus)}</b></span></div>
+      <div class="month__word">${esc(m.word)}</div>
+      <p class="month__verse">“${verseHTML(m.verse)}”</p>
+      <div class="month__ref">${esc(m.ref)}</div>
+    </div>
+    <div class="variants">${VARIANTS.map(([k, label]) => `
+      <div>
+        <div class="phone"><img src="${base}${k}-thumb.jpg" alt="${m.month} ${m.year} wallpaper, ${label}: ${esc(m.word)}" loading="lazy"></div>
+        <div class="variant__name">${label}</div>
+        <div class="dl">
+          <a class="primary" href="${base}${k}-iphone.jpg" download="${file(label,"iPhone")}">iPhone</a>
+          <a href="${base}${k}-android.jpg" download="${file(label,"Android")}">Android</a>
+        </div>
+      </div>`).join("")}
+    </div>
+  </div></section>`;
+}).join("");
+</script>
+</body>
+</html>
