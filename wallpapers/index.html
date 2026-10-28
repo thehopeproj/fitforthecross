@@ -74,7 +74,8 @@
   .dl a.primary:hover{background:var(--red);border-color:var(--red)}
 
   /* how-to + cta */
-  .howto{padding:4.5rem 2rem;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2.5rem;background:var(--light-grey)}
+  .howto-band{background:var(--light-grey)}
+  .howto{padding:4.5rem 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2.5rem}
   .howto h3{font-family:var(--head);font-weight:800;font-size:1rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.6rem;color:var(--ink)}
   .howto h3 span{color:var(--red);margin-right:.5rem}
   .howto p{font-size:.98rem;color:var(--mid)}
@@ -88,7 +89,7 @@
 
   @media (max-width:900px){
     .month__grid{grid-template-columns:1fr;gap:2.6rem}
-    .howto{grid-template-columns:1fr;gap:1.6rem}
+    .howto{grid-template-columns:1fr;gap:1.6rem;padding:3.5rem 0}
   }
   @media (max-width:560px){
     .container,.nav{padding-left:16px;padding-right:16px}
@@ -121,10 +122,12 @@
 
 <main id="months"></main>
 
-<section class="container howto">
-  <div><h3><span>01</span>Pick one</h3><p>Ink, Orange, or Chalk. Same verse, three moods. Grab more than one and switch it up mid-month.</p></div>
-  <div><h3><span>02</span>Save it</h3><p><b>iPhone:</b> tap iPhone and the full-size image opens. Press and hold it, then choose <b>Save to Photos</b>. <b>Android:</b> tap Android and it downloads.</p></div>
-  <div><h3><span>03</span>Set it</h3><p>Open the photo, tap share, and choose <b>Use as Wallpaper</b>. It's built to sit just under your clock, so keep it full-size, no cropping needed.</p></div>
+<section class="howto-band">
+  <div class="container howto">
+    <div><h3><span>01</span>Pick one</h3><p>Ink, Orange, or Chalk. Same verse, three moods. Grab more than one and switch it up mid-month.</p></div>
+    <div><h3><span>02</span>Save it</h3><p><b>iPhone:</b> tap iPhone and the full-size image opens. Press and hold it, then choose <b>Save to Photos</b>. <b>Android:</b> tap Android and it downloads.</p></div>
+    <div><h3><span>03</span>Set it</h3><p>Open the photo, tap share, and choose <b>Use as Wallpaper</b>. It's built to sit just under your clock, so keep it full-size, no cropping needed.</p></div>
+  </div>
 </section>
 
 <section class="cta">
