@@ -182,8 +182,8 @@ document.getElementById("months").innerHTML = MONTHS.slice().reverse().map(m => 
         <div class="phone"><img src="${base}${k}-thumb.jpg" alt="${m.month} ${m.year} wallpaper, ${label}: ${esc(m.word)}" loading="lazy"></div>
         <div class="variant__name">${label}</div>
         <div class="dl">
-          <a class="primary" href="${base}${k}-iphone.jpg" target="_blank" rel="noopener">iPhone</a>
-          <a href="${base}${k}-android.jpg" download="${file(label,"Android")}">Android</a>
+          <a class="primary" href="${base}${k}-iphone.jpg" target="_blank" rel="noopener" onclick="gtag('event','wallpaper_download',{month:'${m.slug}',colorway:'${k}',device:'iphone'})">iPhone</a>
+          <a href="${base}${k}-android.jpg" download="${file(label,"Android")}" onclick="gtag('event','wallpaper_download',{month:'${m.slug}',colorway:'${k}',device:'android'})">Android</a>
         </div>
       </div>`).join("")}
     </div>
