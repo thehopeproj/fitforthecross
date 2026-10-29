@@ -79,8 +79,6 @@
   .howto h3{font-family:var(--head);font-weight:800;font-size:1rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.6rem;color:var(--ink)}
   .howto h3 span{color:var(--red);margin-right:.5rem}
   .howto p{font-size:.98rem;color:var(--mid)}
-  .howto .tip{margin-top:.75rem;font-size:.9rem}
-  .howto .tip b:first-child{color:var(--red,#FF5300)}
   .cta{background:var(--white);color:var(--ink);text-align:center;padding:6rem 0;border-top:1px solid var(--line)}
   .cta h2{font-family:var(--head);font-weight:900;text-transform:uppercase;font-size:clamp(2.2rem,5vw,3.8rem);line-height:.95;max-width:18ch;margin:0 auto 1.2rem}
   .cta p{color:var(--mid);max-width:50ch;margin:0 auto 2rem;font-size:1.1rem}
@@ -128,7 +126,7 @@
   <div class="container howto">
     <div><h3><span>01</span>Pick one</h3><p>Ink, Orange, or Chalk. Same verse, three moods. Grab more than one and switch it up mid-month.</p></div>
     <div><h3><span>02</span>Save it</h3><p><b>iPhone:</b> tap iPhone and the full-size image opens. Press and hold it, then choose <b>Save to Photos</b>. <b>Android:</b> tap Android and it downloads.</p></div>
-    <div><h3><span>03</span>Set it</h3><p>Open the photo, tap share, and choose <b>Use as Wallpaper</b>. It's built to sit just under your clock, so keep it full-size, no cropping needed.</p><p class="tip"><b>Using Orange on iPhone?</b> Turn off <b>Legibility Blur</b> (tap ••• in Customize) to keep it sharp.</p></div>
+    <div><h3><span>03</span>Set it</h3><p>Open the photo, tap share, and choose <b>Use as Wallpaper</b>. It's built to sit just under your clock, so keep it full-size, no cropping needed.</p></div>
   </div>
 </section>
 
@@ -176,7 +174,7 @@ document.getElementById("months").innerHTML = MONTHS.slice().reverse().map(m => 
         <div class="phone"><img src="${base}${k}-thumb.jpg" alt="${m.month} ${m.year} wallpaper, ${label}: ${esc(m.word)}" loading="lazy"></div>
         <div class="variant__name">${label}</div>
         <div class="dl">
-          <a class="primary" href="${base}${k}-iphone.jpg" download="${file(label,"iPhone")}">iPhone</a>
+          <a class="primary" href="${base}${k}-iphone.jpg" target="_blank" rel="noopener">iPhone</a>
           <a href="${base}${k}-android.jpg" download="${file(label,"Android")}">Android</a>
         </div>
       </div>`).join("")}
