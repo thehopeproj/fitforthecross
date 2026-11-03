@@ -745,6 +745,16 @@
       display: block;
       margin-top: 0.25rem;
     }
+    .footer__brand .footer__org-link {
+      color: inherit;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .footer__brand .footer__org-link:hover { color: rgba(255,255,255,0.7); }
+    .footer__brand .footer__nonprofit {
+      text-transform: none;
+      letter-spacing: 0.02em;
+    }
     .footer__link {
       font-size: 0.9rem;
       color: rgba(255,255,255,0.4);
@@ -1225,7 +1235,8 @@
       <div class="footer__inner">
         <div class="footer__brand">
           Fit for the Cross™
-          <span>Powered by The Hope Project</span>
+          <span>Powered by <a href="https://hopeinatx.org" class="footer__org-link">The Hope Project</a></span>
+          <span class="footer__nonprofit">A free ministry of The Hope Project of Austin, a 501(c)(3) nonprofit</span>
         </div>
         <div class="footer__socials">
           <!-- Instagram -->
