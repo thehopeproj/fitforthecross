@@ -1550,7 +1550,11 @@
       var frame = document.querySelector('iframe[name="mc-hidden-frame"]');
       frame.addEventListener('load', function() {
         if (!form.dataset.submitted) return;
-        if (typeof gtag === 'function') gtag('event', 'sign_up', { method: 'daily_fuel_modal' });
+        if (typeof gtag === 'function') {
+          gtag('event', 'sign_up', { method: 'daily_fuel_modal' });
+          // Google Ads conversion: DAILY FUEL Signup
+          gtag('event', 'conversion', { 'send_to': 'AW-16954441745/ueitCMiawLEdEJGAwZQ_' });
+        }
         formWrap.style.display = 'none';
         success.style.display = 'block';
       });
