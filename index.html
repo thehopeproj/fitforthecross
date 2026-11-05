@@ -1466,6 +1466,7 @@
             <input type="email" name="EMAIL" id="mc-email" autocomplete="email" required />
           </div>
           <input type="hidden" name="tags" value="4217686,4217630,4217688,4217687" />
+          <input type="hidden" name="SOURCE" id="mc-source" value="" />
           <!-- Mailchimp bot protection -->
           <div style="position:absolute;left:-5000px;" aria-hidden="true">
             <input type="text" name="b_08c28cafddc184dc979b74298_6951e60d22" tabindex="-1" value="" />
@@ -1543,6 +1544,27 @@
           openModal();
         });
       });
+
+      // Record where this visitor came from (first touch) and send it to Mailchimp's SOURCE field
+      (function () {
+        var field = document.getElementById('mc-source');
+        if (!field) return;
+        var p = new URLSearchParams(location.search), src = '';
+        if (p.get('utm_source')) {
+          src = [p.get('utm_source'), p.get('utm_medium'), p.get('utm_campaign')].filter(Boolean).join(' / ');
+        } else if (p.has('gclid') || p.has('gbraid') || p.has('wbraid')) {
+          src = 'google / cpc';
+        } else if (document.referrer) {
+          try {
+            var host = new URL(document.referrer).hostname.replace(/^www\./, '');
+            if (host && host !== location.hostname.replace(/^www\./, '')) src = host + ' / referral';
+          } catch (e) {}
+        }
+        var saved = '';
+        try { saved = localStorage.getItem('fftc_source') || ''; } catch (e) {}
+        if (!saved && src) { try { localStorage.setItem('fftc_source', src); } catch (e) {} }
+        field.value = (saved || src || 'direct').slice(0, 250);
+      })();
 
       // Open signup modal via ?join query param (Instagram-safe) or #join hash
       if (new URLSearchParams(location.search).has('join') || location.hash === '#join') {
