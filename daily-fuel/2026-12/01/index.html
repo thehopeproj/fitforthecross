@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>ANCHOR — December 1 · DAILY FUEL</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" type="image/png" href="/images/icons/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700;900&family=Barlow:wght@400;500;600&display=swap" />
+  <style>
+    :root {
+      --red: #FF5300;
+      --ink: #0d0d0d;
+      --white: #fff;
+      --dim: rgba(255,255,255,0.45);
+      --dim2: rgba(255,255,255,0.18);
+      --progress-h: 3px;
+      --head: 'League Spartan', sans-serif;
+      --body: 'Barlow', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: var(--ink);
+      color: var(--white);
+      font-family: var(--body);
+      overflow: hidden;
+      overscroll-behavior: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    /* ── progress bar ── */
+    .progress-track {
+      position: fixed;
+      top: env(safe-area-inset-top, 0px);
+      left: 0; right: 0;
+      height: var(--progress-h);
+      display: flex;
+      gap: 3px;
+      padding: 0 16px;
+      z-index: 100;
+    }
+    .progress-seg {
+      flex: 1;
+      height: 100%;
+      background: var(--dim2);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .progress-seg .fill {
+      height: 100%;
+      width: 0%;
+      background: var(--red);
+      border-radius: 2px;
+      transition: width 0.1s linear;
+    }
+    .progress-seg.done .fill { width: 100%; }
+    .progress-seg.active .fill { width: var(--seg-pct, 0%); }
+
+    /* ── top chrome ── */
+    .top-chrome {
+      position: fixed;
+      top: calc(env(safe-area-inset-top, 0px) + var(--progress-h) + 10px);
+      left: 0; right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      z-index: 100;
+      pointer-events: none;
+    }
+    .top-chrome .day-label {
+      font-family: var(--head);
+      font-weight: 700;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+    .top-chrome .close-btn {
+      pointer-events: all;
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.1);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      color: var(--white);
+    }
+    .top-chrome .close-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+
+    /* ── stage ── */
+    .stage {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── sections ── */
+    .section {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-end;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      padding-bottom: max(32px, env(safe-area-inset-bottom, 0px));
+      padding-left: max(24px, env(safe-area-inset-left, 0px));
+      padding-right: max(24px, env(safe-area-inset-right, 0px));
+    }
+    .section.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* ── video sections ── */
+    .section--video {
+      padding: 0;
+    }
+    .section--video video {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      background: #000;
+    }
+    .section--video .video-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .section--video .video-meta {
+      position: absolute;
+      bottom: max(28px, env(safe-area-inset-bottom, 0px));
+      left: max(22px, env(safe-area-inset-left, 0px));
+      right: max(22px, env(safe-area-inset-right, 0px));
+    }
+    .section--video .video-type {
+      font-family: var(--head);
+      font-weight: 700;
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 4px;
+    }
+    .section--video .video-title {
+      font-family: var(--head);
+      font-weight: 900;
+      font-size: 1.5rem;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .section--video .video-hint {
+      font-family: var(--head);
+      font-weight: 700;
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+    /* tap areas on video */
+    .section--video .tap-prev,
+    .section--video .tap-next {
+      position: absolute;
+      top: 0; bottom: 0;
+      cursor: pointer;
+    }
+    .section--video .tap-prev { left: 0; width: 30%; }
+    .section--video .tap-next { right: 0; width: 70%; }
+
+    /* ── nutrient / verse sections ── */
+    .section--content {
+      background: var(--ink);
+      justify-content: center;
+      gap: 0;
+    }
+    .content-inner {
+      width: 100%;
+      padding: 0 24px max(32px, env(safe-area-inset-bottom, 0px)) 24px;
+    }
+    .content-eyebrow {
+      font-family: var(--head);
+      font-weight: 700;
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 14px;
+    }
+    .content-word {
+      font-family: var(--head);
+      font-weight: 900;
+      font-size: clamp(2.8rem, 14vw, 4.2rem);
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      line-height: 0.9;
+      margin-bottom: 20px;
+      text-wrap: balance;
+    }
+    .content-duration {
+      font-family: var(--head);
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 20px;
+    }
+    .content-body {
+      font-size: 1.05rem;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.88);
+      max-width: 36ch;
+    }
+    .content-body em {
+      font-style: italic;
+      color: var(--white);
+    }
+    .content-ref {
+      font-family: var(--head);
+      font-weight: 700;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-top: 14px;
+    }
+
+    /* tap zones on content cards */
+    .section--content .tap-prev,
+    .section--content .tap-next {
+      position: absolute;
+      top: 0; bottom: 0;
+      cursor: pointer;
+    }
+    .section--content .tap-prev { left: 0; width: 30%; }
+    .section--content .tap-next { right: 0; width: 70%; }
+
+    /* ── silent timer (not shown to user) ── */
+    .timer-silent {
+      display: none;
+    }
+
+    /* ── completion section ── */
+    .section--complete {
+      background: var(--ink);
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 0;
+    }
+    .complete-inner {
+      width: 100%;
+      padding: 0 24px max(32px, env(safe-area-inset-bottom, 0px)) 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+    .complete-mark {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--red);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+    }
+    .complete-mark svg { width: 22px; height: 22px; fill: none; stroke: #fff; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .complete-title {
+      font-family: var(--head);
+      font-weight: 900;
+      font-size: 1.5rem;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .complete-sub {
+      font-size: 0.95rem;
+      color: var(--dim);
+      line-height: 1.6;
+      max-width: 28ch;
+      margin-bottom: 36px;
+    }
+    .complete-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      max-width: 320px;
+    }
+    .btn {
+      width: 100%;
+      padding: 15px 20px;
+      border-radius: 10px;
+      border: none;
+      font-family: var(--head);
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .btn:active { opacity: 0.75; }
+    .btn--primary { background: var(--red); color: #fff; }
+    .btn--ghost { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); }
+
+    /* prayer textarea */
+    .prayer-form {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      max-width: 320px;
+      margin-top: 4px;
+    }
+    .prayer-form.open { display: flex; }
+    .prayer-form textarea {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 10px;
+      color: var(--white);
+      font-family: var(--body);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      padding: 14px 16px;
+      resize: none;
+      min-height: 100px;
+      outline: none;
+    }
+    .prayer-form textarea::placeholder { color: rgba(255,255,255,0.3); }
+
+    /* star rating */
+    .rating-row {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 28px;
+    }
+    .star {
+      width: 36px; height: 36px;
+      cursor: pointer;
+      opacity: 0.3;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+    .star.lit { opacity: 1; }
+    .star:active { transform: scale(0.9); }
+    .star svg { width: 100%; height: 100%; fill: var(--red); }
+
+    /* done state */
+    .marked-done .btn--mark { opacity: 0.4; pointer-events: none; }
+
+    /* ── swipe gesture hint ── */
+    @keyframes hint-bounce {
+      0%, 100% { transform: translateY(0); opacity: 0.4; }
+      50% { transform: translateY(-6px); opacity: 0.9; }
+    }
+    .swipe-hint {
+      position: fixed;
+      bottom: max(28px, env(safe-area-inset-bottom, 0px));
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      pointer-events: none;
+      animation: hint-bounce 1.8s ease-in-out infinite;
+      z-index: 50;
+    }
+    .swipe-hint svg { width: 18px; height: 18px; fill: none; stroke: rgba(255,255,255,0.6); stroke-width: 2; stroke-linecap: round; }
+    .swipe-hint span {
+      font-family: var(--head);
+      font-weight: 700;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+    }
+    .swipe-hint.hidden { display: none; }
+  </style>
+</head>
+<body>
+
+<!-- Progress segments: warmup | verse | nutrient 1 | nutrient 2 | nutrient 3 | wrapup | done -->
+<div class="progress-track" id="progress-track">
+  <div class="progress-seg" id="seg-0"><div class="fill"></div></div>
+  <div class="progress-seg" id="seg-1"><div class="fill"></div></div>
+  <div class="progress-seg" id="seg-2"><div class="fill"></div></div>
+  <div class="progress-seg" id="seg-3"><div class="fill"></div></div>
+  <div class="progress-seg" id="seg-4"><div class="fill"></div></div>
+  <div class="progress-seg" id="seg-5"><div class="fill"></div></div>
+  <div class="progress-seg" id="seg-6"><div class="fill"></div></div>
+</div>
+
+<div class="top-chrome">
+  <span class="day-label">December 1 · Anchor</span>
+  <button class="close-btn" onclick="history.back()" aria-label="Close">
+    <svg viewBox="0 0 14 14"><line x1="1" y1="1" x2="13" y2="13"/><line x1="13" y1="1" x2="1" y2="13"/></svg>
+  </button>
+</div>
+
+<div class="stage" id="stage">
+
+  <!-- 0: Warm-up video -->
+  <div class="section section--video" id="sec-0">
+    <!-- Replace src with real trimmed clip URL -->
+    <video id="vid-0" src="" playsinline preload="auto" muted></video>
+    <div class="video-overlay"></div>
+    <div class="video-meta">
+      <div class="video-type">Warm-up</div>
+      <div class="video-title">Anchor</div>
+      <div class="video-hint">↑ Tap right to continue</div>
+    </div>
+    <div class="tap-prev" onclick="go(-1)"></div>
+    <div class="tap-next" onclick="go(1)"></div>
+  </div>
+
+  <!-- 1: Verse of the day -->
+  <div class="section section--content" id="sec-1">
+    <div class="tap-prev" onclick="go(-1)"></div>
+    <div class="tap-next" onclick="go(1)"></div>
+    <div class="content-inner">
+      <div class="content-eyebrow">Verse of the day</div>
+      <div class="content-word">Anchor</div>
+      <div class="content-body">
+        <em>"We have this hope as an anchor for the soul, firm and secure. It enters the inner sanctuary behind the curtain."</em>
+      </div>
+      <div class="content-ref">Hebrews 6:19</div>
+    </div>
+  </div>
+
+  <!-- 2: Scripture Reflection (4 min) -->
+  <div class="section section--content" id="sec-2">
+    <div class="tap-prev" onclick="go(-1)"></div>
+    <div class="tap-next" onclick="go(1)"></div>
+    <div class="content-inner">
+      <div class="content-eyebrow">Scripture Reflection</div>
+      <div class="content-word">Reflect</div>
+      <div class="content-duration">4 minutes</div>
+      <div class="content-body">Hope is called an anchor — what in you steadies when you fix it to God's promise?</div>
+    </div>
+  </div>
+
+  <!-- 3: Journaling (4 min) -->
+  <div class="section section--content" id="sec-3">
+    <div class="tap-prev" onclick="go(-1)"></div>
+    <div class="tap-next" onclick="go(1)"></div>
+    <div class="content-inner">
+      <div class="content-eyebrow">Journaling</div>
+      <div class="content-word">Write</div>
+      <div class="content-duration">4 minutes</div>
+      <div class="content-body">A baseline for the month: where is your hope right now, and where are you most grateful today? Write it honestly — you'll look back at the end of December.</div>
+    </div>
+  </div>
+
+  <!-- 4: Gratitude (4 min) -->
+  <div class="section section--content" id="sec-4">
+    <div class="tap-prev" onclick="go(-1)"></div>
+    <div class="tap-next" onclick="go(1)"></div>
+    <div class="content-inner">
+      <div class="content-eyebrow">Gratitude</div>
+      <div class="content-word">Thank</div>
+      <div class="content-duration">4 minutes</div>
+      <div class="content-body">Focus on what you're thankful God has already done. Name it slowly.</div>
+    </div>
+  </div>
+
+  <!-- 5: Wrap-up video -->
+  <div class="section section--video" id="sec-5">
+    <!-- Replace src with real trimmed wrap-up clip URL -->
+    <video id="vid-5" src="" playsinline preload="auto" muted></video>
+    <div class="video-overlay"></div>
+    <div class="video-meta">
+      <div class="video-type">Wrap-up · Prayer</div>
+      <div class="video-title">Anchor</div>
+      <div class="video-hint">↑ Tap right to finish</div>
+    </div>
+    <div class="tap-prev" onclick="go(-1)"></div>
+    <div class="tap-next" onclick="go(1)"></div>
+  </div>
+
+  <!-- 6: Completion -->
+  <div class="section section--complete" id="sec-6">
+    <div class="complete-inner">
+      <div class="complete-mark">
+        <svg viewBox="0 0 22 22"><polyline points="3,12 9,18 19,6"/></svg>
+      </div>
+      <div class="complete-title">Session complete</div>
+      <p class="complete-sub">Today's word: Anchor. Well done staying with it.</p>
+
+      <!-- Star rating -->
+      <div class="rating-row" id="rating-row">
+        <div class="star" data-v="1" onclick="rate(1)"><svg viewBox="0 0 24 24"><polygon points="12,2 15.1,8.3 22,9.3 17,14.1 18.2,21 12,17.8 5.8,21 7,14.1 2,9.3 8.9,8.3"/></svg></div>
+        <div class="star" data-v="2" onclick="rate(2)"><svg viewBox="0 0 24 24"><polygon points="12,2 15.1,8.3 22,9.3 17,14.1 18.2,21 12,17.8 5.8,21 7,14.1 2,9.3 8.9,8.3"/></svg></div>
+        <div class="star" data-v="3" onclick="rate(3)"><svg viewBox="0 0 24 24"><polygon points="12,2 15.1,8.3 22,9.3 17,14.1 18.2,21 12,17.8 5.8,21 7,14.1 2,9.3 8.9,8.3"/></svg></div>
+        <div class="star" data-v="4" onclick="rate(4)"><svg viewBox="0 0 24 24"><polygon points="12,2 15.1,8.3 22,9.3 17,14.1 18.2,21 12,17.8 5.8,21 7,14.1 2,9.3 8.9,8.3"/></svg></div>
+        <div class="star" data-v="5" onclick="rate(5)"><svg viewBox="0 0 24 24"><polygon points="12,2 15.1,8.3 22,9.3 17,14.1 18.2,21 12,17.8 5.8,21 7,14.1 2,9.3 8.9,8.3"/></svg></div>
+      </div>
+
+      <div class="complete-actions" id="complete-actions">
+        <button class="btn btn--primary btn--mark" onclick="markDone()">Mark as complete</button>
+        <button class="btn btn--ghost" onclick="togglePrayer()">Send a prayer request</button>
+      </div>
+
+      <div class="prayer-form" id="prayer-form">
+        <textarea id="prayer-text" placeholder="Share what's on your heart…" rows="4"></textarea>
+        <button class="btn btn--primary" onclick="submitPrayer()">Send prayer request</button>
+        <button class="btn btn--ghost" onclick="togglePrayer()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /stage -->
+
+<!-- Swipe hint (shows on first content card only) -->
+<div class="swipe-hint hidden" id="swipe-hint">
+  <svg viewBox="0 0 18 18"><polyline points="9,15 9,3"/><polyline points="4,8 9,3 14,8"/></svg>
+  <span>Swipe or tap</span>
+</div>
+
+<script>
+  // ── State ──
+  const TOTAL = 7;
+  // Durations in seconds for timed sections (-1 = video, waits for ended event)
+  const DURATIONS = [-1, 30, 240, 240, 240, -1, 0];
+  let current = 0;
+  let segTimer = null;
+  let segStart = null;
+  let segElapsed = 0;
+
+  // ── Init ──
+  function init() {
+    showSection(0);
+  }
+
+  function showSection(idx) {
+    if (idx < 0 || idx >= TOTAL) return;
+
+    // Cleanup previous
+    clearInterval(segTimer);
+    if (current !== idx) {
+      const prev = document.getElementById('sec-' + current);
+      if (prev) prev.classList.remove('active');
+      // Pause any playing video
+      const prevVid = document.getElementById('vid-' + current);
+      if (prevVid) { prevVid.pause(); }
+    }
+
+    current = idx;
+
+    // Update progress
+    for (let i = 0; i < TOTAL; i++) {
+      const seg = document.getElementById('seg-' + i);
+      seg.classList.remove('done', 'active');
+      seg.querySelector('.fill').style.width = '0%';
+      if (i < idx) seg.classList.add('done');
+    }
+
+    const activeSeg = document.getElementById('seg-' + idx);
+    activeSeg.classList.add('active');
+
+    // Show section
+    const sec = document.getElementById('sec-' + idx);
+    sec.classList.add('active');
+
+    // Swipe hint: show on verse card only, once
+    const hint = document.getElementById('swipe-hint');
+    if (idx === 1) {
+      hint.classList.remove('hidden');
+      setTimeout(() => hint.classList.add('hidden'), 4000);
+    } else {
+      hint.classList.add('hidden');
+    }
+
+    // Handle video vs timed content
+    const dur = DURATIONS[idx];
+
+    if (dur === -1) {
+      // Video section
+      const vid = document.getElementById('vid-' + idx);
+      if (vid && vid.src && vid.src !== window.location.href) {
+        vid.currentTime = 0;
+        vid.muted = false;
+        vid.play().catch(() => { vid.muted = true; vid.play(); });
+        vid.onended = () => advance();
+        // Progress from video time
+        vid.ontimeupdate = () => {
+          if (!vid.duration) return;
+          const pct = (vid.currentTime / vid.duration) * 100;
+          activeSeg.querySelector('.fill').style.width = pct + '%';
+        };
+      } else {
+        // No video src yet — just sit; tap to advance
+        activeSeg.querySelector('.fill').style.width = '0%';
+      }
+    } else if (dur === 0) {
+      // Completion — fill instantly
+      activeSeg.querySelector('.fill').style.width = '100%';
+    } else {
+      // Timed content card
+      segStart = Date.now();
+      segElapsed = 0;
+      segTimer = setInterval(() => {
+        segElapsed = (Date.now() - segStart) / 1000;
+        const pct = Math.min((segElapsed / dur) * 100, 100);
+        activeSeg.querySelector('.fill').style.width = pct + '%';
+        if (segElapsed >= dur) {
+          clearInterval(segTimer);
+          advance();
+        }
+      }, 250);
+    }
+  }
+
+  function advance() {
+    if (current < TOTAL - 1) showSection(current + 1);
+  }
+
+  function go(dir) {
+    const next = current + dir;
+    if (next >= 0 && next < TOTAL) showSection(next);
+  }
+
+  // ── Touch / swipe ──
+  let touchStartX = 0, touchStartY = 0;
+  document.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dy) > Math.abs(dx) && dy < -40) advance();      // swipe up
+    if (Math.abs(dx) > Math.abs(dy) && dx > 60) go(-1);           // swipe right → go back
+  }, { passive: true });
+
+  // ── Completion actions ──
+  let rated = 0;
+  function rate(val) {
+    rated = val;
+    document.querySelectorAll('.star').forEach(s => {
+      s.classList.toggle('lit', parseInt(s.dataset.v) <= val);
+    });
+  }
+
+  function markDone() {
+    document.getElementById('complete-actions').classList.add('marked-done');
+    document.querySelector('.btn--mark').textContent = 'Session logged ✓';
+    // TODO: POST to streak/completion endpoint
+    console.log('Session complete — Dec 1, rating:', rated);
+  }
+
+  function togglePrayer() {
+    const form = document.getElementById('prayer-form');
+    const actions = document.getElementById('complete-actions');
+    const open = form.classList.toggle('open');
+    actions.style.display = open ? 'none' : 'flex';
+    if (open) document.getElementById('prayer-text').focus();
+  }
+
+  function submitPrayer() {
+    const text = document.getElementById('prayer-text').value.trim();
+    if (!text) return;
+    // TODO: POST prayer request
+    console.log('Prayer request submitted:', text);
+    togglePrayer();
+    document.querySelector('.btn--ghost').textContent = 'Prayer sent ✓';
+    document.querySelector('.btn--ghost').style.opacity = '0.5';
+    document.querySelector('.btn--ghost').onclick = null;
+  }
+
+  // ── Go ──
+  init();
+</script>
+</body>
+</html>
