@@ -1564,6 +1564,13 @@
         try { saved = localStorage.getItem('fftc_source') || ''; } catch (e) {}
         if (!saved && src) { try { localStorage.setItem('fftc_source', src); } catch (e) {} }
         field.value = (saved || src || 'direct').slice(0, 250);
+        // Mailchimp's form endpoint only reliably saves extra fields passed on the form action URL,
+        // so mirror SOURCE there too (per Mailchimp's "track signup location" method)
+        var srcForm = document.getElementById('signup-modal-form');
+        if (srcForm) {
+          var act = srcForm.getAttribute('action').replace(/&SOURCE=[^&]*/, '');
+          srcForm.setAttribute('action', act + '&SOURCE=' + encodeURIComponent(field.value));
+        }
       })();
 
       // Open signup modal via ?join query param (Instagram-safe) or #join hash
