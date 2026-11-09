@@ -110,12 +110,41 @@
     .dl a{padding:.65rem .2rem;font-size:.68rem}
     .variant__name{font-size:.7rem;letter-spacing:.12em}
   }
+
+  /* ── Signup Modal ── */
+  .signup-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:2000;align-items:center;justify-content:center;padding:1.5rem}
+  .signup-modal.is-open{display:flex}
+  .signup-modal__box{background:var(--off-white);border-radius:8px;padding:3rem 2.5rem;max-width:480px;width:100%;position:relative}
+  .signup-modal__close{position:absolute;top:1rem;right:1.25rem;background:none;border:none;font-size:1.5rem;line-height:1;cursor:pointer;color:var(--ink-light);font-family:var(--head);font-weight:700}
+  .signup-modal__kicker{font-family:var(--head);font-weight:700;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:.5rem}
+  .signup-modal__headline{font-family:var(--head);font-weight:900;font-size:2rem;line-height:1.05;text-transform:uppercase;color:var(--ink);margin-bottom:.5rem;text-wrap:balance}
+  .signup-modal__sub{font-family:var(--body);font-size:.95rem;color:var(--mid);margin-bottom:2rem;line-height:1.5}
+  .signup-modal__row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+  .signup-modal__field{display:flex;flex-direction:column;margin-bottom:1rem;min-width:0}
+  .signup-modal__field label{font-family:var(--head);font-weight:700;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);margin-bottom:.35rem}
+  .signup-modal__field input{font-family:var(--body);font-size:1rem;padding:.65rem .85rem;border:1.5px solid #d0cfc9;border-radius:4px;background:#fff;color:var(--ink);outline:none;transition:border-color .15s;width:100%}
+  .signup-modal__field input:focus{border-color:var(--red)}
+  .signup-modal__submit{width:100%;margin-top:.5rem;padding:1rem;background:var(--red);color:#fff;border:none;border-radius:4px;font-family:var(--head);font-weight:900;font-size:1.1rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .15s}
+  .signup-modal__submit:hover{background:var(--red-dark)}
+  .signup-modal__submit:disabled{background:var(--red);cursor:default}
+  .signup-modal__submit-dots{display:none;gap:5px;align-items:center;justify-content:center}
+  .signup-modal__submit-dots span{width:7px;height:7px;border-radius:50%;background:#fff;animation:fftc-dot-pulse 1.2s ease-in-out infinite}
+  .signup-modal__submit-dots span:nth-child(2){animation-delay:.2s}
+  .signup-modal__submit-dots span:nth-child(3){animation-delay:.4s}
+  @keyframes fftc-dot-pulse{0%,80%,100%{opacity:.3;transform:scale(.75)}40%{opacity:1;transform:scale(1)}}
+  .signup-modal__submit.is-sending .signup-modal__submit-text{display:none}
+  .signup-modal__submit.is-sending .signup-modal__submit-dots{display:flex}
+  .signup-modal__success{display:none;text-align:center;padding:1rem 0}
+  .signup-modal__success-icon{font-size:2.5rem;margin-bottom:1rem}
+  .signup-modal__success h3{font-family:var(--head);font-weight:900;font-size:1.75rem;text-transform:uppercase;color:var(--ink);margin-bottom:.5rem}
+  .signup-modal__success p{font-family:var(--body);font-size:.95rem;color:var(--mid);line-height:1.5}
+  @media(max-width:480px){.signup-modal__box{padding:2.5rem 1.5rem}.signup-modal__row{grid-template-columns:1fr;gap:0}}
 </style>
 </head>
 <body>
 <nav class="nav">
   <a href="/" class="nav__logo"><span class="nav__logo-text">Fit for the Cross</span></a>
-  <a href="/" class="nav__cta">Get Your First FUEL</a>
+  <a href="#" class="nav__cta" data-modal="signup">Get Your First FUEL</a>
 </nav>
 
 <header class="hero" id="hero"></header>
@@ -134,11 +163,113 @@
   <div class="container">
     <h2>Start Fueling Your Soul.</h2>
     <p>The lock screen is one verse. DAILY FUEL delivers the ancient spiritual disciplines to your inbox every morning at 5AM.</p>
-    <a class="btn" href="/">Get Your First FUEL</a>
+    <a class="btn" href="#" data-modal="signup">Get Your First FUEL</a>
   </div>
 </section>
 
 <footer class="footer"><div class="container">Fit for the Cross™<span>Powered by The Hope Project</span></div></footer>
+
+<div class="signup-modal" id="signup-modal" role="dialog" aria-modal="true" aria-labelledby="signup-modal-headline">
+  <div class="signup-modal__box">
+    <button class="signup-modal__close" id="signup-modal-close" aria-label="Close">✕</button>
+    <div id="signup-modal-form-wrap">
+      <p class="signup-modal__kicker">Join Fit for the Cross</p>
+      <h2 class="signup-modal__headline" id="signup-modal-headline">Get Your First FUEL</h2>
+      <p class="signup-modal__sub">Your soul was made to be fed by God. DAILY FUEL delivers the ancient spiritual disciplines to your inbox every morning at 5AM.</p>
+      <iframe name="mc-hidden-frame" style="display:none;" aria-hidden="true"></iframe>
+      <form action="https://hopeinatx.us20.list-manage.com/subscribe/post?u=08c28cafddc184dc979b74298&amp;id=6951e60d22&amp;f_id=007b59eef0" method="post" id="signup-modal-form" target="mc-hidden-frame" novalidate>
+        <div class="signup-modal__row">
+          <div class="signup-modal__field"><label for="mc-fname">First Name</label><input type="text" name="FNAME" id="mc-fname" autocomplete="given-name" required /></div>
+          <div class="signup-modal__field"><label for="mc-lname">Last Name</label><input type="text" name="LNAME" id="mc-lname" autocomplete="family-name" required /></div>
+        </div>
+        <div class="signup-modal__field"><label for="mc-email">Email Address</label><input type="email" name="EMAIL" id="mc-email" autocomplete="email" required /></div>
+        <input type="hidden" name="tags" value="4217686,4217630,4217688,4217687" />
+        <input type="hidden" name="SOURCE" id="mc-source" value="" />
+        <div style="position:absolute;left:-5000px;" aria-hidden="true"><input type="text" name="b_08c28cafddc184dc979b74298_6951e60d22" tabindex="-1" value="" /></div>
+        <button type="submit" class="signup-modal__submit">
+          <span class="signup-modal__submit-text">Send My First FUEL →</span>
+          <span class="signup-modal__submit-dots"><span></span><span></span><span></span></span>
+        </button>
+      </form>
+    </div>
+    <div class="signup-modal__success" id="signup-modal-success">
+      <div class="signup-modal__success-icon">✓</div>
+      <h3>You're In.</h3>
+      <p>Your first DAILY FUEL arrives tomorrow at 5AM. Welcome to Fit for the Cross.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var modal = document.getElementById('signup-modal');
+  var closeBtn = document.getElementById('signup-modal-close');
+  var form = document.getElementById('signup-modal-form');
+  var formWrap = document.getElementById('signup-modal-form-wrap');
+  var success = document.getElementById('signup-modal-success');
+
+  function openModal() {
+    modal.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    var first = document.getElementById('mc-fname');
+    if (first) setTimeout(function() { first.focus(); }, 50);
+  }
+  function closeModal() {
+    modal.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('[data-modal="signup"]').forEach(function(btn) {
+    btn.addEventListener('click', function(e) { e.preventDefault(); openModal(); });
+  });
+
+  // Set SOURCE to identify pocket-fuel page signups, with UTM/referrer override
+  (function() {
+    var field = document.getElementById('mc-source');
+    if (!field) return;
+    var p = new URLSearchParams(location.search), src = '';
+    if (p.get('utm_source')) {
+      src = [p.get('utm_source'), p.get('utm_medium'), p.get('utm_campaign')].filter(Boolean).join(' / ');
+    } else if (p.has('gclid') || p.has('gbraid') || p.has('wbraid')) {
+      src = 'google / cpc';
+    } else if (document.referrer) {
+      try { var host = new URL(document.referrer).hostname.replace(/^www\./, ''); if (host && host !== location.hostname.replace(/^www\./, '')) src = host + ' / referral'; } catch(e) {}
+    }
+    var saved = ''; try { saved = localStorage.getItem('fftc_source') || ''; } catch(e) {}
+    if (!saved && src) { try { localStorage.setItem('fftc_source', src); } catch(e) {} }
+    field.value = (saved || src || 'pocket-fuel / wallpapers').slice(0, 250);
+    var act = form.getAttribute('action').replace(/&SOURCE=[^&]*/, '');
+    form.setAttribute('action', act + '&SOURCE=' + encodeURIComponent(field.value));
+  })();
+
+  if (new URLSearchParams(location.search).has('join') || location.hash === '#join') openModal();
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal(); });
+
+  var frame = document.querySelector('iframe[name="mc-hidden-frame"]');
+  frame.addEventListener('load', function() {
+    if (!form.dataset.submitted) return;
+    if (typeof gtag === 'function') {
+      gtag('event', 'sign_up', { method: 'daily_fuel_modal' });
+      gtag('event', 'conversion', { 'send_to': 'AW-16954441745/ueitCMiawLEdEJGAwZQ_' });
+    }
+    formWrap.style.display = 'none';
+    success.style.display = 'block';
+  });
+
+  form.addEventListener('submit', function(e) {
+    var fname = document.getElementById('mc-fname').value.trim();
+    var email = document.getElementById('mc-email').value.trim();
+    if (!fname || !email) { e.preventDefault(); document.getElementById('mc-fname').focus(); return; }
+    form.dataset.submitted = 'true';
+    var submitBtn = form.querySelector('.signup-modal__submit');
+    submitBtn.classList.add('is-sending');
+    submitBtn.disabled = true;
+  });
+})();
+</script>
 
 <script>
 // Built by wallpapers.py — oldest → newest. "line" = that month's rotating POCKET FUEL line (Trey's wording; see social/0_SYSTEM/README.md "Series names").
