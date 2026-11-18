@@ -95,13 +95,13 @@ function errEv(kind, detail) {
 document.body.insertAdjacentHTML('afterbegin',
   '<div class="app" id="app"><section class="stage" id="stage">' +
   '<div class="room dim" id="room"><div id="rW" class="on"></div><div id="rR"></div><video id="vid" playsinline webkit-playsinline preload="none"></video></div>' +
-  '<button class="snd" id="snd" data-act="unmute">Tap for sound</button>' +
+  '<button class="snd" id="snd" data-act="unmute" aria-label="Tap for sound"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="spk" d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="x" d="M16 9.5l5 5M21 9.5l-5 5"/></svg><span class="lbl">Tap for sound</span></button>' +
   '<div class="top off" id="top"><div class="segs" id="segs"></div><div class="util">' +
   '<button class="ic" data-act="close" aria-label="Close">' + IC.x + '</button>' +
   '<button class="ic dots" data-act="menu" aria-label="More">' + IC.dots + '</button></div></div>' +
   '<div class="mid" id="midw"><div class="cont full sc" id="cont"></div><div class="more-cue" id="cue"></div><div class="edge" id="edge"><b id="eb"></b></div>' +
-  '<div class="cap" id="cap" aria-live="off"><span id="capt"></span></div><div class="pill2" id="det"><button class="pp" id="pp" data-act="toggle" aria-label="Pause"></button><div class="track scrub" id="tr"><b id="tb"></b></div><span class="rem" id="rem"></span></div></div>' +
-  '<div class="bar off" id="bar"><div class="hline"><b id="hb"></b></div><div class="hint" id="hint">' + IC.up + '<span>Swipe up when you’re ready</span></div>' +
+  '<div class="cap" id="cap" aria-live="off"><p><span id="capt"></span></p></div><div class="pill2" id="det"><button class="pp" id="pp" data-act="toggle" aria-label="Pause"></button><div class="track scrub" id="tr"><b id="tb"></b></div><span class="rem" id="rem"></span></div></div>' +
+  '<div class="bar off" id="bar"><img class="bmark" src="' + BASE + 'fftc-mark-w.png" alt=""><div class="hline"><b id="hb"></b></div><div class="hint" id="hint">' + IC.up + '<span>Swipe up when you’re ready</span></div>' +
   '<div class="l1" id="l1"></div><div class="l2" id="l2"></div>' +
   '<div class="dnav"><button data-act="back">← Back</button><button data-act="next">Next →</button></div></div>' +
   '</section></div>');
@@ -194,27 +194,40 @@ function attach(v) {
   hls.loadSource(url);
   hls.attachMedia(V);
 }
+// Sound (v8): try sound; if the phone refuses (a swipe isn't a tap), play muted and show TAP FOR SOUND for 4 s.
+// Once sound is on it stays on for the session. If the person switched Sound off in the menu, start muted, no pill.
+let soundPref = null, sndT = null;
 function startVideo(s) {
   V.classList.add('on');
   attach(s.video);
   loadCaps(s);
+  if (soundPref === false) { V.muted = true; V.play().then(setPP).catch(() => { setPP(); detail(true); }); return; }
   V.muted = false;
   const p = V.play();
-  if (p && p.catch) p.catch(e => {
+  if (p && p.then) p.then(() => { soundPref = true; }, e => {
     if (!e || e.name !== 'NotAllowedError' || !V.classList.contains('on')) { setPP(); detail(true); return; }
-    // A swipe doesn't count as a tap, so phones block sound. Start muted and offer one tap for sound.
     errEv('sound_blocked', 'play');
     V.muted = true;
     V.play().then(() => { snd(true); setPP(); }).catch(() => { V.muted = false; setPP(); detail(true); });
   });
 }
-function snd(on) { $('snd').classList.toggle('on', on); }
-function unmute() {
-  if (!V.muted) return;
-  V.muted = false; snd(false);
-  if (V.paused) V.play().catch(() => {});
-  ev('guided_control', { control: 'unmute' });
+function snd(on) {
+  clearTimeout(sndT);
+  const b = $('snd');
+  b.classList.toggle('on', on);
+  if (on) sndT = setTimeout(() => b.classList.remove('on'), 4000);
 }
+function primeChime() { try { CHIME.muted = true; const p = CHIME.play(); if (p && p.then) p.then(() => { CHIME.pause(); CHIME.currentTime = 0; CHIME.muted = false; }, () => { CHIME.muted = false; }); } catch (e) {} }
+function setSound(on, control) {
+  soundPref = on;
+  if (V.classList.contains('on')) {
+    V.muted = !on;
+    if (on && V.paused && cur && !cur.completed) V.play().catch(() => {});
+  }
+  if (on) { snd(false); primeChime(); }
+  ev('guided_control', { control });
+}
+function unmute() { if (V.muted && V.classList.contains('on')) setSound(true, 'unmute'); }
 function stopVideo() {
   clearTimeout(stallT);
   V.pause();
@@ -222,7 +235,7 @@ function stopVideo() {
   V.removeAttribute('src');
   V.load();
   V.classList.remove('on');
-  V.muted = false; snd(false);
+  snd(false);
   CAPS = null; showCap('');
 }
 V.addEventListener('timeupdate', () => {
@@ -548,14 +561,24 @@ $('cont').addEventListener('scroll', cue, { passive: true });
 addEventListener('resize', cue);
 
 /* ---------- input ---------- */
+function flip(act, on) {
+  const b = document.querySelector('.sheet [data-act=' + act + ']');
+  if (!b) return;
+  b.setAttribute('aria-checked', on);
+  b.querySelector('.tgl').classList.toggle('on', on);
+}
 function act(a) {
   switch (a) {
     case 'close': go(-1, 'button'); break;
     case 'menu': ev('guided_control', { control: 'menu_open' });
-      sheet('<button class="mi" data-act="cc">Captions: ' + (CC ? 'On' : 'Off') + '</button><button class="mi" data-act="fb-menu">Share beta feedback</button><button class="mi" data-act="restart-menu">Restart session</button>'); break;
+      { const on = soundPref !== false && !(V.classList.contains('on') && V.muted);
+        const sw = (act, label, v) => '<button class="mi" data-act="' + act + '" role="switch" aria-checked="' + v + '">' + label + '<span class="tgl' + (v ? ' on' : '') + '"></span></button>';
+        sheet('<button class="mi" data-act="fb-menu">Share beta feedback</button>' + sw('sound', 'Sound', on) + sw('cc', 'Captions', CC) + '<button class="mi" data-act="restart-menu">Restart session</button>'); }
+      break;
     case 'toggle': toggle(); break;
     case 'unmute': unmute(); break;
-    case 'cc': CC = !CC; try { localStorage.setItem('fftc_cc', CC ? '1' : '0'); } catch (e) {} ev('guided_control', { control: CC ? 'captions_on' : 'captions_off' }); closeSheets(); drawCap(V.currentTime || 0); break;
+    case 'cc': CC = !CC; try { localStorage.setItem('fftc_cc', CC ? '1' : '0'); } catch (e) {} ev('guided_control', { control: CC ? 'captions_on' : 'captions_off' }); flip('cc', CC); drawCap(V.currentTime || 0); break;
+    case 'sound': { const sb = document.querySelector('.sheet [data-act=sound]'), on = !(sb && sb.getAttribute('aria-checked') === 'true'); setSound(on, on ? 'sound_on' : 'sound_off'); flip('sound', on); } break;
     case 'back': go(n - 1, 'button'); break;
     case 'next': go(n + 1, 'button'); break;
     case 'begin': go(0, 'button'); break;

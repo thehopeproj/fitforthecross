@@ -9,3 +9,6 @@
 
 /daily-fuel/captions/*
   X-Robots-Tag: noindex
+
+/daily-fuel/share/*
+  X-Robots-Tag: noindex
