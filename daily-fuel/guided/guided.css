@@ -240,7 +240,7 @@ html,body{overscroll-behavior:none}
 .tgl.on{background:var(--orange)}.tgl.on::after{transform:translateX(20px)}
 .cap{transition:opacity .25s,transform .3s}.mid:has(.pill2.open) .cap{transform:translateY(-78px)}
 .bar.off .bmark{opacity:0}
-.desk .dnav{padding-right:56px}
+@media (max-width:899px){.desk .dnav{padding-right:56px}}
 /* v8 follow-up: TAP FOR SOUND level with X and ... (inside the row) */
 .top .util{position:relative}
 .top .util .snd{left:50%;top:0;transform:translateX(-50%)}
@@ -252,56 +252,89 @@ html,body{overscroll-behavior:none}
 .stage.rise .cont{transition:none}
 /* set up the slide layers at page open, not at the first slide */
 .room div,.mid,.room video{will-change:transform}
-/* ---- GUIDED v9 DESKTOP (SOCIAL MEDIA spec, Nov 18) ---- */
-/* ===== v9: DESKTOP = the same one-room experience, full window (no phone frame) ===== */
+@media (min-width:900px){.endpad .copy{max-width:420px}}
+/* ---- GUIDED v10: desktop frame + prayer panel (SOCIAL MEDIA spec, Trey approved Nov 18) ---- */
+/* ===== v10: DESKTOP = the session lives in a FRAME; outside the frame is styled background ===== */
 .room .blr{display:none}
+.hint .d{display:none}
 @media (min-width:900px){
- html,body{background:#0e0d0d}
- .app{max-width:none;height:100%;border-radius:0;box-shadow:none;margin:0}
- /* the room: the video sits sharp in the middle at full height; the same frame, blurred, fills the window behind it */
+ /* outside the frame: the day's room, very blurred and dark, plus a soft vignette */
+ html,body{background:#0b0a0a}
+ body::before{content:"";position:fixed;inset:-10%;background:var(--roombg,#0b0a0a) center/cover no-repeat;filter:blur(70px) brightness(.22) saturate(.9);z-index:0}
+ body::after{content:"";position:fixed;inset:0;background:radial-gradient(ellipse at center,rgba(11,10,10,0) 40%,rgba(11,10,10,.7) 100%);z-index:0}
+ /* the frame: everything (step lines, X/⋯, video, bar) belongs inside it */
+ .app{--fh:min(860px,calc(100vh - 56px));--fw:min(1320px,calc(100vw - 72px));--vt:0px;--vb:70px;--vw:calc((var(--fh) - var(--vt) - var(--vb)) * .5625);
+  position:relative;z-index:1;max-width:none;width:var(--fw);height:var(--fh);margin:auto;border-radius:22px;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,.7),0 0 0 1px rgba(241,239,230,.09)}
+ .desk body{align-items:center}
+ /* inside the frame: blurred room fills it; the video sits sharp between the top row and the bar, never under them */
  .room .blr{display:block;position:absolute;inset:-8%;background:#000 center/cover no-repeat;opacity:0;filter:blur(48px) brightness(.42) saturate(1.1);transition:opacity .9s ease}
  .room .blr.on{opacity:1}
- .room div{inset:0;background-size:contain;background-color:transparent}
+ .room div{top:var(--vt);bottom:var(--vb);left:0;right:0;background-size:contain;background-color:transparent}
  .room.dim div{opacity:0!important}
  .room.dim .blr{filter:blur(48px) brightness(.3) saturate(.8)}
- .room::after{background:linear-gradient(rgba(14,13,13,.6),rgba(14,13,13,0) 18%,rgba(14,13,13,0) 70%,rgba(14,13,13,.5))}
- /* frame: step lines and X/⋯ span the window with a 40px margin */
- .top{padding:22px 40px 0}
- /* content column: centered, wider, bigger type */
+ .room::after{background:linear-gradient(rgba(14,13,13,.55),rgba(14,13,13,0) 16%)}
+ .top{padding:22px 28px 0}
+ /* content column on non-video screens */
  .cont{width:100%;max-width:760px;margin:0 auto;padding:0 40px 24px}
- .cont.full{padding:10px 40px 0;max-width:760px}
+ .cont.full{padding:6px 40px 0;max-width:760px}
  .cont .kick{font-size:14px}
- .cont .nword{font-size:72px;letter-spacing:-2px}
- .cont .nverse{font-size:28px;padding-left:20px;border-left-width:6px}.cont .nverse cite{font-size:13px}
- .cont .nprompt{font-size:30px;line-height:1.3}
- .mast .mbox{height:34px}.dfg{font-size:64px;letter-spacing:-3px}.dfg small{font-size:15px}
- .band{margin:16px -40px 0}
- .std1{font-size:15px;margin-top:22px}.htitle{font-size:84px;letter-spacing:-3px}.htag{font-size:24px}
- .hverse{font-size:24px;padding-left:20px;border-left-width:6px}.hverse cite{font-size:13px}
- .shead{font-size:14px;margin-top:28px}.steps li{font-size:19px;padding:13px 0}
- .close{font-size:58px}.closel{font-size:22px;max-width:620px}.tmr .tt{font-size:40px}
+ .cont .nword{font-size:64px;letter-spacing:-2px}
+ .cont .nverse{font-size:26px;padding-left:20px;border-left-width:6px}.cont .nverse cite{font-size:13px}
+ .cont .nprompt{font-size:28px;line-height:1.3}
+ .mast .mbox{height:32px}.dfg{font-size:54px;letter-spacing:-2.5px}.dfg small{font-size:14px}
+ .band{margin:14px -40px 0}
+ .std1{font-size:14px;margin-top:18px}.htitle{font-size:72px;letter-spacing:-3px}.htag{font-size:22px}
+ .hverse{font-size:20px;padding-left:18px;border-left-width:6px}.hverse cite{font-size:12px}
+ .shead{font-size:13px;margin-top:22px}.steps li{font-size:17px;padding:10px 0}
+ .close{font-size:54px}.closel{font-size:21px;max-width:620px}.tmr .tt{font-size:38px}
  .endpad .btn{max-width:420px}
- /* the vertical nutrient bar sits just right of the content column */
- .edge{right:max(40px,calc(50% - 420px));top:24px;bottom:28px;width:6px}
- /* timer pill + captions stay under the video, the width of the column */
- .pill2{left:50%;right:auto;width:420px;transform:translate(-50%,10px)}.pill2.open{transform:translate(-50%,0)}
- .cap p{max-width:520px}.cap span{font-size:24px}
- /* bottom bar: full width, text aligned with the frame; Back/Next on the right */
- .stage .bar{padding-left:40px;padding-right:40px}
- .stage .bar .l1{font-size:24px}.stage .bar .l2{font-size:17px}
- .bmark{right:40px}
- .desk .dnav{position:absolute;right:104px;bottom:18px;margin:0;width:260px}
- .start{padding-bottom:30px}
+ .edge{right:max(32px,calc(50% - 420px));top:20px;bottom:24px;width:6px}
+ /* video controls + captions stay INSIDE the video's width */
+ .pill2{left:50%;right:auto;width:calc(var(--vw) - 40px);max-width:440px;bottom:18px;transform:translate(-50%,10px)}.pill2.open{transform:translate(-50%,0)}
+ .cap{bottom:22px}.cap p{max-width:calc(var(--vw) - 48px)}.cap span{font-size:21px}
+ .mid:has(.pill2.open) .cap{transform:translateY(-80px)}
+ /* bottom bar: inside the frame; Back/Next + mark on the right */
+ .stage .bar{padding-left:28px;padding-right:28px}
+ .bmark{right:28px}
+ .desk .dnav{position:absolute;right:92px;bottom:20px;margin:0;width:260px}
  .bar.off .dnav{display:none}
- /* opening screen: tighter so BEGIN is always on screen */
- .cont.full .mast{margin-top:4px}.dfg{font-size:56px}.htitle{font-size:76px}.hverse{font-size:21px}.steps li{font-size:18px;padding:11px 0}
- .start{flex-direction:column}
+ /* end of a timer on a computer: the hint says what to click, and NEXT lights up */
+ .hint .m{display:none}.hint .d{display:inline}.desk .hint span.d{display:inline}
+ .bar.ready .dnav button:last-child{background:var(--orange);border-color:var(--orange);color:#fff;animation:readyPulse 1.8s ease-in-out infinite}
+ @keyframes readyPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,83,0,.55)}50%{box-shadow:0 0 0 8px rgba(255,83,0,0)}}
+ .start{padding-bottom:26px}
  .desk .start .dk{width:320px}
 }
-@media (min-width:900px) and (hover:hover){.start > :not(.dk){display:none}.start{padding-top:22px}}
-/* v9 + the real player: sharp video centered at full height, blurred room behind it */
+@media (min-width:900px) and (hover:hover){.start > :not(.dk){display:none}.start{padding-top:18px}}
+/* prayer request panel */
+.prsheet{max-height:92%;overflow-y:auto}
+.pr .prh,.prdone .prh{font-family:LS;font-weight:800;font-size:30px;letter-spacing:-1px;text-transform:uppercase;line-height:.95}
+.prsub{font-size:15px;line-height:1.4;margin-top:8px;color:#4c4844}
+.prl{display:flex;flex-direction:column;gap:6px;margin-top:14px;font-weight:700;font-size:12px;letter-spacing:1.4px;text-transform:uppercase}
+.prl i{font-style:normal;font-weight:500;letter-spacing:.4px;text-transform:none;color:#6f6b66}
+.prl textarea,.prl input{font:500 17px/1.4 NH,system-ui,sans-serif;letter-spacing:0;text-transform:none;color:var(--ink);background:#fff;border:1.5px solid rgba(41,39,39,.3);border-radius:12px;padding:12px 14px;width:100%;resize:vertical}
+.prl input{height:50px;padding:0 14px}
+.prl textarea:focus,.prl input:focus{outline:2px solid var(--orange);outline-offset:0;border-color:var(--orange)}
+.prc{display:flex;align-items:center;gap:12px;margin-top:16px;font-weight:700;font-size:16px;cursor:pointer}
+.prc input{position:absolute;opacity:0;pointer-events:none}
+.prc .bx{flex:none;width:26px;height:26px;border-radius:7px;border:2px solid var(--ink);display:grid;place-items:center;transition:background .15s}
+.prc input:checked+.bx{background:var(--orange);border-color:var(--orange)}
+.prc input:checked+.bx::after{content:"";width:7px;height:13px;border:solid #fff;border-width:0 3px 3px 0;transform:translateY(-2px) rotate(45deg)}
+.prc input:focus-visible+.bx{outline:2px solid var(--orange);outline-offset:2px}
+.pr .pre{display:none}.pr.want .pre{display:flex}
+.prerr{color:#c2410c;font-weight:700;font-size:14px;min-height:18px;margin-top:10px}
+.prsend{width:100%;margin-top:6px;display:flex;align-items:center;justify-content:center}
+.prsend .dots{display:none;gap:7px}.prsend .dots i{width:9px;height:9px;border-radius:50%;background:currentColor;animation:dot 1.2s ease-in-out infinite}
+.prsend .dots i:nth-child(2){animation-delay:.2s}.prsend .dots i:nth-child(3){animation-delay:.4s}
+@keyframes dot{0%,80%,100%{opacity:.3;transform:scale(.75)}40%{opacity:1;transform:scale(1)}}
+.prsend.sending .txt{display:none}.prsend.sending .dots{display:flex}
+.prdone{display:none;text-align:center;padding:10px 0 4px}.prdone p{font-size:17px;line-height:1.4;margin:10px 0 18px}
+.prdone .chk{width:56px;height:56px;border-radius:50%;background:var(--orange);color:#fff;font-size:28px;font-weight:700;display:grid;place-items:center;margin:0 auto 14px}
+.prsheet.sent .pr{display:none}.prsheet.sent .prdone{display:block}
+@media (min-width:900px){.sheet{left:50%;right:auto;width:520px;bottom:auto;top:50%;border-radius:18px;transform:translate(-50%,-40%);opacity:0;transition:transform .3s,opacity .25s}.sheet.on{transform:translate(-50%,-50%);opacity:1}.sheet .grab{display:none}}
+/* v10 + the real player */
+.prpast{display:none}.prsheet.want .prpast{display:inline}.prsheet.want .prall{display:none}
 @media (min-width:900px){
- .room video{object-fit:contain;background:transparent}
+ .room video{top:var(--vt);bottom:auto;height:calc(100% - var(--vt) - var(--vb));object-fit:contain;background:transparent}
  .room.dim.onvid .blr{filter:blur(48px) brightness(.42) saturate(1.1)}
 }
-@media (min-width:900px){.endpad .copy{max-width:420px}}

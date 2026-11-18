@@ -10,6 +10,9 @@ const CFG = {
   ga: 'G-4GXCXXJYKB',
   feedback: 'https://docs.google.com/forms/d/1LDcq9Gm6qOItpXkjvE2NLJj0okGKyENPIjGfJ95oIOQ/viewform?usp=pp_url', // published Nov 18
   mail: 'training@fitforthecross.com',
+  // Prayer requests (v10): Google Form owned by training@ (private to Trey). Empty = keep the old mailto + Copy email.
+  // entry ids: request, name, pastor (Yes/No), email, date, title
+  prayer: { action: '', f: { request: '', name: '', pastor: '', email: '', date: '', title: '' } },
   actName: 'Active Fueling',
   actMinutes: 4,
   actPrompt: 'Ask God to call to mind someone who needs this today. Then ask Him for the courage to do it.',
@@ -35,6 +38,7 @@ const fmt = s => Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(
 const Q = new URLSearchParams(location.search);
 const DESK = matchMedia('(hover:hover) and (pointer:fine)').matches;
 if (DESK) document.documentElement.classList.add('desk');
+const DESKTOP = matchMedia('(min-width:900px) and (hover:hover) and (pointer:fine)').matches; // v10 computer defaults
 
 /* ---------- team mode + analytics ---------- */
 try {
@@ -102,7 +106,7 @@ document.body.insertAdjacentHTML('afterbegin',
   '<button class="ic dots" data-act="menu" aria-label="More">' + IC.dots + '</button></div></div>' +
   '<div class="mid" id="midw"><div class="cont full sc" id="cont"></div><div class="more-cue" id="cue"></div><div class="edge" id="edge"><b id="eb"></b></div>' +
   '<div class="cap" id="cap" aria-live="off"><p><span id="capt"></span></p></div><div class="pill2" id="det"><button class="pp" id="pp" data-act="toggle" aria-label="Pause"></button><div class="track scrub" id="tr"><b id="tb"></b></div><span class="rem" id="rem"></span></div></div>' +
-  '<div class="bar off" id="bar"><img class="bmark" src="' + BASE + 'fftc-mark-w.png" alt=""><div class="hline"><b id="hb"></b></div><div class="hint" id="hint">' + IC.up + '<span>Swipe up when you’re ready</span></div>' +
+  '<div class="bar off" id="bar"><img class="bmark" src="' + BASE + 'fftc-mark-w.png" alt=""><div class="hline"><b id="hb"></b></div><div class="hint" id="hint">' + IC.up + '<span class="m">Swipe up when you’re ready</span><span class="d">Click Next when you’re ready</span></div>' +
   '<div class="l1" id="l1"></div><div class="l2" id="l2"></div>' +
   '<div class="dnav"><button data-act="back">← Back</button><button data-act="next">Next →</button></div></div>' +
   '</section></div>');
@@ -134,7 +138,7 @@ function load(d) {
   });
   WRAP = S.findIndex(s => s.t === 'video' && s.role === 'wrapup');
   const w = S.find(s => s.role === 'warmup'), r = S.find(s => s.role === 'wrapup');
-  if (w) $('rW').style.backgroundImage = $('bW').style.backgroundImage = 'url("' + streamThumb(w.video, 1) + '")';
+  if (w) { $('rW').style.backgroundImage = $('bW').style.backgroundImage = 'url("' + streamThumb(w.video, 1) + '")'; document.body.style.setProperty('--roombg', 'url("' + streamThumb(w.video, 1) + '")'); }
   if (r) $('rR').style.backgroundImage = $('bR').style.backgroundImage = 'url("' + streamThumb(r.video, Math.max(1, (r.total || 3) - 2)) + '")';
   const [y, m, dd] = d.date.split('-').map(Number), nx = new Date(Date.UTC(y, m - 1, dd + 1));
   const np = nx.getUTCFullYear() + '-' + String(nx.getUTCMonth() + 1).padStart(2, '0') + '/' + String(nx.getUTCDate()).padStart(2, '0');
@@ -160,8 +164,10 @@ function endHTML() {
   const subj = 'Prayer request · ' + mo[0] + mo.slice(1, 3).toLowerCase() + ' ' + d + ' · ' + DAY.title;
   return '<div class="endpad">' + brand() + '<div class="close">' + CFG.doneHead + '</div><p class="closel">' + CFG.doneLine + '</p>' +
     (NEXT ? '<div class="tmr"><div class="kick">Tomorrow’s DAILY FUEL</div><div class="tt">' + esc(NEXT) + '</div></div>' : '') +
-    '<div class="pray"><a class="btn" data-act="prayer" href="mailto:' + CFG.mail + '?subject=' + encodeURIComponent(subj) + '">Submit a prayer request</a>' +
-    '<div class="copy"><span>' + CFG.mail + '</span><button data-act="copy">Copy email</button></div></div>' +
+    (CFG.prayer.action
+      ? '<div class="pray"><button class="btn" data-act="prayer">Submit a prayer request</button></div>'
+      : '<div class="pray"><a class="btn" data-act="prayer" href="mailto:' + CFG.mail + '?subject=' + encodeURIComponent(subj) + '">Submit a prayer request</a>' +
+        '<div class="copy"><span>' + CFG.mail + '</span><button data-act="copy">Copy email</button></div></div>') +
     '<button class="btn ghost fb" data-act="fb-end">Share beta feedback</button>' +
     '<button class="btn ghost fb" data-act="restart-end">Restart session</button></div>';
 }
@@ -268,7 +274,8 @@ V.addEventListener('ended', finishVideo);
 // Files live at daily-fuel/captions/YYYY-MM/DD-warmup.vtt (copied in by build_guided_pages.py).
 // No file yet = no captions, nothing breaks.
 let CC = true, CAPS = null, capKey = '';
-try { CC = localStorage.getItem('fftc_cc') !== '0'; } catch (e) {}
+CC = !DESKTOP;
+try { const c = localStorage.getItem('fftc_cc'); if (c) CC = c !== '0'; } catch (e) {}
 const capCache = {};
 function vttTime(t) { const p = t.trim().split(':').map(parseFloat); return p.length === 3 ? p[0] * 3600 + p[1] * 60 + p[2] : p[0] * 60 + p[1]; }
 function parseVtt(txt) {
@@ -402,15 +409,15 @@ function toggle() {
 }
 function setPP() { $('pp').innerHTML = running() ? IC.pause : IC.play; }
 let detT = null;
-function detail(on) {
+function detail(on, quiet) {
   const b = $('det');
   if (!cur || n < 0 || n >= S.length || finished()) { b.classList.remove('open'); return; }
-  if (on && !b.classList.contains('open')) ev('guided_control', { control: 'pill_open' });
+  if (on && !quiet && !b.classList.contains('open')) ev('guided_control', { control: 'pill_open' });
   b.classList.toggle('open', on);
   clearTimeout(detT);
   if (on && running()) detT = setTimeout(() => { if (running()) b.classList.remove('open'); }, 3500);
 }
-function hint(on) { $('hint').classList.toggle('on', on); }
+function hint(on) { $('hint').classList.toggle('on', on); $('bar').classList.toggle('ready', on && DESKTOP); }
 
 /* ---------- wake lock, chime, haptics ---------- */
 let WL = null, wantWake = false;
@@ -570,8 +577,58 @@ function go(k, via) {
   if (vid) startVideo(s);
   // After a slide, wait for it to finish before starting keep-awake (a second video starting mid-slide stutters on iPhone).
   if (timed) { T = { total: s.total, acc: 0, since: Date.now(), run: true }; if (slide) { clearTimeout(wakeT); wakeT = setTimeout(() => { if (T && T.run) wake(); }, 650); } else wake(); }
+  requestAnimationFrame(fitVid);
   if (isStep) { tm = setInterval(tick, vid ? 100 : 250); draw(); setPP(); }
   haptic();
+}
+
+/* ---------- v10 computer: hover shows the controls; video fits between the frame top and the bar ---------- */
+let mvT = 0;
+app.addEventListener('mousemove', () => {
+  if (!DESKTOP) return;
+  const t = Date.now(); if (t - mvT < 250) return; mvT = t;
+  if (S && cur && n >= 0 && n < S.length && !finished() && !app.querySelector('.sheet')) detail(true, true);
+});
+app.addEventListener('mouseleave', () => { if (DESKTOP && running()) $('det').classList.remove('open'); });
+function fitVid() { const b = $('bar'); if (b && !b.classList.contains('off')) app.style.setProperty('--vb', b.offsetHeight + 'px'); }
+addEventListener('resize', fitVid);
+
+/* ---------- prayer request panel (v10, Trey's final wording Nov 18) ---------- */
+function prayer() {
+  sheet('<form class="pr" novalidate>' +
+    '<div class="prh">Prayer request</div><p class="prsub">We are humbled and honored to pray for you. All prayer requests are kept confidential and only seen by one of our pastors.</p>' +
+    '<label class="prl">Your request<textarea name="request" rows="5" required placeholder="How can we pray for you?"></textarea></label>' +
+    '<label class="prl"><span>Your name <i>(optional)</i></span><input name="name" autocomplete="name"></label>' +
+    '<label class="prc"><input type="checkbox" name="pastor"><span class="bx"></span><span>I’d like a pastor to reach out to me</span></label>' +
+    '<label class="prl pre">Your email<input name="email" type="email" autocomplete="email" placeholder="you@email.com"></label>' +
+    '<p class="prerr" id="prerr" role="alert"></p>' +
+    '<button class="btn prsend" type="submit"><span class="txt">Send prayer request</span><span class="dots"><i></i><i></i><i></i></span></button></form>' +
+    '<div class="prdone"><div class="chk">✓</div><div class="prh">Your prayers are on their way</div><p><span class="prall">We will be praying for you.</span><span class="prpast">One of our pastors will review your prayer request and be in touch.</span></p><button class="btn ghost" type="button" data-act="pr-done">Done</button></div>');
+  const sh = app.querySelector('.sheet'), f = sh.querySelector('form');
+  sh.classList.add('prsheet');
+  f.pastor.addEventListener('change', () => f.classList.toggle('want', f.pastor.checked));
+  f.addEventListener('submit', e => { e.preventDefault(); sendPrayer(f, sh); });
+}
+function sendPrayer(f, sh) {
+  const r = f.request.value.trim(), em = f.email.value.trim(), err = $('prerr'), want = f.pastor.checked;
+  err.textContent = '';
+  if (!r) { err.textContent = 'Please write your request.'; f.request.focus(); return; }
+  if (want && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) { err.textContent = 'Add your email so one of our pastors can reach out.'; f.email.focus(); return; }
+  const b = f.querySelector('.prsend'); b.classList.add('sending'); b.disabled = true;
+  const P = CFG.prayer, body = new URLSearchParams();
+  body.append(P.f.request, r);
+  if (P.f.name) body.append(P.f.name, f.elements['name'].value.trim());
+  if (P.f.pastor) body.append(P.f.pastor, want ? 'Yes' : 'No');
+  if (P.f.email) body.append(P.f.email, want ? em : '');
+  if (P.f.date) body.append(P.f.date, DAY ? DAY.date : '');
+  if (P.f.title) body.append(P.f.title, DAY ? DAY.title : '');
+  // Google Forms accepts a plain POST; the reply can't be read (no-cors), but a network failure still rejects.
+  fetch(P.action, { method: 'POST', mode: 'no-cors', body })
+    .then(() => {
+      ev('guided_control', { control: 'prayer_sent', pastor_contact: want }); // never the text, name or email
+      sh.classList.toggle('want', want); sh.classList.add('sent');
+    })
+    .catch(() => { b.classList.remove('sending'); b.disabled = false; err.textContent = 'That didn’t send. Check your connection and try again; your request is still here.'; errEv('prayer_failed', 'network'); });
 }
 
 /* ---------- sheets, toast, cue ---------- */
@@ -582,15 +639,16 @@ function sheet(h) {
   app.append(sc, sh);
   requestAnimationFrame(() => { sc.classList.add('on'); sh.classList.add('on'); });
   let sy = null, d = 0;
-  sh.addEventListener('touchstart', e => { sy = e.touches[0].clientY; d = 0; sh.style.transition = 'none'; }, { passive: true });
+  sh.addEventListener('touchstart', e => { if (e.target.closest('textarea,input,label,button')) { sy = null; return; } sy = e.touches[0].clientY; d = 0; sh.style.transition = 'none'; }, { passive: true });
   sh.addEventListener('touchmove', e => { if (sy === null) return; d = Math.max(0, e.touches[0].clientY - sy); sh.style.transform = 'translateY(' + d + 'px)'; }, { passive: true });
   sh.addEventListener('touchend', () => { if (sy === null) return; sy = null; sh.style.transition = ''; if (d > 60) closeSheets(); else sh.style.transform = ''; }, { passive: true });
 }
+const WIDE = matchMedia('(min-width:900px)');
 function closeSheets(now) {
   app.querySelectorAll('.scrim,.sheet').forEach(e => {
     if (now) { e.remove(); return; }
     e.style.transition = 'transform .25s ease,opacity .25s';
-    if (e.classList.contains('sheet')) e.style.transform = 'translateY(105%)'; else e.style.opacity = '0';
+    if (e.classList.contains('sheet') && !WIDE.matches) e.style.transform = 'translateY(105%)'; else e.style.opacity = '0';
     setTimeout(() => e.remove(), 260);
   });
 }
@@ -627,6 +685,7 @@ function act(a) {
       break;
     case 'toggle': toggle(); break;
     case 'unmute': unmute(); break;
+    case 'pr-done': closeSheets(); break;
     case 'cc': CC = !CC; try { localStorage.setItem('fftc_cc', CC ? '1' : '0'); } catch (e) {} ev('guided_control', { control: CC ? 'captions_on' : 'captions_off' }); flip('cc', CC); drawCap(V.currentTime || 0); break;
     case 'sound': { const sb = document.querySelector('.sheet [data-act=sound]'), on = !(sb && sb.getAttribute('aria-checked') === 'true'); setSound(on, on ? 'sound_on' : 'sound_off'); flip('sound', on); } break;
     case 'back': go(n - 1, 'button'); break;
@@ -637,7 +696,7 @@ function act(a) {
     case 'fb-end': ev('guided_end_action', { action: 'feedback' }); feedback(); break;
     case 'restart-menu': ev('guided_control', { control: 'restart' }); go(0, 'restart'); break;
     case 'restart-end': ev('guided_end_action', { action: 'restart' }); go(0, 'restart'); break;
-    case 'prayer': ev('guided_end_action', { action: 'prayer' }); break;
+    case 'prayer': ev('guided_end_action', { action: 'prayer' }); if (CFG.prayer.action) prayer(); break;
     case 'copy': ev('guided_end_action', { action: 'copy_email' });
       try { navigator.clipboard.writeText(CFG.mail); } catch (e) {} toast('Email address copied'); break;
   }
@@ -665,6 +724,7 @@ app.addEventListener('touchend', e => {
   if (Math.abs(dy) > 50 && Math.abs(dy) > Math.abs(dx)) { if (dy < 0 && bot1) go(n + 1, 'swipe'); else if (dy > 0 && top1) go(n - 1, 'swipe'); }
 }, { passive: true });
 addEventListener('keydown', e => {
+  if (e.target.closest && e.target.closest('input,textarea,select')) return; // typing in the prayer form
   if (e.key === 'ArrowDown' || e.key === 'ArrowRight') go(n + 1, 'key');
   if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') go(n - 1, 'key');
   if (e.key === ' ') { e.preventDefault(); toggle(); }
