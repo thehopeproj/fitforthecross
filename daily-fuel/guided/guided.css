@@ -241,3 +241,12 @@ html,body{overscroll-behavior:none}
 .cap{transition:opacity .25s,transform .3s}.mid:has(.pill2.open) .cap{transform:translateY(-78px)}
 .bar.off .bmark{opacity:0}
 .desk .dnav{padding-right:56px}
+/* v8 follow-up: TAP FOR SOUND level with X and ... (inside the row) */
+.top .util{position:relative}
+.top .util .snd{left:50%;top:0;transform:translateX(-50%)}
+/* video -> next screen: video slides up, next screen rises behind it */
+.room video.leave{opacity:1;transform:translateY(-100%);transition:transform .55s cubic-bezier(.5,0,.25,1)}
+@keyframes rise{from{transform:translateY(100%)}to{transform:none}}
+.stage.rise .room div,.stage.rise .mid{animation:rise .55s cubic-bezier(.5,0,.25,1) both}
+.stage.rise .room div{transition:none}
+.stage.rise .cont{transition:none}

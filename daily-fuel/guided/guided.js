@@ -95,9 +95,10 @@ function errEv(kind, detail) {
 document.body.insertAdjacentHTML('afterbegin',
   '<div class="app" id="app"><section class="stage" id="stage">' +
   '<div class="room dim" id="room"><div id="rW" class="on"></div><div id="rR"></div><video id="vid" playsinline webkit-playsinline preload="none"></video></div>' +
-  '<button class="snd" id="snd" data-act="unmute" aria-label="Tap for sound"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="spk" d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="x" d="M16 9.5l5 5M21 9.5l-5 5"/></svg><span class="lbl">Tap for sound</span></button>' +
+  
   '<div class="top off" id="top"><div class="segs" id="segs"></div><div class="util">' +
   '<button class="ic" data-act="close" aria-label="Close">' + IC.x + '</button>' +
+  '<button class="snd" id="snd" data-act="unmute" aria-label="Tap for sound"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="spk" d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="x" d="M16 9.5l5 5M21 9.5l-5 5"/></svg><span class="lbl">Tap for sound</span></button>' +
   '<button class="ic dots" data-act="menu" aria-label="More">' + IC.dots + '</button></div></div>' +
   '<div class="mid" id="midw"><div class="cont full sc" id="cont"></div><div class="more-cue" id="cue"></div><div class="edge" id="edge"><b id="eb"></b></div>' +
   '<div class="cap" id="cap" aria-live="off"><p><span id="capt"></span></p></div><div class="pill2" id="det"><button class="pp" id="pp" data-act="toggle" aria-label="Pause"></button><div class="track scrub" id="tr"><b id="tb"></b></div><span class="rem" id="rem"></span></div></div>' +
@@ -217,14 +218,13 @@ function snd(on) {
   b.classList.toggle('on', on);
   if (on) sndT = setTimeout(() => b.classList.remove('on'), 4000);
 }
-function primeChime() { try { CHIME.muted = true; const p = CHIME.play(); if (p && p.then) p.then(() => { CHIME.pause(); CHIME.currentTime = 0; CHIME.muted = false; }, () => { CHIME.muted = false; }); } catch (e) {} }
 function setSound(on, control) {
   soundPref = on;
   if (V.classList.contains('on')) {
     V.muted = !on;
     if (on && V.paused && cur && !cur.completed) V.play().catch(() => {});
   }
-  if (on) { snd(false); primeChime(); }
+  if (on) snd(false); // the same tap unlocks the chime silently (unlockAudio)
   ev('guided_control', { control });
 }
 function unmute() { if (V.muted && V.classList.contains('on')) setSound(true, 'unmute'); }
@@ -244,12 +244,13 @@ V.addEventListener('timeupdate', () => {
   if (cur.lastT != null && !V.paused) { const d = t - cur.lastT; if (d > 0 && d < 1.5) cur.watched += d; }
   cur.lastT = t;
   drawCap(t);
-  if (!V.paused && V.duration && isFinite(V.duration) && V.duration - t < 0.25) finishVideo();
+  if (!V.paused && V.duration && isFinite(V.duration) && V.duration - t < 0.4) finishVideo();
 });
 V.addEventListener('seeked', () => { if (cur) cur.lastT = V.currentTime; drawCap(V.currentTime); });
 V.addEventListener('play', setPP);
 V.addEventListener('pause', setPP);
-V.addEventListener('waiting', () => { clearTimeout(stallT); stallT = setTimeout(() => errEv('video_stall', 'waiting_4s'), 4000); });
+V.addEventListener('waiting', () => {
+  if (V.duration && isFinite(V.duration) && V.duration - V.currentTime < 1.5 && V.currentTime > 1) { finishVideo(); return; } clearTimeout(stallT); stallT = setTimeout(() => errEv('video_stall', 'waiting_4s'), 4000); });
 V.addEventListener('playing', () => clearTimeout(stallT));
 V.addEventListener('error', () => { if (V.getAttribute('src')) errEv('video_error', 'media_' + (V.error ? V.error.code : '')); });
 function finishVideo() {
@@ -472,20 +473,42 @@ function closeStep() {
     });
   }
 }
-function leaveStep() {
+// Leaving a video forward: the video slides up and off while the next screen rises in behind it,
+// like a swipe (Trey, Nov 18), instead of fading the background in over the video.
+let leaveT = null;
+function endLeave() {
+  if (!leaveT) return;
+  clearTimeout(leaveT); leaveT = null;
+  V.style.transition = 'none'; // no fade-back: the video is already off screen
+  stopVideo();
+  V.classList.remove('leave');
+  void V.offsetWidth;
+  V.style.transition = '';
+  $('stage').classList.remove('rise');
+}
+function leaveStep(slide) {
   closeStep();
   clearInterval(tm); tm = null;
   clearTimeout(autoT);
   T = null;
   unwake();
-  if (V.classList.contains('on')) stopVideo();
+  endLeave();
+  if (!V.classList.contains('on')) return;
+  if (!slide) { stopVideo(); return; }
+  V.pause(); showCap(''); snd(false);
+  const st = $('stage');
+  st.classList.remove('rise'); void st.offsetWidth;
+  st.classList.add('rise');
+  V.classList.add('leave');
+  leaveT = setTimeout(endLeave, 600);
 }
 let swapT = null, first = true;
 function go(k, via) {
   if (!S || k < -1 || k > S.length) return;
   const prev = n;
   if (prev === -1 && k >= 0 && cur) { ev('guided_start', { seconds_on_opening: sec(Date.now() - cur.t0) }); runStart = Date.now(); viewed = new Set(); completeSent = false; }
-  leaveStep();
+  const slide = prev >= 0 && prev < S.length && S[prev].t === 'video' && k > prev && !(k < S.length && S[k].t === 'video');
+  leaveStep(slide);
   closeSheets(true);
   hint(false);
   n = k;
@@ -521,7 +544,7 @@ function go(k, via) {
   c.classList.remove('done');
   c.classList.add('out');
   clearTimeout(swapT);
-  swapT = setTimeout(() => { c.innerHTML = content(n); c.classList.toggle('full', !isStep); c.scrollTop = 0; c.classList.remove('out'); cue(); }, first ? 0 : 280);
+  swapT = setTimeout(() => { c.innerHTML = content(n); c.classList.toggle('full', !isStep); c.scrollTop = 0; c.classList.remove('out'); cue(); }, first || slide ? 0 : 280);
   first = false;
 
   if (vid) startVideo(s);
