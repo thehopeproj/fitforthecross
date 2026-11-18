@@ -1,0 +1,8 @@
+/daily-fuel/data/*
+  X-Robots-Tag: noindex
+
+/daily-fuel/guided/*
+  X-Robots-Tag: noindex
+
+/daily-fuel/2026-12/*
+  X-Robots-Tag: noindex

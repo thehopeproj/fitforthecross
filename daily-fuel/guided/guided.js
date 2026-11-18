@@ -1,0 +1,505 @@
+/* DAILY FUEL GUIDED session player. One file for every day: the page sets <body data-day="YYYY-MM/DD">.
+   Design: SOCIAL MEDIA v7. Data: schema 0.4 (APP ROADMAP). Events: v0.5 measurement plan. */
+(function () {
+'use strict';
+
+const BASE = document.currentScript.src.replace(/[^/]+$/, '');
+const CFG = {
+  stream: 'https://customer-jjfzxadb1d7p720a.cloudflarestream.com',
+  hls: 'https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js',
+  ga: 'G-4GXCXXJYKB',
+  feedback: '', // beta Google Form link; empty until Trey sends it
+  mail: 'training@fitforthecross.com',
+  actName: 'Active Fueling',
+  actMinutes: 4,
+  actPrompt: 'Ask God to call to mind someone who needs this today. Then ask Him for the courage to do it.',
+  doneHead: 'SESSION COMPLETE',
+  doneLine: 'Your soul was made to run on the clean fuel of God. Keep stacking these fuel sessions and leaning in to quality time with the Lord.',
+};
+
+const MON = ['JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE','JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER'];
+const WK = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const IC = {
+  play: '<svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg>',
+  pause: '<svg viewBox="0 0 24 24"><rect x="5.5" y="3" width="4.5" height="18" rx="2.2"/><rect x="14" y="3" width="4.5" height="18" rx="2.2"/></svg>',
+  book: '<svg viewBox="0 0 24 24"><path d="M3 5.5c3-1.3 6-1.3 9 .8 3-2.1 6-2.1 9-.8V19c-3-1.3-6-1.3-9 .8-3-2.1-6-2.1-9-.8z"/><path d="M12 6.3V19.8"/></svg>',
+  up: '<svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg>',
+  x: '<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  dots: '<svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>',
+};
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const sec = ms => Math.max(0, Math.round(ms / 1000));
+const fmt = s => Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
+const Q = new URLSearchParams(location.search);
+const DESK = matchMedia('(hover:hover) and (pointer:fine)').matches;
+if (DESK) document.documentElement.classList.add('desk');
+
+/* ---------- team mode + analytics ---------- */
+try {
+  if (Q.get('team') === '1') localStorage.setItem('fftc_team', '1');
+  if (Q.get('team') === '0') localStorage.removeItem('fftc_team');
+} catch (e) {}
+let TEAM = false;
+try { TEAM = localStorage.getItem('fftc_team') === '1'; } catch (e) {}
+const SPEED = TEAM && Q.get('fast') ? 30 : 1;
+
+if (!TEAM) {
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () { dataLayer.push(arguments); };
+  gtag('js', new Date());
+  gtag('config', CFG.ga);
+  const g = document.createElement('script');
+  g.async = true;
+  g.src = 'https://www.googletagmanager.com/gtag/js?id=' + CFG.ga;
+  document.head.appendChild(g);
+}
+
+let DAY = null, S = null, WRAP = -1, NEXT = null;
+let n = -1, cur = null, hiddenAt = null, runStart = null, viewed = new Set(), completeSent = false;
+
+function stepType(k) {
+  if (!S) return 'opening';
+  if (k < 0) return 'opening';
+  if (k >= S.length) return 'end';
+  return S[k].t;
+}
+function stepName(k) {
+  if (!S || k < 0 || k >= S.length) return stepType(k);
+  const s = S[k];
+  return s.t === 'video' ? s.role : s.t === 'action' ? s.descriptor : s.nutrient;
+}
+function ev(name, extra) {
+  const p = Object.assign({
+    session_date: DAY ? DAY.date : '',
+    day_title: DAY ? DAY.title : '',
+    step_index: n + 1,
+    step_type: stepType(n),
+    step_name: stepName(n),
+    device_mode: DESK ? 'desktop' : 'touch',
+  }, extra || {});
+  if (TEAM) { console.log('[guided] ' + name + ' ' + JSON.stringify(p)); return; }
+  p.transport_type = 'beacon';
+  gtag('event', name, p);
+}
+const sentErr = new Set();
+function errEv(kind, detail) {
+  const key = kind + (cur ? cur.k : '');
+  if (sentErr.has(key)) return;
+  sentErr.add(key);
+  ev('guided_error', { kind: kind, detail: String(detail || '').slice(0, 60) });
+}
+
+/* ---------- page shell ---------- */
+document.body.insertAdjacentHTML('afterbegin',
+  '<div class="app" id="app"><section class="stage" id="stage">' +
+  '<div class="room dim" id="room"><div id="rW" class="on"></div><div id="rR"></div><video id="vid" playsinline webkit-playsinline preload="none"></video></div>' +
+  '<div class="top off" id="top"><div class="segs" id="segs"></div><div class="util">' +
+  '<button class="ic" data-act="close" aria-label="Close">' + IC.x + '</button>' +
+  '<button class="ic dots" data-act="menu" aria-label="More">' + IC.dots + '</button></div></div>' +
+  '<div class="mid" id="midw"><div class="cont full sc" id="cont"></div><div class="more-cue" id="cue"></div><div class="edge" id="edge"><b id="eb"></b></div>' +
+  '<div class="pill2" id="det"><button class="pp" id="pp" data-act="toggle" aria-label="Pause"></button><div class="track scrub" id="tr"><b id="tb"></b></div><span class="rem" id="rem"></span></div></div>' +
+  '<div class="bar off" id="bar"><div class="hline"><b id="hb"></b></div><div class="hint" id="hint">' + IC.up + '<span>Swipe up when you’re ready</span></div>' +
+  '<div class="l1" id="l1"></div><div class="l2" id="l2"></div>' +
+  '<div class="dnav"><button data-act="back">← Back</button><button data-act="next">Next →</button></div></div>' +
+  '</section></div>');
+const app = $('app'), V = $('vid');
+
+function brand() {
+  return '<div class="mast"><div class="mbox"><img src="' + BASE + 'fftc-mark-w.png" alt=""><span>FIT FOR THE CROSS</span></div></div>' +
+    '<div class="dfg">DAILY FUEL<small>GUIDED</small></div><div class="band"></div>';
+}
+function holding() {
+  S = null;
+  $('cont').innerHTML = brand() + '<div class="hold"><p>This session isn’t available yet.</p></div>';
+}
+
+/* ---------- data ---------- */
+function streamThumb(v, t) {
+  return v && v.provider === 'stream' ? CFG.stream + '/' + v.id + '/thumbnails/thumbnail.jpg?time=' + t + 's&height=1280' : '';
+}
+function load(d) {
+  DAY = d;
+  S = d.session.map(x => {
+    if (x.type === 'video') return { t: 'video', role: x.role, video: x.video, total: x.seconds };
+    if (x.type === 'action') {
+      const m = x.minutes || CFG.actMinutes;
+      return { t: 'action', label: CFG.actName, descriptor: x.descriptor, instruction: x.instruction, min: m, total: m * 60 };
+    }
+    return { t: 'nutrient', nutrient: x.nutrient, label: x.name_as_written || x.nutrient, word: x.macro === 'word', prompt: x.prompt, min: x.minutes, total: x.minutes * 60 };
+  });
+  WRAP = S.findIndex(s => s.t === 'video' && s.role === 'wrapup');
+  const w = S.find(s => s.role === 'warmup'), r = S.find(s => s.role === 'wrapup');
+  if (w) $('rW').style.backgroundImage = 'url("' + streamThumb(w.video, 1) + '")';
+  if (r) $('rR').style.backgroundImage = 'url("' + streamThumb(r.video, Math.max(1, (r.total || 3) - 2)) + '")';
+  const [y, m, dd] = d.date.split('-').map(Number), nx = new Date(Date.UTC(y, m - 1, dd + 1));
+  const np = nx.getUTCFullYear() + '-' + String(nx.getUTCMonth() + 1).padStart(2, '0') + '/' + String(nx.getUTCDate()).padStart(2, '0');
+  fetch(BASE + '../data/' + np + '.json', { cache: 'no-cache' })
+    .then(r => r.ok ? r.json() : null).then(j => { if (j && j.status === 'LOCKED') NEXT = j.title; }).catch(() => {});
+}
+
+/* ---------- screens ---------- */
+function totalMin() { return Math.round(S.reduce((a, s) => a + (s.total || 0), 0) / 60); }
+function verseHTML() { return '“' + esc(DAY.verse.text) + '”<cite>' + esc(DAY.verse.reference + ' ' + (DAY.verse.translation || 'NIV')) + '</cite>'; }
+function homeHTML() {
+  const [y, m, d] = DAY.date.split('-').map(Number), dt = new Date(y, m - 1, d), mo = MON[m - 1];
+  const li = S.filter(s => s.t !== 'video').map(s => '<li>' + esc(s.label) + '</li>').join('');
+  return brand() + '<div class="std1">' + WK[dt.getDay()] + ', ' + mo[0] + mo.slice(1).toLowerCase() + ' ' + d + '</div>' +
+    '<div class="trow"><div class="htitle">' + esc(DAY.title) + '</div></div><div class="htag">' + esc(DAY.tagline) + '</div>' +
+    '<blockquote class="hverse">' + verseHTML() + '</blockquote>' +
+    '<div class="shead"><span>Today’s session</span><span>' + totalMin() + ' min</span></div><ol class="steps">' + li + '</ol>' +
+    '<div class="start"><div class="sw" style="display:flex;flex-direction:column;align-items:center;gap:4px">' + IC.up + 'Swipe up to begin</div>' +
+    '<button class="btn dk" data-act="begin">Begin →</button></div>';
+}
+function endHTML() {
+  const m = +DAY.date.split('-')[1], d = +DAY.date.split('-')[2], mo = MON[m - 1];
+  const subj = 'Prayer request · ' + mo[0] + mo.slice(1, 3).toLowerCase() + ' ' + d + ' · ' + DAY.title;
+  return '<div class="endpad">' + brand() + '<div class="close">' + CFG.doneHead + '</div><p class="closel">' + CFG.doneLine + '</p>' +
+    (NEXT ? '<div class="tmr"><div class="kick">Tomorrow’s DAILY FUEL</div><div class="tt">' + esc(NEXT) + '</div></div>' : '') +
+    '<div class="pray"><a class="btn" data-act="prayer" href="mailto:' + CFG.mail + '?subject=' + encodeURIComponent(subj) + '">Submit a prayer request</a>' +
+    '<div class="copy"><span>' + CFG.mail + '</span><button data-act="copy">Copy email</button></div></div>' +
+    '<button class="btn ghost fb" data-act="fb-end">Share beta feedback</button>' +
+    '<button class="btn ghost fb" data-act="restart-end">Restart session</button></div>';
+}
+function content(k) {
+  if (k < 0) return homeHTML();
+  if (k >= S.length) return endHTML();
+  const s = S[k];
+  if (s.t === 'video') return '';
+  if (s.t === 'action') return '<div class="kick">' + s.min + ' MINUTES OF</div><div class="nword">' + esc(s.label) + '</div>' +
+    '<blockquote class="nverse">' + esc(s.instruction) + '<cite>' + esc(s.descriptor) + '</cite></blockquote><hr class="nsep"><p class="nprompt">' + CFG.actPrompt + '</p>';
+  return '<div class="kick">' + s.min + ' MINUTES OF</div><div class="nword">' + esc(s.label) + '</div>' +
+    (s.word ? '<blockquote class="nverse">' + verseHTML() + '</blockquote><hr class="nsep">' : '') +
+    (s.prompt ? '<p class="nprompt">' + esc(s.prompt) + '</p>' : '');
+}
+function segs() { $('segs').innerHTML = S.map((_, j) => '<i class="' + (j < n || n >= S.length ? 'done' : j === n ? 'cur' : '') + '"></i>').join(''); }
+
+/* ---------- video ---------- */
+let hls = null, hlsLoading = null, stallT = null;
+const NATIVE_HLS = !!V.canPlayType('application/vnd.apple.mpegurl');
+function needHls() {
+  if (NATIVE_HLS || window.Hls || hlsLoading) return;
+  hlsLoading = new Promise((ok, no) => { const s = document.createElement('script'); s.src = CFG.hls; s.onload = ok; s.onerror = no; document.head.appendChild(s); });
+  hlsLoading.catch(() => errEv('video_error', 'hls_load'));
+}
+function attach(v) {
+  if (v.provider === 'file') { V.src = v.id; return; }
+  const url = CFG.stream + '/' + v.id + '/manifest/video.m3u8';
+  if (NATIVE_HLS || !(window.Hls && Hls.isSupported())) { V.src = url; return; }
+  hls = new Hls({ capLevelToPlayerSize: true });
+  hls.on(Hls.Events.ERROR, (_, e) => { if (e.fatal) errEv('video_error', 'hls_' + e.type); });
+  hls.loadSource(url);
+  hls.attachMedia(V);
+}
+function startVideo(s) {
+  V.classList.add('on');
+  attach(s.video);
+  const p = V.play();
+  if (p && p.catch) p.catch(e => { if (e && e.name === 'NotAllowedError') errEv('sound_blocked', 'play'); setPP(); detail(true); });
+}
+function stopVideo() {
+  clearTimeout(stallT);
+  V.pause();
+  if (hls) { hls.destroy(); hls = null; }
+  V.removeAttribute('src');
+  V.load();
+  V.classList.remove('on');
+}
+V.addEventListener('timeupdate', () => {
+  if (!cur || stepType(cur.k) !== 'video') return;
+  const t = V.currentTime;
+  if (cur.lastT != null && !V.paused) { const d = t - cur.lastT; if (d > 0 && d < 1.5) cur.watched += d; }
+  cur.lastT = t;
+});
+V.addEventListener('seeked', () => { if (cur) cur.lastT = V.currentTime; });
+V.addEventListener('play', setPP);
+V.addEventListener('pause', setPP);
+V.addEventListener('waiting', () => { clearTimeout(stallT); stallT = setTimeout(() => errEv('video_stall', 'waiting_4s'), 4000); });
+V.addEventListener('playing', () => clearTimeout(stallT));
+V.addEventListener('error', () => { if (V.getAttribute('src')) errEv('video_error', 'media_' + (V.error ? V.error.code : '')); });
+V.addEventListener('ended', () => {
+  if (!cur || stepType(cur.k) !== 'video') return;
+  cur.completed = true;
+  draw();
+  const here = n;
+  autoT = setTimeout(() => { if (n === here) go(n + 1, 'auto'); }, 900);
+});
+
+/* ---------- nutrient timer ---------- */
+let T = null, tm = null, autoT = null;
+function tSec() { return T ? Math.min(T.total, (T.acc + (T.run ? (Date.now() - T.since) * SPEED : 0)) / 1000) : 0; }
+function isVid() { return S && n >= 0 && n < S.length && S[n].t === 'video'; }
+function running() { return isVid() ? !V.paused : !!(T && T.run); }
+function finished() { return isVid() ? !!(cur && cur.completed) : !!(cur && cur.chimeAt); }
+function pos() {
+  if (isVid()) return [V.currentTime || 0, V.duration && isFinite(V.duration) ? V.duration : S[n].total];
+  return [tSec(), T ? T.total : 0];
+}
+function tick() {
+  draw();
+  if (!isVid() && T && tSec() >= T.total && !cur.chimeAt) {
+    cur.chimeAt = Date.now();
+    T.acc = T.total * 1000;
+    T.run = false;
+    clearInterval(tm); tm = null;
+    chime();
+    unwake();
+    $('cont').classList.add('done');
+    $('det').classList.remove('open');
+    setPP();
+    hint(true);
+  }
+}
+function draw() {
+  const [s, t] = pos(), p = t ? Math.min(1, s / t) : 0;
+  $('tb').style.width = p * 100 + '%';
+  $('hb').style.width = p * 100 + '%';
+  $('rem').textContent = fmt(s) + ' / ' + fmt(t);
+  if (!isVid()) $('eb').style.height = p * 100 + '%';
+}
+function toggle() {
+  if (!cur || finished()) return;
+  if (isVid()) {
+    if (V.paused) { V.play().catch(() => {}); ev('guided_control', { control: 'play' }); }
+    else { V.pause(); cur.paused++; ev('guided_control', { control: 'pause' }); }
+  } else if (T) {
+    if (T.run) { T.acc += (Date.now() - T.since) * SPEED; T.run = false; cur.paused++; unwake(); ev('guided_control', { control: 'pause' }); }
+    else { T.since = Date.now(); T.run = true; wake(); ev('guided_control', { control: 'play' }); }
+  }
+  setPP();
+  detail(true);
+}
+function setPP() { $('pp').innerHTML = running() ? IC.pause : IC.play; }
+let detT = null;
+function detail(on) {
+  const b = $('det');
+  if (!cur || n < 0 || n >= S.length || finished()) { b.classList.remove('open'); return; }
+  if (on && !b.classList.contains('open')) ev('guided_control', { control: 'pill_open' });
+  b.classList.toggle('open', on);
+  clearTimeout(detT);
+  if (on && running()) detT = setTimeout(() => { if (running()) b.classList.remove('open'); }, 3500);
+}
+function hint(on) { $('hint').classList.toggle('on', on); }
+
+/* ---------- wake lock, chime, haptics ---------- */
+let WL = null;
+function wake() {
+  if (!('wakeLock' in navigator)) { errEv('wake_lock_failed', 'unsupported'); return; }
+  navigator.wakeLock.request('screen').then(l => { WL = l; }).catch(e => errEv('wake_lock_failed', e && e.name));
+}
+function unwake() { if (WL) { WL.release().catch(() => {}); WL = null; } }
+const CHIME = new Audio(BASE + 'fftc-chime.mp3');
+CHIME.preload = 'auto';
+let chimeReady = false;
+function unlockChime() {
+  if (chimeReady) return;
+  chimeReady = true;
+  CHIME.muted = true;
+  const p = CHIME.play();
+  if (p && p.then) p.then(() => { CHIME.pause(); CHIME.currentTime = 0; CHIME.muted = false; }).catch(() => { CHIME.muted = false; chimeReady = false; });
+}
+['touchend', 'click', 'keydown'].forEach(e => addEventListener(e, unlockChime, { passive: true }));
+function chime() {
+  try { CHIME.muted = false; CHIME.currentTime = 0; const p = CHIME.play(); if (p && p.catch) p.catch(e => errEv('chime_failed', e && e.name)); }
+  catch (e) { errEv('chime_failed', e.name); }
+}
+function haptic() { try { navigator.vibrate && navigator.vibrate(12); } catch (e) {} }
+
+/* ---------- step lifecycle ---------- */
+function closeStep() {
+  if (!cur || cur.closed) return;
+  cur.closed = true;
+  const t = stepType(cur.k), now = Date.now();
+  if (t === 'video') {
+    const vs = S[cur.k].total || 0;
+    ev('guided_video_end', {
+      video_seconds: Math.round(vs), watched_seconds: Math.round(cur.watched),
+      pct_watched: vs ? Math.min(100, Math.round(cur.watched / vs * 100)) : 0,
+      completed: cur.completed, scrub_back_count: cur.scrubBack, paused_count: cur.paused,
+    });
+  } else if (t === 'nutrient' || t === 'action') {
+    const hid = cur.hidden + (hiddenAt ? now - hiddenAt : 0);
+    ev(t === 'nutrient' ? 'guided_nutrient_end' : 'guided_action_end', {
+      minutes: S[cur.k].min, timer_seconds: Math.round(tSec()), seconds_on_screen: sec(now - cur.t0),
+      reached_chime: !!cur.chimeAt, seconds_after_chime: cur.chimeAt ? sec(now - cur.chimeAt) : 0,
+      paused_count: cur.paused, hidden_seconds: sec(hid),
+    });
+  }
+}
+function leaveStep() {
+  closeStep();
+  clearInterval(tm); tm = null;
+  clearTimeout(autoT);
+  T = null;
+  unwake();
+  if (V.classList.contains('on')) stopVideo();
+}
+let swapT = null, first = true;
+function go(k, via) {
+  if (!S || k < -1 || k > S.length) return;
+  const prev = n;
+  if (prev === -1 && k >= 0 && cur) { ev('guided_start', { seconds_on_opening: sec(Date.now() - cur.t0) }); runStart = Date.now(); viewed = new Set(); completeSent = false; }
+  leaveStep();
+  closeSheets(true);
+  hint(false);
+  n = k;
+  cur = { k: n, t0: Date.now(), hidden: 0, paused: 0, scrubBack: 0, watched: 0, lastT: null, completed: false, chimeAt: null, closed: false };
+  const isStep = n >= 0 && n < S.length, s = isStep ? S[n] : null, vid = isStep && s.t === 'video', timed = isStep && !vid, c = $('cont');
+  const how = k < prev && via !== 'restart' ? 'back' : via === 'restart' ? 'button' : via;
+
+  if (n < 0) ev('guided_open');
+  else if (isStep) { viewed.add(n); ev('guided_step_view', Object.assign({ via: how }, timed ? { minutes: s.min } : {})); }
+  else if (!completeSent) { completeSent = true; ev('guided_complete', { total_seconds: runStart ? sec(Date.now() - runStart) : 0, steps_viewed: viewed.size }); }
+
+  $('room').classList.toggle('dim', !vid);
+  const wrap = n >= WRAP;
+  $('rR').classList.toggle('on', wrap);
+  $('rW').classList.toggle('on', !wrap);
+  $('top').classList.toggle('off', !isStep);
+  segs();
+  $('det').classList.remove('open');
+  clearTimeout(detT);
+  $('bar').classList.toggle('isvid', vid);
+  $('bar').classList.toggle('off', !isStep);
+  $('bar').classList.toggle('notrack', isStep && !vid);
+  $('edge').classList.toggle('on', timed);
+  $('eb').style.height = '0';
+  $('cue').classList.remove('on');
+  if (isStep) {
+    $('l1').textContent = DAY.title;
+    const l2 = $('l2'), tap = !vid && !s.word;
+    l2.innerHTML = esc(DAY.verse.reference) + (tap ? IC.book : '');
+    l2.className = 'l2' + (tap ? ' tap' : '');
+    if (tap) l2.dataset.act = 'verse'; else delete l2.dataset.act;
+  }
+  c.classList.remove('done');
+  c.classList.add('out');
+  clearTimeout(swapT);
+  swapT = setTimeout(() => { c.innerHTML = content(n); c.classList.toggle('full', !isStep); c.scrollTop = 0; c.classList.remove('out'); cue(); }, first ? 0 : 280);
+  first = false;
+
+  if (vid) startVideo(s);
+  if (timed) { T = { total: s.total, acc: 0, since: Date.now(), run: true }; wake(); }
+  if (isStep) { tm = setInterval(tick, 250); draw(); setPP(); }
+  haptic();
+}
+
+/* ---------- sheets, toast, cue ---------- */
+function sheet(h) {
+  closeSheets(true);
+  const sc = document.createElement('div'); sc.className = 'scrim'; sc.onclick = () => closeSheets();
+  const sh = document.createElement('div'); sh.className = 'sheet'; sh.innerHTML = '<div class="grab"></div>' + h;
+  app.append(sc, sh);
+  requestAnimationFrame(() => { sc.classList.add('on'); sh.classList.add('on'); });
+  let sy = null, d = 0;
+  sh.addEventListener('touchstart', e => { sy = e.touches[0].clientY; d = 0; sh.style.transition = 'none'; }, { passive: true });
+  sh.addEventListener('touchmove', e => { if (sy === null) return; d = Math.max(0, e.touches[0].clientY - sy); sh.style.transform = 'translateY(' + d + 'px)'; }, { passive: true });
+  sh.addEventListener('touchend', () => { if (sy === null) return; sy = null; sh.style.transition = ''; if (d > 60) closeSheets(); else sh.style.transform = ''; }, { passive: true });
+}
+function closeSheets(now) {
+  app.querySelectorAll('.scrim,.sheet').forEach(e => {
+    if (now) { e.remove(); return; }
+    e.style.transition = 'transform .25s ease,opacity .25s';
+    if (e.classList.contains('sheet')) e.style.transform = 'translateY(105%)'; else e.style.opacity = '0';
+    setTimeout(() => e.remove(), 260);
+  });
+}
+function toast(t) {
+  const e = document.createElement('div'); e.className = 'toast'; e.textContent = t; app.appendChild(e);
+  requestAnimationFrame(() => e.classList.add('on'));
+  setTimeout(() => { e.classList.remove('on'); setTimeout(() => e.remove(), 400); }, 2200);
+}
+function feedback() { if (CFG.feedback) window.open(CFG.feedback, '_blank', 'noopener'); else toast('Feedback form coming soon'); }
+function cue() { const el = $('cont'), c = $('cue'); c.classList.toggle('on', el.scrollHeight > el.clientHeight + 2 && el.scrollTop + el.clientHeight < el.scrollHeight - 4); }
+$('cont').addEventListener('scroll', cue, { passive: true });
+addEventListener('resize', cue);
+
+/* ---------- input ---------- */
+function act(a) {
+  switch (a) {
+    case 'close': go(-1, 'button'); break;
+    case 'menu': ev('guided_control', { control: 'menu_open' });
+      sheet('<button class="mi" data-act="fb-menu">Share beta feedback</button><button class="mi" data-act="restart-menu">Restart session</button>'); break;
+    case 'toggle': toggle(); break;
+    case 'back': go(n - 1, 'button'); break;
+    case 'next': go(n + 1, 'button'); break;
+    case 'begin': go(0, 'button'); break;
+    case 'verse': ev('guided_control', { control: 'verse_open' }); sheet('<blockquote>' + verseHTML() + '</blockquote>'); break;
+    case 'fb-menu': closeSheets(); feedback(); break;
+    case 'fb-end': ev('guided_end_action', { action: 'feedback' }); feedback(); break;
+    case 'restart-menu': ev('guided_control', { control: 'restart' }); go(0, 'restart'); break;
+    case 'restart-end': ev('guided_end_action', { action: 'restart' }); go(0, 'restart'); break;
+    case 'prayer': ev('guided_end_action', { action: 'prayer' }); break;
+    case 'copy': ev('guided_end_action', { action: 'copy_email' });
+      try { navigator.clipboard.writeText(CFG.mail); } catch (e) {} toast('Email address copied'); break;
+  }
+}
+app.addEventListener('click', e => {
+  const a = e.target.closest('[data-act]');
+  if (a) { act(a.dataset.act); return; }
+  if (!S || !cur || n < 0 || n >= S.length || e.target.closest('a,button,.sheet,.scrim')) return;
+  if (e.target.closest('#tr')) {
+    if (isVid() && V.duration) {
+      const r = $('tr').getBoundingClientRect(), to = Math.max(0, Math.min(V.duration - 1, (e.clientX - r.left) / r.width * V.duration));
+      if (to < V.currentTime - 1) cur.scrubBack++;
+      V.currentTime = to;
+      ev('guided_control', { control: 'scrub' });
+      draw();
+    }
+    detail(true);
+    return;
+  }
+  if (e.target.closest('#det') || !running()) { detail(true); return; }
+  detail(!$('det').classList.contains('open'));
+});
+let y0 = null, x0 = null, top1 = true, bot1 = true;
+app.addEventListener('touchstart', e => {
+  if (e.target.closest('.sheet,.scrim,button,.track')) return;
+  y0 = e.touches[0].clientY; x0 = e.touches[0].clientX;
+  const el = $('cont');
+  if (el.scrollHeight > el.clientHeight + 2) { top1 = el.scrollTop <= 1; bot1 = el.scrollTop + el.clientHeight >= el.scrollHeight - 2; } else top1 = bot1 = true;
+}, { passive: true });
+app.addEventListener('touchend', e => {
+  if (y0 === null) return;
+  const dy = e.changedTouches[0].clientY - y0, dx = e.changedTouches[0].clientX - x0;
+  y0 = null;
+  if (Math.abs(dy) > 50 && Math.abs(dy) > Math.abs(dx)) { if (dy < 0 && bot1) go(n + 1, 'swipe'); else if (dy > 0 && top1) go(n - 1, 'swipe'); }
+}, { passive: true });
+addEventListener('keydown', e => {
+  if (e.key === 'ArrowDown' || e.key === 'ArrowRight') go(n + 1, 'key');
+  if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') go(n - 1, 'key');
+  if (e.key === ' ') { e.preventDefault(); toggle(); }
+  if (e.key === 'Escape') closeSheets();
+});
+let wl = 0;
+app.addEventListener('wheel', e => {
+  if (e.target.closest('.cont')) return;
+  const t = Date.now();
+  if (t - wl < 800 || Math.abs(e.deltaY) < 25) return;
+  wl = t;
+  go(n + (e.deltaY > 0 ? 1 : -1), 'key');
+}, { passive: true });
+
+document.addEventListener('visibilitychange', () => {
+  if (!S) return;
+  if (document.visibilityState === 'hidden') {
+    if (hiddenAt) return;
+    hiddenAt = Date.now();
+    if (n < S.length && cur) { closeStep(); ev('guided_exit', { seconds_into_step: sec(hiddenAt - cur.t0) }); }
+  } else if (hiddenAt) {
+    const away = Date.now() - hiddenAt;
+    if (cur) cur.hidden += away;
+    hiddenAt = null;
+    if (n < S.length) ev('guided_return', { away_seconds: sec(away) });
+    if (T && T.run) wake();
+  }
+});
+
+/* ---------- start ---------- */
+needHls();
+fetch(BASE + '../data/' + document.body.dataset.day + '.json', { cache: 'no-cache' })
+  .then(r => { if (!r.ok) throw new Error('http_' + r.status); return r.json(); })
+  .then(d => { if (d.status !== 'LOCKED') { holding(); return; } load(d); go(-1); })
+  .catch(e => { errEv('data_load_failed', e && e.message); holding(); });
+})();

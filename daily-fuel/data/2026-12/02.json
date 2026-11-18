@@ -1,0 +1,43 @@
+{
+  "schema": "0.4",
+  "date": "2026-12-02",
+  "status": "LOCKED",
+  "title": "GOD OF HOPE",
+  "tagline": "Your hope has a name.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "May the God of hope fill you with all joy and peace as you trust in him, so that you may overflow with hope by the power of the Holy Spirit.",
+    "reference": "Romans 15:13",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "b7fe3c2781cf1b33958e0bd67f65171e"
+      },
+      "seconds": 235
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Memorization",
+      "name_as_written": "Scripture Memorization",
+      "macro": "word",
+      "minutes": 4,
+      "prompt": "Start memorizing Romans 15:13, one phrase at a time. This week, learn: \"May the God of hope.\""
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "191de5c3a48e2915abbc5f6efaf8f6b1"
+      },
+      "seconds": 90
+    }
+  ],
+  "coaching_notes": "Your progressive discipline this month is Scripture memorization. I'm going to give you the same verse each week and add to it. If this is already a core nutrient for you, then try and memorize Romans 15:5–13."
+}

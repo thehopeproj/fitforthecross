@@ -1,0 +1,40 @@
+{
+  "schema": "0.4",
+  "date": "2026-12-04",
+  "status": "LOCKED",
+  "title": "GIVEN",
+  "tagline": "Hope shared is hope multiplied.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "Therefore encourage one another and build each other up, just as in fact you are doing.",
+    "reference": "1 Thessalonians 5:11",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "6a5a60e7b41d3cd9acc255c59f1eab5b"
+      },
+      "seconds": 222
+    },
+    {
+      "type": "action",
+      "descriptor": "For Quality",
+      "instruction": "Encourage someone who's weary this Advent — tell them one specific way you're grateful for them and one reason you have hope for them."
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "c85d96278de15838d713996c6b406e0f"
+      },
+      "seconds": 211
+    }
+  ],
+  "coaching_notes": "Advent means \"coming\" or \"arrival.\" This is the time to prepare your heart for the celebration of Christ's birth at Christmas. Let encouragement be part of your preparation."
+}

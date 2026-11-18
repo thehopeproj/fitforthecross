@@ -1,0 +1,51 @@
+{
+  "schema": "0.4",
+  "date": "2026-12-05",
+  "status": "LOCKED",
+  "title": "DESIRED",
+  "tagline": "The hope of all nations is coming.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "\"I will shake all nations, and what is desired by all nations will come, and I will fill this house with glory,\" says the Lord Almighty.",
+    "reference": "Haggai 2:7",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "c45f7f95cd560632bc1acafef8348eb3"
+      },
+      "seconds": 233
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Bible Study",
+      "name_as_written": "Bible Study",
+      "macro": "word",
+      "minutes": 6,
+      "prompt": "Read Haggai 2:1–9 and notice the promise of a greater glory still to come."
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Scripture Reflection",
+      "name_as_written": "Scripture Reflection",
+      "macro": "word",
+      "minutes": 4,
+      "prompt": "What are you longing for God to fill with His glory?"
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "612a1eaac4ce7cedd3b9a29a9cc50615"
+      },
+      "seconds": 186
+    }
+  ],
+  "coaching_notes": "Stacking reps. Your time with God is like a spiritual rep. The quality of your reps matters. But just as important is the consistent stacking of them over time. That's the path to spiritual fitness."
+}

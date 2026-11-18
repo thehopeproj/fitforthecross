@@ -1,0 +1,43 @@
+{
+  "schema": "0.4",
+  "date": "2026-12-03",
+  "status": "LOCKED",
+  "title": "WAIT",
+  "tagline": "Wait for the mercy of the Lord.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "Keep yourselves in God's love as you wait for the mercy of our Lord Jesus Christ to bring you to eternal life.",
+    "reference": "Jude 1:21",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "24c9333a75eaa8529ba9e1748d554db9"
+      },
+      "seconds": 217
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Listening Prayer",
+      "name_as_written": "Listening Prayer",
+      "macro": "prayer",
+      "minutes": 8,
+      "prompt": "Wait in the quiet and listen — keep yourself in God's love and ask Him to steady your hope as you wait for His mercy."
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "bd02462b3bb1bb45a5bb1dca33529b04"
+      },
+      "seconds": 107
+    }
+  ],
+  "coaching_notes": "Think of today's session as fuel for endurance. Listening for God is a long workout. Don't miss the value of simply listening."
+}

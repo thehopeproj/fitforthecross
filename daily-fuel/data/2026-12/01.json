@@ -1,0 +1,59 @@
+{
+  "schema": "0.4",
+  "date": "2026-12-01",
+  "status": "LOCKED",
+  "title": "ANCHOR",
+  "tagline": "Hope anchors the soul.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "We have this hope as an anchor for the soul, firm and secure. It enters the inner sanctuary behind the curtain.",
+    "reference": "Hebrews 6:19",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "cb676de04d6515a6ead35c137d845f72"
+      },
+      "seconds": 202
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Scripture Reflection",
+      "name_as_written": "Scripture Reflection",
+      "macro": "word",
+      "minutes": 4,
+      "prompt": "Hope is called an anchor — what in you steadies when you fix it to God's promise?"
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Journaling",
+      "name_as_written": "Journaling",
+      "macro": "micro",
+      "minutes": 4,
+      "prompt": "A baseline for the month: where is your hope right now, and where are you most grateful today? Write it honestly so you can look back at the end of the month."
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Gratitude",
+      "name_as_written": "Gratitude",
+      "macro": "micro",
+      "minutes": 4,
+      "prompt": "Focus on what you're thankful God has already done."
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "c2f7bb11f326f3eb5476ac09981074cc"
+      },
+      "seconds": 104
+    }
+  ],
+  "coaching_notes": "What you put your hope in matters. This month, allow God to reveal sources of hope that don't serve you."
+}
