@@ -178,6 +178,24 @@ function content(k) {
 }
 function segs() { $('segs').innerHTML = S.map((_, j) => '<i class="' + (j < n || n >= S.length ? 'done' : j === n ? 'cur' : '') + '"></i>').join(''); }
 
+/* ---------- team-mode diagnostics: what the video reported in its last seconds ---------- */
+const DBG = []; let dbgT0 = Date.now();
+function dbg(msg) {
+  if (!TEAM) return;
+  const d = V.duration;
+  DBG.push(((Date.now() - dbgT0) / 1000).toFixed(2) + 's ' + msg + ' t=' + (V.currentTime || 0).toFixed(2) + ' d=' + (isFinite(d) ? d.toFixed(2) : d) + (V.paused ? ' P' : '') + (V.ended ? ' E' : '') + ' rs' + V.readyState);
+  if (DBG.length > 18) DBG.shift();
+}
+function showDbg() {
+  if (!TEAM || !DBG.length) return;
+  let b = $('dbg');
+  if (!b) { b = document.createElement('pre'); b.id = 'dbg'; b.style.cssText = 'position:fixed;left:8px;right:8px;top:90px;z-index:99;background:rgba(0,0,0,.85);color:#9f9;font:11px/1.35 ui-monospace,monospace;padding:8px;border-radius:8px;white-space:pre-wrap;max-height:55vh;overflow:auto'; b.onclick = () => b.remove(); document.body.appendChild(b); }
+  b.textContent = 'TEAM DEBUG (tap to close) v=' + ((document.querySelector('script[src*=guided]') || {}).src || '').split('v=')[1] + '\n' + DBG.join('\n');
+}
+['pause', 'ended', 'waiting', 'stalled', 'playing', 'seeking', 'seeked', 'timeupdate'].forEach(t => V.addEventListener(t, () => {
+  if (!TEAM || !isFinite(V.duration) || V.duration - V.currentTime > 3) return;
+  dbg(t);
+}));
 /* ---------- video ---------- */
 let hls = null, hlsLoading = null, stallT = null;
 const NATIVE_HLS = !!V.canPlayType('application/vnd.apple.mpegurl');
@@ -200,6 +218,7 @@ function attach(v) {
 let soundPref = null, sndT = null;
 function startVideo(s) {
   V.classList.add('on');
+  userPaused = false; DBG.length = 0; dbgT0 = Date.now();
   attach(s.video);
   loadCaps(s);
   if (soundPref === false) { V.muted = true; V.play().then(setPP).catch(() => { setPP(); detail(true); }); return; }
@@ -244,17 +263,18 @@ V.addEventListener('timeupdate', () => {
   if (cur.lastT != null && !V.paused) { const d = t - cur.lastT; if (d > 0 && d < 1.5) cur.watched += d; }
   cur.lastT = t;
   drawCap(t);
-  if (!V.paused && V.duration && isFinite(V.duration) && V.duration - t < 0.2) finishVideo();
+  if (!V.paused && V.duration && isFinite(V.duration) && V.duration - t < 0.2) finishVideo('timeupdate');
 });
 V.addEventListener('seeked', () => { if (cur) cur.lastT = V.currentTime; drawCap(V.currentTime); });
 V.addEventListener('play', setPP);
-V.addEventListener('pause', setPP);
+V.addEventListener('pause', () => { setPP(); if (isVid() && cur && !userPaused && !dragging && V.currentTime > 1 && endOf() - V.currentTime < 0.6) finishVideo('pause_event_at_end'); });
 V.addEventListener('waiting', () => {
-  if (V.duration && isFinite(V.duration) && V.duration - V.currentTime < 0.6 && V.currentTime > 1) { finishVideo(); return; } clearTimeout(stallT); stallT = setTimeout(() => errEv('video_stall', 'waiting_4s'), 4000); });
+  if (V.duration && isFinite(V.duration) && V.duration - V.currentTime < 0.6 && V.currentTime > 1) { finishVideo('waiting_at_end'); return; } clearTimeout(stallT); stallT = setTimeout(() => errEv('video_stall', 'waiting_4s'), 4000); });
 V.addEventListener('playing', () => clearTimeout(stallT));
 V.addEventListener('error', () => { if (V.getAttribute('src')) errEv('video_error', 'media_' + (V.error ? V.error.code : '')); });
-function finishVideo() {
+function finishVideo(why) {
   if (!cur || stepType(cur.k) !== 'video' || cur.completed || dragging) return;
+  dbg('FINISH ' + (typeof why === 'string' ? why : (why && why.type) || '?'));
   cur.completed = true;
   draw();
   const here = n;
@@ -351,15 +371,18 @@ function pos() {
   return [tSec(), T ? T.total : 0];
 }
 let lastVT = -1, sameSince = 0;
+let userPaused = false;
+function endOf() { const d = V.duration && isFinite(V.duration) ? V.duration : S[n].total; return Math.min(d, S[n].total || d); }
 function videoEndWatch() {
   // Steady end check (iPhone fires few position updates and can hold the last frame before 'ended').
-  if (!cur || cur.completed || V.paused || dragging) { sameSince = 0; return; }
-  const t = V.currentTime, d = V.duration && isFinite(V.duration) ? V.duration : S[n].total;
-  const end = Math.min(d, S[n].total || d);
-  if (end && t >= end - 0.2) return finishVideo();
+  if (!cur || cur.completed || dragging) { sameSince = 0; return; }
+  const t = V.currentTime, end = endOf();
+  // iPhone can stop by itself at the very end without sending 'ended': that's the end, unless the person paused.
+  if (V.paused) { sameSince = 0; if (!userPaused && end && end - t < 0.6 && t > 1) finishVideo('paused_at_end'); return; }
+  if (end && t >= end - 0.2) return finishVideo('near_end');
   const now = Date.now();
   if (t !== lastVT) { lastVT = t; sameSince = now; return; }
-  if (end && end - t < 0.6 && sameSince && now - sameSince > 350) finishVideo(); // stuck at the very end
+  if (end && end - t < 0.6 && sameSince && now - sameSince > 350) finishVideo('stuck_at_end'); // stuck at the very end
 }
 function tick() {
   if (isVid()) videoEndWatch();
@@ -387,8 +410,8 @@ function draw() {
 function toggle() {
   if (!cur || finished()) return;
   if (isVid()) {
-    if (V.paused) { V.play().catch(() => {}); ev('guided_control', { control: 'play' }); }
-    else { V.pause(); cur.paused++; ev('guided_control', { control: 'pause' }); }
+    if (V.paused) { userPaused = false; V.play().catch(() => {}); ev('guided_control', { control: 'play' }); }
+    else { userPaused = true; V.pause(); cur.paused++; ev('guided_control', { control: 'pause' }); }
   } else if (T) {
     if (T.run) { T.acc += (Date.now() - T.since) * SPEED; T.run = false; cur.paused++; unwake(); ev('guided_control', { control: 'pause' }); }
     else { T.since = Date.now(); T.run = true; wake(); ev('guided_control', { control: 'play' }); }
@@ -521,6 +544,7 @@ function go(k, via) {
   if (prev === -1 && k >= 0 && cur) { ev('guided_start', { seconds_on_opening: sec(Date.now() - cur.t0) }); runStart = Date.now(); viewed = new Set(); completeSent = false; }
   const slide = prev >= 0 && prev < S.length && S[prev].t === 'video' && k > prev && !(k < S.length && S[k].t === 'video');
   leaveStep(slide);
+  if (TEAM && prev >= 0 && prev < S.length && S[prev].t === 'video' && k > prev) setTimeout(showDbg, 700);
   closeSheets(true);
   hint(false);
   n = k;
