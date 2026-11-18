@@ -134,7 +134,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .dnav{display:none;gap:8px;margin-top:12px}
 .dnav button{flex:1;height:38px;border-radius:10px;border:1.5px solid rgba(241,239,230,.5);font-weight:700;font-size:12px;letter-spacing:1.6px;text-transform:uppercase}
 .desk .dnav{display:flex}.desk .hint span{display:none}
-.desk .start .sw{display:none}.start .dk{display:none}.desk .start .dk{display:flex}
+.start .sw{display:flex;flex-direction:column;align-items:center;gap:4px}.desk .start .sw{display:none}.start .dk{display:none}.desk .start .dk{display:flex}
 .desk body{align-items:center}
 .toast{position:absolute;left:50%;top:18px;transform:translateX(-50%);background:var(--ink);color:#f1efe6;font-weight:700;font-size:13px;padding:10px 14px;border-radius:20px;z-index:40;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
 .toast.on{opacity:1}
@@ -252,3 +252,56 @@ html,body{overscroll-behavior:none}
 .stage.rise .cont{transition:none}
 /* set up the slide layers at page open, not at the first slide */
 .room div,.mid,.room video{will-change:transform}
+/* ---- GUIDED v9 DESKTOP (SOCIAL MEDIA spec, Nov 18) ---- */
+/* ===== v9: DESKTOP = the same one-room experience, full window (no phone frame) ===== */
+.room .blr{display:none}
+@media (min-width:900px){
+ html,body{background:#0e0d0d}
+ .app{max-width:none;height:100%;border-radius:0;box-shadow:none;margin:0}
+ /* the room: the video sits sharp in the middle at full height; the same frame, blurred, fills the window behind it */
+ .room .blr{display:block;position:absolute;inset:-8%;background:#000 center/cover no-repeat;opacity:0;filter:blur(48px) brightness(.42) saturate(1.1);transition:opacity .9s ease}
+ .room .blr.on{opacity:1}
+ .room div{inset:0;background-size:contain;background-color:transparent}
+ .room.dim div{opacity:0!important}
+ .room.dim .blr{filter:blur(48px) brightness(.3) saturate(.8)}
+ .room::after{background:linear-gradient(rgba(14,13,13,.6),rgba(14,13,13,0) 18%,rgba(14,13,13,0) 70%,rgba(14,13,13,.5))}
+ /* frame: step lines and X/⋯ span the window with a 40px margin */
+ .top{padding:22px 40px 0}
+ /* content column: centered, wider, bigger type */
+ .cont{width:100%;max-width:760px;margin:0 auto;padding:0 40px 24px}
+ .cont.full{padding:10px 40px 0;max-width:760px}
+ .cont .kick{font-size:14px}
+ .cont .nword{font-size:72px;letter-spacing:-2px}
+ .cont .nverse{font-size:28px;padding-left:20px;border-left-width:6px}.cont .nverse cite{font-size:13px}
+ .cont .nprompt{font-size:30px;line-height:1.3}
+ .mast .mbox{height:34px}.dfg{font-size:64px;letter-spacing:-3px}.dfg small{font-size:15px}
+ .band{margin:16px -40px 0}
+ .std1{font-size:15px;margin-top:22px}.htitle{font-size:84px;letter-spacing:-3px}.htag{font-size:24px}
+ .hverse{font-size:24px;padding-left:20px;border-left-width:6px}.hverse cite{font-size:13px}
+ .shead{font-size:14px;margin-top:28px}.steps li{font-size:19px;padding:13px 0}
+ .close{font-size:58px}.closel{font-size:22px;max-width:620px}.tmr .tt{font-size:40px}
+ .endpad .btn{max-width:420px}
+ /* the vertical nutrient bar sits just right of the content column */
+ .edge{right:max(40px,calc(50% - 420px));top:24px;bottom:28px;width:6px}
+ /* timer pill + captions stay under the video, the width of the column */
+ .pill2{left:50%;right:auto;width:420px;transform:translate(-50%,10px)}.pill2.open{transform:translate(-50%,0)}
+ .cap p{max-width:520px}.cap span{font-size:24px}
+ /* bottom bar: full width, text aligned with the frame; Back/Next on the right */
+ .stage .bar{padding-left:40px;padding-right:40px}
+ .stage .bar .l1{font-size:24px}.stage .bar .l2{font-size:17px}
+ .bmark{right:40px}
+ .desk .dnav{position:absolute;right:104px;bottom:18px;margin:0;width:260px}
+ .start{padding-bottom:30px}
+ .bar.off .dnav{display:none}
+ /* opening screen: tighter so BEGIN is always on screen */
+ .cont.full .mast{margin-top:4px}.dfg{font-size:56px}.htitle{font-size:76px}.hverse{font-size:21px}.steps li{font-size:18px;padding:11px 0}
+ .start{flex-direction:column}
+ .desk .start .dk{width:320px}
+}
+@media (min-width:900px) and (hover:hover){.start > :not(.dk){display:none}.start{padding-top:22px}}
+/* v9 + the real player: sharp video centered at full height, blurred room behind it */
+@media (min-width:900px){
+ .room video{object-fit:contain;background:transparent}
+ .room.dim.onvid .blr{filter:blur(48px) brightness(.42) saturate(1.1)}
+}
+@media (min-width:900px){.endpad .copy{max-width:420px}}

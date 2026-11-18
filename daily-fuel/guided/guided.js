@@ -8,7 +8,7 @@ const CFG = {
   stream: 'https://customer-jjfzxadb1d7p720a.cloudflarestream.com',
   hls: 'https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js',
   ga: 'G-4GXCXXJYKB',
-  feedback: '', // beta Google Form link; empty until Trey sends it
+  feedback: 'https://docs.google.com/forms/d/1LDcq9Gm6qOItpXkjvE2NLJj0okGKyENPIjGfJ95oIOQ/viewform?usp=pp_url', // published Nov 18
   mail: 'training@fitforthecross.com',
   actName: 'Active Fueling',
   actMinutes: 4,
@@ -94,7 +94,7 @@ function errEv(kind, detail) {
 /* ---------- page shell ---------- */
 document.body.insertAdjacentHTML('afterbegin',
   '<div class="app" id="app"><section class="stage" id="stage">' +
-  '<div class="room dim" id="room"><div id="rW" class="on"></div><div id="rR"></div><video id="vid" playsinline webkit-playsinline preload="none"></video></div>' +
+  '<div class="room dim" id="room"><i id="bW" class="blr on"></i><i id="bR" class="blr"></i><div id="rW" class="on"></div><div id="rR"></div><video id="vid" playsinline webkit-playsinline preload="none"></video></div>' +
   
   '<div class="top off" id="top"><div class="segs" id="segs"></div><div class="util">' +
   '<button class="ic" data-act="close" aria-label="Close">' + IC.x + '</button>' +
@@ -134,8 +134,8 @@ function load(d) {
   });
   WRAP = S.findIndex(s => s.t === 'video' && s.role === 'wrapup');
   const w = S.find(s => s.role === 'warmup'), r = S.find(s => s.role === 'wrapup');
-  if (w) $('rW').style.backgroundImage = 'url("' + streamThumb(w.video, 1) + '")';
-  if (r) $('rR').style.backgroundImage = 'url("' + streamThumb(r.video, Math.max(1, (r.total || 3) - 2)) + '")';
+  if (w) $('rW').style.backgroundImage = $('bW').style.backgroundImage = 'url("' + streamThumb(w.video, 1) + '")';
+  if (r) $('rR').style.backgroundImage = $('bR').style.backgroundImage = 'url("' + streamThumb(r.video, Math.max(1, (r.total || 3) - 2)) + '")';
   const [y, m, dd] = d.date.split('-').map(Number), nx = new Date(Date.UTC(y, m - 1, dd + 1));
   const np = nx.getUTCFullYear() + '-' + String(nx.getUTCMonth() + 1).padStart(2, '0') + '/' + String(nx.getUTCDate()).padStart(2, '0');
   fetch(BASE + '../data/' + np + '.json', { cache: 'no-cache' })
@@ -152,7 +152,7 @@ function homeHTML() {
     '<div class="trow"><div class="htitle">' + esc(DAY.title) + '</div></div><div class="htag">' + esc(DAY.tagline) + '</div>' +
     '<blockquote class="hverse">' + verseHTML() + '</blockquote>' +
     '<div class="shead"><span>Today’s session</span><span>' + totalMin() + ' min</span></div><ol class="steps">' + li + '</ol>' +
-    '<div class="start"><div class="sw" style="display:flex;flex-direction:column;align-items:center;gap:4px">' + IC.up + 'Swipe up to begin</div>' +
+    '<div class="start"><div class="sw">' + IC.up + 'Swipe up to begin</div>' +
     '<button class="btn dk" data-act="begin">Begin →</button></div>';
 }
 function endHTML() {
@@ -479,6 +479,7 @@ function closeStep() {
       video_seconds: Math.round(vs), watched_seconds: Math.round(cur.watched),
       pct_watched: vs ? Math.min(100, Math.round(cur.watched / vs * 100)) : 0,
       completed: cur.completed, scrub_back_count: cur.scrubBack, paused_count: cur.paused,
+      sound_on: !V.muted, captions_on: CC,
     });
   } else if (t === 'nutrient' || t === 'action') {
     const hid = cur.hidden + (hiddenAt ? now - hiddenAt : 0);
@@ -540,6 +541,9 @@ function go(k, via) {
   const wrap = n >= WRAP;
   $('rR').classList.toggle('on', wrap);
   $('rW').classList.toggle('on', !wrap);
+  $('bR').classList.toggle('on', wrap);
+  $('bW').classList.toggle('on', !wrap);
+  $('room').classList.toggle('onvid', vid);
   $('top').classList.toggle('off', !isStep);
   segs();
   $('det').classList.remove('open');
@@ -595,7 +599,13 @@ function toast(t) {
   requestAnimationFrame(() => e.classList.add('on'));
   setTimeout(() => { e.classList.remove('on'); setTimeout(() => e.remove(), 400); }, 2200);
 }
-function feedback() { if (CFG.feedback) window.open(CFG.feedback, '_blank', 'noopener'); else toast('Feedback form coming soon'); }
+function feedback() {
+  if (!CFG.feedback) { toast('Feedback form coming soon'); return; }
+  const ua = navigator.userAgent, dev = /iPhone/.test(ua) ? 'iPhone' : /Android/.test(ua) ? 'Android' : DESK ? 'Computer' : '';
+  let u = CFG.feedback + '&entry.1652624993=' + encodeURIComponent(DAY ? DAY.date : '') + '&entry.784985040=' + encodeURIComponent(DAY ? DAY.title : '');
+  if (dev) u += '&entry.1768002246=' + dev;
+  window.open(u, '_blank', 'noopener');
+}
 function cue() { const el = $('cont'), c = $('cue'); c.classList.toggle('on', el.scrollHeight > el.clientHeight + 2 && el.scrollTop + el.clientHeight < el.scrollHeight - 4); }
 $('cont').addEventListener('scroll', cue, { passive: true });
 addEventListener('resize', cue);
