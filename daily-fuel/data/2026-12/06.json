@@ -1,5 +1,5 @@
 {
-  "schema": "0.4",
+  "schema": "0.6",
   "date": "2026-12-06",
   "status": "LOCKED",
   "title": "ARRIVE",
@@ -17,7 +17,7 @@
       "role": "warmup",
       "video": {
         "provider": "stream",
-        "id": "52ff61619b019389b2c1497bae3858fc"
+        "id": "e14ccb83e8b317e7ff8e9e8d1f31c36c"
       },
       "seconds": 163
     },
@@ -34,7 +34,7 @@
       "role": "wrapup",
       "video": {
         "provider": "stream",
-        "id": "12a6df44b53ca3df7666812a8270c9a9"
+        "id": "de8dde4c035cb038a50f37bf6ef394c0"
       },
       "seconds": 167
     }

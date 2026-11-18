@@ -1,5 +1,5 @@
 {
-  "schema": "0.4",
+  "schema": "0.6",
   "date": "2026-12-04",
   "status": "LOCKED",
   "title": "GIVEN",
@@ -17,21 +17,22 @@
       "role": "warmup",
       "video": {
         "provider": "stream",
-        "id": "6a5a60e7b41d3cd9acc255c59f1eab5b"
+        "id": "591d60c3071e45a56d3b1344f7fa37d7"
       },
       "seconds": 222
     },
     {
       "type": "action",
       "descriptor": "For Quality",
-      "instruction": "Encourage someone who's weary this Advent — tell them one specific way you're grateful for them and one reason you have hope for them."
+      "instruction": "Encourage someone who's weary this Advent — tell them one specific way you're grateful for them and one reason you have hope for them.",
+      "minutes": 4
     },
     {
       "type": "video",
       "role": "wrapup",
       "video": {
         "provider": "stream",
-        "id": "c85d96278de15838d713996c6b406e0f"
+        "id": "2b54c9040c3675c8d139fc4652ffee65"
       },
       "seconds": 211
     }

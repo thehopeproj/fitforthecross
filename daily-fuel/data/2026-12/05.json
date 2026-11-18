@@ -1,5 +1,5 @@
 {
-  "schema": "0.4",
+  "schema": "0.6",
   "date": "2026-12-05",
   "status": "LOCKED",
   "title": "DESIRED",
@@ -17,7 +17,7 @@
       "role": "warmup",
       "video": {
         "provider": "stream",
-        "id": "c45f7f95cd560632bc1acafef8348eb3"
+        "id": "464c4a60215a53b961dde023f3b88f06"
       },
       "seconds": 233
     },
@@ -42,7 +42,7 @@
       "role": "wrapup",
       "video": {
         "provider": "stream",
-        "id": "612a1eaac4ce7cedd3b9a29a9cc50615"
+        "id": "46c7fd05ad0020d0c73c2136ac1f79ba"
       },
       "seconds": 186
     }

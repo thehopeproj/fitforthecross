@@ -1,5 +1,5 @@
 {
-  "schema": "0.4",
+  "schema": "0.6",
   "date": "2026-12-07",
   "status": "LOCKED",
   "title": "HIS WORD",
@@ -17,7 +17,7 @@
       "role": "warmup",
       "video": {
         "provider": "stream",
-        "id": "5d37e931c6ea12548768bf7c19dfe4bc"
+        "id": "3c0b0017c1f1e5397e133cb167e54701"
       },
       "seconds": 210
     },
@@ -42,7 +42,7 @@
       "role": "wrapup",
       "video": {
         "provider": "stream",
-        "id": "9c2ba8157206d20d5b962cc2e20db6cc"
+        "id": "2fab1f2c25815a39b6dda3e05fd2b76e"
       },
       "seconds": 110
     }

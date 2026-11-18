@@ -1,5 +1,5 @@
 {
-  "schema": "0.4",
+  "schema": "0.6",
   "date": "2026-12-02",
   "status": "LOCKED",
   "title": "GOD OF HOPE",
@@ -17,7 +17,7 @@
       "role": "warmup",
       "video": {
         "provider": "stream",
-        "id": "b7fe3c2781cf1b33958e0bd67f65171e"
+        "id": "a1e6d4204cccd8b3603ccbb34fa94c08"
       },
       "seconds": 235
     },
@@ -34,7 +34,7 @@
       "role": "wrapup",
       "video": {
         "provider": "stream",
-        "id": "191de5c3a48e2915abbc5f6efaf8f6b1"
+        "id": "1d5b3fe9004fbddbdacbadb80800bb02"
       },
       "seconds": 90
     }

@@ -1,5 +1,5 @@
 {
-  "schema": "0.4",
+  "schema": "0.6",
   "date": "2026-12-01",
   "status": "LOCKED",
   "title": "ANCHOR",
@@ -17,7 +17,7 @@
       "role": "warmup",
       "video": {
         "provider": "stream",
-        "id": "cb676de04d6515a6ead35c137d845f72"
+        "id": "3fc2180c35c564e7f41981c2610b036f"
       },
       "seconds": 202
     },
@@ -50,7 +50,7 @@
       "role": "wrapup",
       "video": {
         "provider": "stream",
-        "id": "c2f7bb11f326f3eb5476ac09981074cc"
+        "id": "f4d971d76cbb12f5f059c6c5d16203c5"
       },
       "seconds": 104
     }
