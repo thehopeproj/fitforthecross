@@ -6,3 +6,6 @@
 
 /daily-fuel/2026-12/*
   X-Robots-Tag: noindex
+
+/daily-fuel/captions/*
+  X-Robots-Tag: noindex

@@ -100,12 +100,13 @@ document.body.insertAdjacentHTML('afterbegin',
   '<button class="ic" data-act="close" aria-label="Close">' + IC.x + '</button>' +
   '<button class="ic dots" data-act="menu" aria-label="More">' + IC.dots + '</button></div></div>' +
   '<div class="mid" id="midw"><div class="cont full sc" id="cont"></div><div class="more-cue" id="cue"></div><div class="edge" id="edge"><b id="eb"></b></div>' +
-  '<div class="pill2" id="det"><button class="pp" id="pp" data-act="toggle" aria-label="Pause"></button><div class="track scrub" id="tr"><b id="tb"></b></div><span class="rem" id="rem"></span></div></div>' +
+  '<div class="cap" id="cap" aria-live="off"><span id="capt"></span></div><div class="pill2" id="det"><button class="pp" id="pp" data-act="toggle" aria-label="Pause"></button><div class="track scrub" id="tr"><b id="tb"></b></div><span class="rem" id="rem"></span></div></div>' +
   '<div class="bar off" id="bar"><div class="hline"><b id="hb"></b></div><div class="hint" id="hint">' + IC.up + '<span>Swipe up when you’re ready</span></div>' +
   '<div class="l1" id="l1"></div><div class="l2" id="l2"></div>' +
   '<div class="dnav"><button data-act="back">← Back</button><button data-act="next">Next →</button></div></div>' +
   '</section></div>');
 const app = $('app'), V = $('vid');
+bindScrub();
 
 function brand() {
   return '<div class="mast"><div class="mbox"><img src="' + BASE + 'fftc-mark-w.png" alt=""><span>FIT FOR THE CROSS</span></div></div>' +
@@ -113,7 +114,7 @@ function brand() {
 }
 function holding() {
   S = null;
-  $('cont').innerHTML = brand() + '<div class="hold"><p>This session isn’t available yet.</p></div>';
+  $('cont').innerHTML = brand() + '<div class="hold"><p>SESSION NOT AVAILABLE YET</p></div>';
 }
 
 /* ---------- data ---------- */
@@ -196,6 +197,7 @@ function attach(v) {
 function startVideo(s) {
   V.classList.add('on');
   attach(s.video);
+  loadCaps(s);
   V.muted = false;
   const p = V.play();
   if (p && p.catch) p.catch(e => {
@@ -221,26 +223,108 @@ function stopVideo() {
   V.load();
   V.classList.remove('on');
   V.muted = false; snd(false);
+  CAPS = null; showCap('');
 }
 V.addEventListener('timeupdate', () => {
   if (!cur || stepType(cur.k) !== 'video') return;
   const t = V.currentTime;
   if (cur.lastT != null && !V.paused) { const d = t - cur.lastT; if (d > 0 && d < 1.5) cur.watched += d; }
   cur.lastT = t;
+  drawCap(t);
+  if (!V.paused && V.duration && isFinite(V.duration) && V.duration - t < 0.25) finishVideo();
 });
-V.addEventListener('seeked', () => { if (cur) cur.lastT = V.currentTime; });
+V.addEventListener('seeked', () => { if (cur) cur.lastT = V.currentTime; drawCap(V.currentTime); });
 V.addEventListener('play', setPP);
 V.addEventListener('pause', setPP);
 V.addEventListener('waiting', () => { clearTimeout(stallT); stallT = setTimeout(() => errEv('video_stall', 'waiting_4s'), 4000); });
 V.addEventListener('playing', () => clearTimeout(stallT));
 V.addEventListener('error', () => { if (V.getAttribute('src')) errEv('video_error', 'media_' + (V.error ? V.error.code : '')); });
-V.addEventListener('ended', () => {
-  if (!cur || stepType(cur.k) !== 'video') return;
+function finishVideo() {
+  if (!cur || stepType(cur.k) !== 'video' || cur.completed || dragging) return;
   cur.completed = true;
   draw();
   const here = n;
-  autoT = setTimeout(() => { if (n === here) go(n + 1, 'auto'); }, 900);
-});
+  clearTimeout(autoT);
+  autoT = setTimeout(() => { if (n === here) go(n + 1, 'auto'); }, 0);
+}
+V.addEventListener('ended', finishVideo);
+
+/* ---------- captions: our own layer from .vtt files (ON by default, off in the menu) ---------- */
+// Files live at daily-fuel/captions/YYYY-MM/DD-warmup.vtt (copied in by build_guided_pages.py).
+// No file yet = no captions, nothing breaks.
+let CC = true, CAPS = null, capKey = '';
+try { CC = localStorage.getItem('fftc_cc') !== '0'; } catch (e) {}
+const capCache = {};
+function vttTime(t) { const p = t.trim().split(':').map(parseFloat); return p.length === 3 ? p[0] * 3600 + p[1] * 60 + p[2] : p[0] * 60 + p[1]; }
+function parseVtt(txt) {
+  const out = [];
+  txt.replace(/\r/g, '').split(/\n\n+/).forEach(b => {
+    const L = b.split('\n'), i = L.findIndex(l => l.includes('-->'));
+    if (i < 0) return;
+    const [a, z] = L[i].split('-->'), text = L.slice(i + 1).join('\n').replace(/<[^>]+>/g, '').trim();
+    if (text) out.push({ a: vttTime(a), z: vttTime(z.trim().split(/\s+/)[0]), text });
+  });
+  return out;
+}
+function loadCaps(s) {
+  CAPS = null; showCap('');
+  const key = document.body.dataset.day + '-' + s.role;
+  capKey = key;
+  const got = capCache[key] || (capCache[key] = fetch(BASE + '../captions/' + key + '.vtt').then(r => r.ok ? r.text() : '').then(parseVtt).catch(() => []));
+  got.then(c => { if (capKey === key && V.classList.contains('on')) { CAPS = c; drawCap(V.currentTime || 0); } });
+}
+function drawCap(t) {
+  if (!CC || !CAPS || !CAPS.length) return showCap('');
+  const c = CAPS.find(c => t >= c.a && t < c.z);
+  showCap(c ? c.text : '');
+}
+function showCap(text) {
+  const el = $('capt');
+  if (el.textContent === text) return;
+  el.textContent = text;
+  $('cap').classList.toggle('on', !!text);
+}
+
+/* ---------- scrub: drag the orange line (tap lands where the finger is) ---------- */
+let dragging = false, dragFrom = 0, dragWas = false;
+function seekTo(x) {
+  if (!V.duration || !isFinite(V.duration)) return;
+  const r = $('tr').getBoundingClientRect();
+  const to = Math.max(0, Math.min(V.duration - 0.5, (x - r.left) / r.width * V.duration));
+  if (V.fastSeek && dragging) V.fastSeek(to); else V.currentTime = to;
+  $('tb').style.width = (to / V.duration) * 100 + '%';
+  $('hb').style.width = (to / V.duration) * 100 + '%';
+  $('rem').textContent = fmt(to) + ' / ' + fmt(V.duration);
+}
+function scrubStart(e) {
+  if (!isVid() || !cur || cur.completed) return;
+  e.preventDefault(); e.stopPropagation();
+  dragging = true; dragFrom = V.currentTime; dragWas = !V.paused;
+  try { $('tr').setPointerCapture(e.pointerId); } catch (_) {}
+  $('tr').classList.add('drag');
+  clearTimeout(detT);
+  seekTo(e.clientX);
+}
+function scrubMove(e) { if (dragging) { e.preventDefault(); seekTo(e.clientX); } }
+function scrubEnd(e) {
+  if (!dragging) return;
+  dragging = false;
+  $('tr').classList.remove('drag');
+  seekTo(e.clientX);
+  V.currentTime = V.currentTime; // settle an exact seek after fastSeek
+  if (V.currentTime < dragFrom - 1) cur.scrubBack++;
+  ev('guided_control', { control: 'scrub' });
+  if (dragWas && V.paused) V.play().catch(() => {});
+  detail(true);
+}
+function bindScrub() {
+  const tr = $('tr');
+  tr.addEventListener('pointerdown', scrubStart);
+  tr.addEventListener('pointermove', scrubMove);
+  tr.addEventListener('pointerup', scrubEnd);
+  tr.addEventListener('pointercancel', scrubEnd);
+  ['touchstart', 'touchend'].forEach(t => tr.addEventListener(t, e => e.stopPropagation(), { passive: true }));
+}
 
 /* ---------- nutrient timer ---------- */
 let T = null, tm = null, autoT = null;
@@ -299,25 +383,57 @@ function detail(on) {
 function hint(on) { $('hint').classList.toggle('on', on); }
 
 /* ---------- wake lock, chime, haptics ---------- */
-let WL = null;
+let WL = null, wantWake = false;
+// Backup for iPhone: a tiny muted looping video keeps the screen on even where the Wake Lock API fails.
+const AW = document.createElement('video');
+AW.src = BASE + 'awake.mp4'; AW.muted = true; AW.loop = true; AW.playsInline = true;
+AW.setAttribute('playsinline', ''); AW.setAttribute('muted', ''); AW.setAttribute('aria-hidden', 'true');
+AW.style.cssText = 'position:fixed;width:1px;height:1px;opacity:0.01;pointer-events:none;left:0;top:0';
+document.body.appendChild(AW);
 function wake() {
-  if (!('wakeLock' in navigator)) { errEv('wake_lock_failed', 'unsupported'); return; }
-  navigator.wakeLock.request('screen').then(l => { WL = l; }).catch(e => errEv('wake_lock_failed', e && e.name));
+  wantWake = true;
+  const p = AW.play(); if (p && p.catch) p.catch(() => {});
+  if (!('wakeLock' in navigator) || WL) return;
+  navigator.wakeLock.request('screen').then(l => {
+    if (!wantWake) { l.release().catch(() => {}); return; }
+    WL = l; l.addEventListener('release', () => { if (WL === l) WL = null; });
+  }).catch(e => errEv('wake_lock_failed', e && e.name));
 }
-function unwake() { if (WL) { WL.release().catch(() => {}); WL = null; } }
+function unwake() { wantWake = false; AW.pause(); if (WL) { WL.release().catch(() => {}); WL = null; } }
+// Wake Lock needs a tap on some phones: retry on every tap while a timer runs.
+['touchend', 'click'].forEach(e => addEventListener(e, () => { if (wantWake && !WL) wake(); }, { passive: true }));
+// Chime through Web Audio: once the context is running (any tap resumes it), it can play
+// from a timer with no tap, which an <audio> element on iPhone often can't.
+const AC = window.AudioContext || window.webkitAudioContext;
+let actx = null, chimeBuf = null;
+function audioCtx() {
+  if (!AC) return null;
+  if (!actx) {
+    actx = new AC();
+    fetch(BASE + 'fftc-chime.mp3').then(r => r.arrayBuffer())
+      .then(b => new Promise((ok, no) => actx.decodeAudioData(b, ok, no)))
+      .then(b => { chimeBuf = b; }).catch(e => errEv('chime_failed', 'decode'));
+  }
+  return actx;
+}
+function unlockAudio() {
+  const c = audioCtx();
+  if (!c || c.state === 'running') return;
+  c.resume().catch(() => {});
+  try { const b = c.createBuffer(1, 1, 22050), src = c.createBufferSource(); src.buffer = b; src.connect(c.destination); src.start(0); } catch (e) {}
+}
+['touchstart', 'touchend', 'pointerup', 'click', 'keydown'].forEach(e => addEventListener(e, unlockAudio, { passive: true, capture: true }));
 const CHIME = new Audio(BASE + 'fftc-chime.mp3');
 CHIME.preload = 'auto';
-let chimeReady = false;
-function unlockChime() {
-  if (chimeReady) return;
-  chimeReady = true;
-  CHIME.muted = true;
-  const p = CHIME.play();
-  if (p && p.then) p.then(() => { CHIME.pause(); CHIME.currentTime = 0; CHIME.muted = false; }).catch(() => { CHIME.muted = false; chimeReady = false; });
-}
-['touchend', 'click', 'keydown'].forEach(e => addEventListener(e, unlockChime, { passive: true }));
 function chime() {
-  try { CHIME.muted = false; CHIME.currentTime = 0; const p = CHIME.play(); if (p && p.catch) p.catch(e => errEv('chime_failed', e && e.name)); }
+  const c = actx;
+  if (c && chimeBuf) {
+    const play = () => { try { const src = c.createBufferSource(); src.buffer = chimeBuf; src.connect(c.destination); src.start(0); } catch (e) { errEv('chime_failed', e.name); } };
+    if (c.state === 'running') return play();
+    c.resume().then(() => { if (c.state === 'running') play(); else errEv('chime_failed', 'ctx_' + c.state); }).catch(e => errEv('chime_failed', 'ctx_resume'));
+    return;
+  }
+  try { CHIME.currentTime = 0; const p = CHIME.play(); if (p && p.catch) p.catch(e => errEv('chime_failed', e && e.name)); }
   catch (e) { errEv('chime_failed', e.name); }
 }
 function haptic() { try { navigator.vibrate && navigator.vibrate(12); } catch (e) {} }
@@ -436,9 +552,10 @@ function act(a) {
   switch (a) {
     case 'close': go(-1, 'button'); break;
     case 'menu': ev('guided_control', { control: 'menu_open' });
-      sheet('<button class="mi" data-act="fb-menu">Share beta feedback</button><button class="mi" data-act="restart-menu">Restart session</button>'); break;
+      sheet('<button class="mi" data-act="cc">Captions: ' + (CC ? 'On' : 'Off') + '</button><button class="mi" data-act="fb-menu">Share beta feedback</button><button class="mi" data-act="restart-menu">Restart session</button>'); break;
     case 'toggle': toggle(); break;
     case 'unmute': unmute(); break;
+    case 'cc': CC = !CC; try { localStorage.setItem('fftc_cc', CC ? '1' : '0'); } catch (e) {} ev('guided_control', { control: CC ? 'captions_on' : 'captions_off' }); closeSheets(); drawCap(V.currentTime || 0); break;
     case 'back': go(n - 1, 'button'); break;
     case 'next': go(n + 1, 'button'); break;
     case 'begin': go(0, 'button'); break;
@@ -457,17 +574,7 @@ app.addEventListener('click', e => {
   if (a) { act(a.dataset.act); return; }
   if (V.muted && V.classList.contains('on')) { unmute(); return; }
   if (!S || !cur || n < 0 || n >= S.length || e.target.closest('a,button,.sheet,.scrim')) return;
-  if (e.target.closest('#tr')) {
-    if (isVid() && V.duration) {
-      const r = $('tr').getBoundingClientRect(), to = Math.max(0, Math.min(V.duration - 1, (e.clientX - r.left) / r.width * V.duration));
-      if (to < V.currentTime - 1) cur.scrubBack++;
-      V.currentTime = to;
-      ev('guided_control', { control: 'scrub' });
-      draw();
-    }
-    detail(true);
-    return;
-  }
+  if (e.target.closest('#tr')) { detail(true); return; }
   if (e.target.closest('#det') || !running()) { detail(true); return; }
   detail(!$('det').classList.contains('open'));
 });

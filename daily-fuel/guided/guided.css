@@ -211,3 +211,10 @@ html,body{overscroll-behavior:none}
 .hold p{font-weight:500;font-size:18px;line-height:1.4;margin-top:18px}
 .snd{position:absolute;left:50%;top:calc(env(safe-area-inset-top) + 64px);transform:translateX(-50%);z-index:20;border:0;border-radius:999px;padding:10px 18px;background:rgba(241,239,230,.92);color:#121111;font:700 14px/1 'NH',system-ui,sans-serif;letter-spacing:.02em;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .3s ease,visibility .3s}
 .snd.on{opacity:1;visibility:visible;pointer-events:auto}
+.track.scrub{touch-action:none}.track.scrub::after{inset:-20px -6px}
+.track.scrub b::after{content:"";position:absolute;right:-7px;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;background:var(--orange);box-shadow:0 1px 4px rgba(0,0,0,.4);transition:transform .15s ease}
+.track.scrub.drag{height:7px}.track.scrub.drag b::after{transform:scale(1.35)}
+/* captions: placeholder style until SOCIAL MEDIA's spec */
+.cap{position:absolute;left:20px;right:20px;bottom:92px;z-index:3;display:flex;justify-content:center;pointer-events:none;opacity:0;transition:opacity .15s}
+.cap.on{opacity:1}
+.cap span{max-width:30ch;text-align:center;white-space:pre-line;font:700 18px/1.3 NH,system-ui,sans-serif;color:#fff;background:rgba(14,13,13,.72);padding:6px 12px;border-radius:8px;-webkit-box-decoration-break:clone;box-decoration-break:clone;text-wrap:balance}
