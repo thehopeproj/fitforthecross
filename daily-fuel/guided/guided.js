@@ -95,6 +95,7 @@ function errEv(kind, detail) {
 document.body.insertAdjacentHTML('afterbegin',
   '<div class="app" id="app"><section class="stage" id="stage">' +
   '<div class="room dim" id="room"><div id="rW" class="on"></div><div id="rR"></div><video id="vid" playsinline webkit-playsinline preload="none"></video></div>' +
+  '<button class="snd" id="snd" data-act="unmute">Tap for sound</button>' +
   '<div class="top off" id="top"><div class="segs" id="segs"></div><div class="util">' +
   '<button class="ic" data-act="close" aria-label="Close">' + IC.x + '</button>' +
   '<button class="ic dots" data-act="menu" aria-label="More">' + IC.dots + '</button></div></div>' +
@@ -195,8 +196,22 @@ function attach(v) {
 function startVideo(s) {
   V.classList.add('on');
   attach(s.video);
+  V.muted = false;
   const p = V.play();
-  if (p && p.catch) p.catch(e => { if (e && e.name === 'NotAllowedError') errEv('sound_blocked', 'play'); setPP(); detail(true); });
+  if (p && p.catch) p.catch(e => {
+    if (!e || e.name !== 'NotAllowedError' || !V.classList.contains('on')) { setPP(); detail(true); return; }
+    // A swipe doesn't count as a tap, so phones block sound. Start muted and offer one tap for sound.
+    errEv('sound_blocked', 'play');
+    V.muted = true;
+    V.play().then(() => { snd(true); setPP(); }).catch(() => { V.muted = false; setPP(); detail(true); });
+  });
+}
+function snd(on) { $('snd').classList.toggle('on', on); }
+function unmute() {
+  if (!V.muted) return;
+  V.muted = false; snd(false);
+  if (V.paused) V.play().catch(() => {});
+  ev('guided_control', { control: 'unmute' });
 }
 function stopVideo() {
   clearTimeout(stallT);
@@ -205,6 +220,7 @@ function stopVideo() {
   V.removeAttribute('src');
   V.load();
   V.classList.remove('on');
+  V.muted = false; snd(false);
 }
 V.addEventListener('timeupdate', () => {
   if (!cur || stepType(cur.k) !== 'video') return;
@@ -422,6 +438,7 @@ function act(a) {
     case 'menu': ev('guided_control', { control: 'menu_open' });
       sheet('<button class="mi" data-act="fb-menu">Share beta feedback</button><button class="mi" data-act="restart-menu">Restart session</button>'); break;
     case 'toggle': toggle(); break;
+    case 'unmute': unmute(); break;
     case 'back': go(n - 1, 'button'); break;
     case 'next': go(n + 1, 'button'); break;
     case 'begin': go(0, 'button'); break;
@@ -438,6 +455,7 @@ function act(a) {
 app.addEventListener('click', e => {
   const a = e.target.closest('[data-act]');
   if (a) { act(a.dataset.act); return; }
+  if (V.muted && V.classList.contains('on')) { unmute(); return; }
   if (!S || !cur || n < 0 || n >= S.length || e.target.closest('a,button,.sheet,.scrim')) return;
   if (e.target.closest('#tr')) {
     if (isVid() && V.duration) {

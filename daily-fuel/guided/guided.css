@@ -209,3 +209,5 @@ html,body{overscroll-behavior:none}
 .room video.on{opacity:1}
 .hold{margin:auto 0;padding:24px 0}
 .hold p{font-weight:500;font-size:18px;line-height:1.4;margin-top:18px}
+.snd{position:absolute;left:50%;top:calc(env(safe-area-inset-top) + 64px);transform:translateX(-50%);z-index:20;border:0;border-radius:999px;padding:10px 18px;background:rgba(241,239,230,.92);color:#121111;font:700 14px/1 'NH',system-ui,sans-serif;letter-spacing:.02em;opacity:0;pointer-events:none;transition:opacity .3s ease}
+.snd.on{opacity:1;pointer-events:auto}
