@@ -178,24 +178,6 @@ function content(k) {
 }
 function segs() { $('segs').innerHTML = S.map((_, j) => '<i class="' + (j < n || n >= S.length ? 'done' : j === n ? 'cur' : '') + '"></i>').join(''); }
 
-/* ---------- team-mode diagnostics: what the video reported in its last seconds ---------- */
-const DBG = []; let dbgT0 = Date.now();
-function dbg(msg) {
-  if (!TEAM) return;
-  const d = V.duration;
-  DBG.push(((Date.now() - dbgT0) / 1000).toFixed(2) + 's ' + msg + ' t=' + (V.currentTime || 0).toFixed(2) + ' d=' + (isFinite(d) ? d.toFixed(2) : d) + (V.paused ? ' P' : '') + (V.ended ? ' E' : '') + ' rs' + V.readyState);
-  if (DBG.length > 18) DBG.shift();
-}
-function showDbg() {
-  if (!TEAM || !DBG.length) return;
-  let b = $('dbg');
-  if (!b) { b = document.createElement('pre'); b.id = 'dbg'; b.style.cssText = 'position:fixed;left:8px;right:8px;top:90px;z-index:99;background:rgba(0,0,0,.85);color:#9f9;font:11px/1.35 ui-monospace,monospace;padding:8px;border-radius:8px;white-space:pre-wrap;max-height:55vh;overflow:auto'; b.onclick = () => b.remove(); document.body.appendChild(b); }
-  b.textContent = 'TEAM DEBUG (tap to close) v=' + ((document.querySelector('script[src*=guided]') || {}).src || '').split('v=')[1] + '\n' + DBG.join('\n');
-}
-['pause', 'ended', 'waiting', 'stalled', 'playing', 'seeking', 'seeked', 'timeupdate'].forEach(t => V.addEventListener(t, () => {
-  if (!TEAM || !isFinite(V.duration) || V.duration - V.currentTime > 3) return;
-  dbg(t);
-}));
 /* ---------- video ---------- */
 let hls = null, hlsLoading = null, stallT = null;
 const NATIVE_HLS = !!V.canPlayType('application/vnd.apple.mpegurl');
@@ -218,7 +200,7 @@ function attach(v) {
 let soundPref = null, sndT = null;
 function startVideo(s) {
   V.classList.add('on');
-  userPaused = false; DBG.length = 0; dbgT0 = Date.now();
+  userPaused = false;
   attach(s.video);
   loadCaps(s);
   if (soundPref === false) { V.muted = true; V.play().then(setPP).catch(() => { setPP(); detail(true); }); return; }
@@ -274,7 +256,6 @@ V.addEventListener('playing', () => clearTimeout(stallT));
 V.addEventListener('error', () => { if (V.getAttribute('src')) errEv('video_error', 'media_' + (V.error ? V.error.code : '')); });
 function finishVideo(why) {
   if (!cur || stepType(cur.k) !== 'video' || cur.completed || dragging) return;
-  dbg('FINISH ' + (typeof why === 'string' ? why : (why && why.type) || '?'));
   cur.completed = true;
   draw();
   const here = n;
@@ -544,7 +525,6 @@ function go(k, via) {
   if (prev === -1 && k >= 0 && cur) { ev('guided_start', { seconds_on_opening: sec(Date.now() - cur.t0) }); runStart = Date.now(); viewed = new Set(); completeSent = false; }
   const slide = prev >= 0 && prev < S.length && S[prev].t === 'video' && k > prev && !(k < S.length && S[k].t === 'video');
   leaveStep(slide);
-  if (TEAM && prev >= 0 && prev < S.length && S[prev].t === 'video' && k > prev) setTimeout(showDbg, 700);
   closeSheets(true);
   hint(false);
   n = k;
