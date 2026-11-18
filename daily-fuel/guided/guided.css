@@ -250,3 +250,5 @@ html,body{overscroll-behavior:none}
 .stage.rise .room div,.stage.rise .mid{animation:rise .55s cubic-bezier(.5,0,.25,1) both}
 .stage.rise .room div{transition:none}
 .stage.rise .cont{transition:none}
+/* set up the slide layers at page open, not at the first slide */
+.room div,.mid,.room video{will-change:transform}

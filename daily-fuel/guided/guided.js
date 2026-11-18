@@ -244,13 +244,13 @@ V.addEventListener('timeupdate', () => {
   if (cur.lastT != null && !V.paused) { const d = t - cur.lastT; if (d > 0 && d < 1.5) cur.watched += d; }
   cur.lastT = t;
   drawCap(t);
-  if (!V.paused && V.duration && isFinite(V.duration) && V.duration - t < 0.4) finishVideo();
+  if (!V.paused && V.duration && isFinite(V.duration) && V.duration - t < 0.2) finishVideo();
 });
 V.addEventListener('seeked', () => { if (cur) cur.lastT = V.currentTime; drawCap(V.currentTime); });
 V.addEventListener('play', setPP);
 V.addEventListener('pause', setPP);
 V.addEventListener('waiting', () => {
-  if (V.duration && isFinite(V.duration) && V.duration - V.currentTime < 1.5 && V.currentTime > 1) { finishVideo(); return; } clearTimeout(stallT); stallT = setTimeout(() => errEv('video_stall', 'waiting_4s'), 4000); });
+  if (V.duration && isFinite(V.duration) && V.duration - V.currentTime < 0.6 && V.currentTime > 1) { finishVideo(); return; } clearTimeout(stallT); stallT = setTimeout(() => errEv('video_stall', 'waiting_4s'), 4000); });
 V.addEventListener('playing', () => clearTimeout(stallT));
 V.addEventListener('error', () => { if (V.getAttribute('src')) errEv('video_error', 'media_' + (V.error ? V.error.code : '')); });
 function finishVideo() {
@@ -350,7 +350,19 @@ function pos() {
   if (isVid()) return [V.currentTime || 0, V.duration && isFinite(V.duration) ? V.duration : S[n].total];
   return [tSec(), T ? T.total : 0];
 }
+let lastVT = -1, sameSince = 0;
+function videoEndWatch() {
+  // Steady end check (iPhone fires few position updates and can hold the last frame before 'ended').
+  if (!cur || cur.completed || V.paused || dragging) { sameSince = 0; return; }
+  const t = V.currentTime, d = V.duration && isFinite(V.duration) ? V.duration : S[n].total;
+  const end = Math.min(d, S[n].total || d);
+  if (end && t >= end - 0.2) return finishVideo();
+  const now = Date.now();
+  if (t !== lastVT) { lastVT = t; sameSince = now; return; }
+  if (end && end - t < 0.6 && sameSince && now - sameSince > 350) finishVideo(); // stuck at the very end
+}
 function tick() {
+  if (isVid()) videoEndWatch();
   draw();
   if (!isVid() && T && tSec() >= T.total && !cur.chimeAt) {
     cur.chimeAt = Date.now();
@@ -520,7 +532,7 @@ function go(k, via) {
   else if (isStep) { viewed.add(n); ev('guided_step_view', Object.assign({ via: how }, timed ? { minutes: s.min } : {})); }
   else if (!completeSent) { completeSent = true; ev('guided_complete', { total_seconds: runStart ? sec(Date.now() - runStart) : 0, steps_viewed: viewed.size }); }
 
-  $('room').classList.toggle('dim', !vid);
+  $('room').classList.add('dim'); // always blurred: hidden behind videos anyway, and no first-time blur work at the warm-up's end
   const wrap = n >= WRAP;
   $('rR').classList.toggle('on', wrap);
   $('rW').classList.toggle('on', !wrap);
@@ -550,7 +562,7 @@ function go(k, via) {
   if (vid) startVideo(s);
   // After a slide, wait for it to finish before starting keep-awake (a second video starting mid-slide stutters on iPhone).
   if (timed) { T = { total: s.total, acc: 0, since: Date.now(), run: true }; if (slide) { clearTimeout(wakeT); wakeT = setTimeout(() => { if (T && T.run) wake(); }, 650); } else wake(); }
-  if (isStep) { tm = setInterval(tick, 250); draw(); setPP(); }
+  if (isStep) { tm = setInterval(tick, vid ? 100 : 250); draw(); setPP(); }
   haptic();
 }
 
