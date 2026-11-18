@@ -12,3 +12,6 @@
 
 /daily-fuel/share/*
   X-Robots-Tag: noindex
+
+/daily-fuel/2026-11/*
+  X-Robots-Tag: noindex

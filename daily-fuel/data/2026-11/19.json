@@ -1,0 +1,41 @@
+{
+  "schema": "0.6",
+  "date": "2026-11-19",
+  "status": "LOCKED",
+  "title": "MERCIFUL",
+  "tagline": "Be merciful, like your Father.",
+  "training_focus": "Grace",
+  "focus_line": "Grace is the undeserved kindness and power of God working in us and for us.",
+  "verse": {
+    "text": "Be merciful, just as your Father is merciful.",
+    "reference": "Luke 6:36",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "8c9d06764081622e648f5dd474ad2cf0"
+      },
+      "seconds": 187
+    },
+    {
+      "type": "action",
+      "descriptor": "As Many Rounds As Possible",
+      "instruction": "Show mercy to someone today — offer a second chance, a soft answer, or let go of something you're owed. Let go of the need to have the last word or to prove you were right. Be merciful, just as your Father is merciful.",
+      "minutes": 4
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "f33f1cfd80fda99c7655f3f2cb241ffa"
+      },
+      "seconds": 95
+    }
+  ],
+  "coaching_notes": "I had a close friend tell me I might be the only Bible anyone ever reads. In other words, let what I do and say be evidence that I'm a follower of Jesus. The world is too quick these days to abandon mercy in favor of personal judgment and condemnation. Don't conform to the pattern of this world."
+}
