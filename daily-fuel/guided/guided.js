@@ -12,7 +12,8 @@ const CFG = {
   mail: 'training@fitforthecross.com',
   // Prayer requests (v10): Google Form owned by training@ (private to Trey). Empty = keep the old mailto + Copy email.
   // entry ids: request, name, pastor (Yes/No), email, date, title
-  prayer: { action: '', f: { request: '', name: '', pastor: '', email: '', date: '', title: '' } },
+  prayer: { action: 'https://docs.google.com/forms/d/e/1FAIpQLSfZUA17E5qv6rQYf1q8OrD-wx9koELf20iQNa5xfVb9RnUTIw/formResponse',
+    f: { request: 'entry.1341268396', name: 'entry.2033617424', pastor: 'entry.1880467524', email: 'entry.2070687422', date: 'entry.121619071', title: 'entry.1931207764' } }, // "GUIDED prayer requests", published Nov 18
   actName: 'Active Fueling',
   actMinutes: 4,
   actPrompt: 'Ask God to call to mind someone who needs this today. Then ask Him for the courage to do it.',
