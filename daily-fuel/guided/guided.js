@@ -413,7 +413,7 @@ function wake() {
     WL = l; l.addEventListener('release', () => { if (WL === l) WL = null; });
   }).catch(e => errEv('wake_lock_failed', e && e.name));
 }
-function unwake() { wantWake = false; AW.pause(); if (WL) { WL.release().catch(() => {}); WL = null; } }
+function unwake() { clearTimeout(wakeT); wantWake = false; AW.pause(); if (WL) { WL.release().catch(() => {}); WL = null; } }
 // Wake Lock needs a tap on some phones: retry on every tap while a timer runs.
 ['touchend', 'click'].forEach(e => addEventListener(e, () => { if (wantWake && !WL) wake(); }, { passive: true }));
 // Chime through Web Audio: once the context is running (any tap resumes it), it can play
@@ -475,7 +475,7 @@ function closeStep() {
 }
 // Leaving a video forward: the video slides up and off while the next screen rises in behind it,
 // like a swipe (Trey, Nov 18), instead of fading the background in over the video.
-let leaveT = null;
+let leaveT = null, wakeT = null;
 function endLeave() {
   if (!leaveT) return;
   clearTimeout(leaveT); leaveT = null;
@@ -548,7 +548,8 @@ function go(k, via) {
   first = false;
 
   if (vid) startVideo(s);
-  if (timed) { T = { total: s.total, acc: 0, since: Date.now(), run: true }; wake(); }
+  // After a slide, wait for it to finish before starting keep-awake (a second video starting mid-slide stutters on iPhone).
+  if (timed) { T = { total: s.total, acc: 0, since: Date.now(), run: true }; if (slide) { clearTimeout(wakeT); wakeT = setTimeout(() => { if (T && T.run) wake(); }, 650); } else wake(); }
   if (isStep) { tm = setInterval(tick, 250); draw(); setPP(); }
   haptic();
 }
