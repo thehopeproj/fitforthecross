@@ -19,7 +19,7 @@
         "provider": "stream",
         "id": "042f5e21ffcd5dc916370963986e6e45"
       },
-      "seconds": 221
+      "seconds": 221.27
     },
     {
       "type": "nutrient",
@@ -52,7 +52,7 @@
         "provider": "stream",
         "id": "c0ed1851f8505a0898a793aa7dd57239"
       },
-      "seconds": 140
+      "seconds": 139.8
     }
   ],
   "coaching_notes": "Load. Recovery. Adaptation. If there's no load there's little chance of growth. When you see affliction as load, it changes your perspective."

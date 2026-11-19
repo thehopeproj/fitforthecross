@@ -417,3 +417,64 @@ html,body{overscroll-behavior:none}
  .hint.on{animation:nudgeDown 1.8s ease-in-out infinite}
  @keyframes nudgeDown{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
 }
+/* ===== beta feedback panel v13 (Trey Nov 19, APP ROADMAP brief): one question per screen, a few questions a day ===== */
+.fbsheet{display:flex;flex-direction:column;height:540px;max-height:90%;overflow:hidden;padding-bottom:calc(env(safe-area-inset-bottom) + 12px)}
+.fbhead,.fbfoot{flex:none}
+.fbmidw{flex:1 1 auto;min-height:0;position:relative;display:flex;flex-direction:column}
+.fbmid{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;margin:0 -22px;padding:0 22px 12px;-webkit-mask:linear-gradient(#000 calc(100% - 14px),transparent)}
+.fbfoot{padding-top:6px}
+/* MORE cue: shows whenever answers continue below the window; tap scrolls down; hides at the bottom */
+.fbmore{position:absolute;left:50%;bottom:6px;transform:translate(-50%,8px);display:flex;align-items:center;gap:6px;height:34px;padding:0 14px 0 16px;border-radius:17px;background:var(--ink);color:#f1efe6;font:700 12px/1 NH,system-ui,sans-serif;letter-spacing:1.8px;text-transform:uppercase;box-shadow:0 6px 18px rgba(14,13,13,.25);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;cursor:pointer;z-index:2}
+.fbmore svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;animation:fbbob 1.6s ease-in-out infinite}
+.fbmore.on{opacity:1;pointer-events:auto;transform:translate(-50%,0)}
+@keyframes fbbob{0%,100%{transform:none}50%{transform:translateY(3px)}}
+.fbfoot .fbgo{margin-top:4px}
+.fbmid .fbdone{min-height:100%;display:flex;flex-direction:column;justify-content:center;padding:0 0 30px}
+.fbsheet .shx{display:grid}
+.fbtop{display:flex;align-items:center;gap:14px;min-height:36px;padding-right:48px}
+.fbeye{font-size:12px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;color:#6f6b66;white-space:nowrap}
+.fbdots{display:flex;gap:6px;align-items:center}
+.fbdots i{width:7px;height:7px;border-radius:4px;background:rgba(41,39,39,.18);transition:width .25s,background .25s}
+.fbdots i.done{background:var(--ink)}
+.fbdots i.now{width:20px;background:var(--orange)}
+.fbscr{animation:fbin .28s cubic-bezier(.2,.7,.2,1)}
+#fbq .fbscr{padding:14px 0 2px}
+.fbscr.back{animation-name:fbinb}
+@keyframes fbin{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+@keyframes fbinb{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:none}}
+.fbintro{font-size:15px;line-height:1.4;color:#4c4844;margin-bottom:14px;text-wrap:balance}
+.fbq2{font-weight:700;font-size:22px;line-height:1.22;letter-spacing:-.3px;text-wrap:balance}
+.fbsub{font-size:13px;color:#6f6b66;margin-top:6px}
+.fbrows{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.fbrow{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:54px;padding:12px 18px;border-radius:12px;border:1.5px solid rgba(41,39,39,.28);background:#fff;font:600 17px/1.25 NH,system-ui,sans-serif;color:var(--ink);text-align:left;cursor:pointer;transition:background .15s,border-color .15s,color .15s;text-wrap:balance}
+@media (hover:hover){.fbrow:hover{border-color:var(--ink)}}
+.fbrow .tk{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:800;opacity:0;transform:scale(.6);transition:opacity .15s,transform .15s}
+.fbrow.on{border-color:var(--orange);background:rgba(255,83,0,.08)}
+.fbrow.on .tk{opacity:1;transform:none;background:var(--orange);color:#fff}
+.fbrow.pick{background:var(--orange);border-color:var(--orange);color:#fff}
+.fbrow.pick .tk{opacity:1;transform:none;background:#fff;color:var(--orange)}
+.fboth{font:500 17px/1.4 NH,system-ui,sans-serif;color:var(--ink);background:#fff;border:1.5px solid rgba(41,39,39,.3);border-radius:12px;padding:0 16px;height:52px;width:100%}
+.fboth:focus,.fbtxt:focus{outline:2px solid var(--orange);outline-offset:0;border-color:var(--orange)}
+.fbnps{display:grid;grid-template-columns:repeat(11,1fr);gap:6px;margin-top:18px}
+.fbnps .fbrow{justify-content:center;padding:0;min-height:52px;font-size:18px;font-weight:700;text-align:center}
+@media (max-width:480px){.fbnps{grid-template-columns:repeat(6,1fr);gap:8px}}
+.fbnpsk{display:none;font-size:13px;font-weight:600;color:#6f6b66;margin-top:12px;text-align:center}.fbnpsk b{color:var(--ink)}
+@media (max-width:480px){.fbnpsl{display:none!important}.fbnpsk{display:block}}
+.fbnpsl{display:flex;justify-content:space-between;font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#6f6b66;margin-top:10px}
+.fbtxt{font:500 17px/1.4 NH,system-ui,sans-serif;color:var(--ink);background:#fff;border:1.5px solid rgba(41,39,39,.3);border-radius:12px;padding:12px 14px;width:100%;margin-top:16px;resize:vertical;min-height:120px}
+.fbgo{margin-top:16px}
+.fbsend .dots{display:none;gap:7px}.fbsend .dots i{width:9px;height:9px;border-radius:50%;background:currentColor;animation:dot 1.2s ease-in-out infinite}
+.fbsend .dots i:nth-child(2){animation-delay:.2s}.fbsend .dots i:nth-child(3){animation-delay:.4s}
+.fbsend.sending .txt{display:none}.fbsend.sending .dots{display:flex}
+.fbnav{display:flex;justify-content:space-between;align-items:center;margin-top:10px;min-height:44px}
+.fbnav button{min-height:44px;padding:0 4px;font-size:13px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:#6f6b66;cursor:pointer;background:none}
+.fbnav button:hover{color:var(--ink)}
+.fbnav .gone{visibility:hidden;pointer-events:none}
+#fbskip{margin-left:auto}
+.fbdone{text-align:center;padding:22px 0 10px;animation:fbin .28s}
+.fbdone .chk{width:56px;height:56px;border-radius:50%;background:var(--orange);color:#fff;font-size:28px;font-weight:700;display:grid;place-items:center;margin:0 auto 14px}
+.fbdone .prh{font-family:LS;font-weight:800;font-size:30px;letter-spacing:-1px;text-transform:uppercase;line-height:.95;text-wrap:balance}
+.fbdone p{font-size:17px;line-height:1.4;margin-top:10px;text-wrap:balance}
+@media (min-width:900px){.fbsheet{width:min(560px,calc(100% - var(--cw) - 48px))!important;height:520px;max-height:calc(100% - 40px);padding:22px 28px 16px}.fbq2{font-size:24px}.fbmid{margin:0 -28px;padding:0 28px 12px}}
+/* computer: an opened checklist never scrolls; the panel grows to fit it (Trey + APP ROADMAP, Nov 19 11:21) */
+@media (min-width:900px){.fbsheet.fblist{height:auto;min-height:520px}.fbsheet.fblist .fbmid{-webkit-mask:none;overflow:visible}}

@@ -8,7 +8,7 @@ const CFG = {
   stream: 'https://customer-jjfzxadb1d7p720a.cloudflarestream.com',
   hls: 'https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js',
   ga: 'G-4GXCXXJYKB',
-  feedback: 'https://docs.google.com/forms/d/1LDcq9Gm6qOItpXkjvE2NLJj0okGKyENPIjGfJ95oIOQ/viewform?usp=pp_url', // published Nov 18
+  fbAction: 'https://docs.google.com/forms/d/e/1FAIpQLScM9cbKI8xYO8rPioDpQo0LBNl6Pl1N9aIoupxgalVZO6h6xA/formResponse', // beta feedback form (APP ROADMAP), posted from our own panel (v13)
   mail: 'training@fitforthecross.com',
   // Prayer requests (v10): Google Form owned by training@ (private to Trey). Empty = keep the old mailto + Copy email.
   // entry ids: request, name, pastor (Yes/No), email, date, title
@@ -258,13 +258,13 @@ V.addEventListener('timeupdate', () => {
   if (cur.lastT != null && !V.paused) { const d = t - cur.lastT; if (d > 0 && d < 1.5) cur.watched += d; }
   cur.lastT = t;
   drawCap(t);
-  if (!V.paused && V.duration && isFinite(V.duration) && V.duration - t < 0.2) finishVideo('timeupdate');
+  if (!V.paused && V.duration && isFinite(V.duration) && V.duration - t < 0.05) finishVideo('timeupdate');
 });
 V.addEventListener('seeked', () => { if (cur) cur.lastT = V.currentTime; drawCap(V.currentTime); });
 V.addEventListener('play', setPP);
-V.addEventListener('pause', () => { setPP(); if (isVid() && cur && !userPaused && !dragging && V.currentTime > 1 && endOf() - V.currentTime < 0.6) finishVideo('pause_event_at_end'); });
+V.addEventListener('pause', () => { setPP(); if (isVid() && cur && !userPaused && !dragging && V.currentTime > 1 && endOf() - V.currentTime < 0.1) finishVideo('pause_event_at_end'); });
 V.addEventListener('waiting', () => {
-  if (V.duration && isFinite(V.duration) && V.duration - V.currentTime < 0.6 && V.currentTime > 1) { finishVideo('waiting_at_end'); return; } clearTimeout(stallT); stallT = setTimeout(() => errEv('video_stall', 'waiting_4s'), 4000); });
+  if (V.duration && isFinite(V.duration) && V.duration - V.currentTime < 0.1 && V.currentTime > 1) { finishVideo('waiting_at_end'); return; } clearTimeout(stallT); stallT = setTimeout(() => errEv('video_stall', 'waiting_4s'), 4000); });
 V.addEventListener('playing', () => clearTimeout(stallT));
 V.addEventListener('error', () => { if (V.getAttribute('src')) errEv('video_error', 'media_' + (V.error ? V.error.code : '')); });
 function finishVideo(why) {
@@ -367,17 +367,18 @@ function pos() {
 }
 let lastVT = -1, sameSince = 0;
 let userPaused = false;
-function endOf() { const d = V.duration && isFinite(V.duration) ? V.duration : S[n].total; return Math.min(d, S[n].total || d); }
+// The clip's real end. The day file's length is only a fallback until the video reports its own (never a cap: it used to cut ~0.6 s early).
+function endOf() { return V.duration && isFinite(V.duration) ? V.duration : S[n].total; }
 function videoEndWatch() {
   // Steady end check (iPhone fires few position updates and can hold the last frame before 'ended').
   if (!cur || cur.completed || dragging) { sameSince = 0; return; }
   const t = V.currentTime, end = endOf();
   // iPhone can stop by itself at the very end without sending 'ended': that's the end, unless the person paused.
-  if (V.paused) { sameSince = 0; if (!userPaused && end && end - t < 0.6 && t > 1) finishVideo('paused_at_end'); return; }
-  if (end && t >= end - 0.2) return finishVideo('near_end');
+  if (V.paused) { sameSince = 0; if (!userPaused && end && end - t < 0.1 && t > 1) finishVideo('paused_at_end'); return; }
+  if (end && t >= end - 0.05) return finishVideo('near_end');
   const now = Date.now();
   if (t !== lastVT) { lastVT = t; sameSince = now; return; }
-  if (end && end - t < 0.6 && sameSince && now - sameSince > 350) finishVideo('stuck_at_end'); // stuck at the very end
+  if (end && end - t < 0.1 && sameSince && now - sameSince > 350) finishVideo('stuck_at_end'); // stuck at the very end
 }
 function tick() {
   if (isVid()) videoEndWatch();
@@ -654,12 +655,14 @@ function sheet(h) {
   requestAnimationFrame(() => { sc.classList.add('on'); sh.classList.add('on'); });
   let sy = null, d = 0;
   // Swipe down closes the panel only when it is already scrolled to the top; otherwise the drag just scrolls it.
-  sh.addEventListener('touchstart', e => { if (e.target.closest('textarea,input,label,button') || sh.scrollTop > 0) { sy = null; return; } sy = e.touches[0].clientY; d = 0; sh.style.transition = 'none'; }, { passive: true });
-  sh.addEventListener('touchmove', e => { if (sy === null) return; if (sh.scrollTop > 0) { sy = null; d = 0; sh.style.transition = ''; sh.style.transform = ''; return; } d = Math.max(0, e.touches[0].clientY - sy); sh.style.transform = 'translateY(' + d + 'px)'; }, { passive: true });
+  sh.addEventListener('touchstart', e => { if (e.target.closest('textarea,input,label,button') || sh.scrollTop > 0 || (e.target.closest('.fbmid') && e.target.closest('.fbmid').scrollTop > 0)) { sy = null; return; } sy = e.touches[0].clientY; d = 0; sh.style.transition = 'none'; }, { passive: true });
+  sh.addEventListener('touchmove', e => { if (sy === null) return; const fm = sh.querySelector('.fbmid'); if (sh.scrollTop > 0 || (fm && fm.scrollTop > 0)) { sy = null; d = 0; sh.style.transition = ''; sh.style.transform = ''; return; } d = Math.max(0, e.touches[0].clientY - sy); sh.style.transform = 'translateY(' + d + 'px)'; }, { passive: true });
   sh.addEventListener('touchend', () => { if (sy === null) return; sy = null; sh.style.transition = ''; if (d > 60) closeSheets(); else sh.style.transform = ''; }, { passive: true });
 }
 const WIDE = matchMedia('(min-width:900px)');
 function closeSheets(now) {
+  const fbs = app.querySelector('.fbsheet'); // closing the feedback panel early still sends what was answered
+  if (fbs && fbs._close) { const f = fbs._close; fbs._close = null; f(); }
   app.querySelectorAll('.scrim,.sheet').forEach(e => {
     if (now) { e.remove(); return; }
     e.style.transition = 'transform .25s ease,opacity .25s';
@@ -672,12 +675,148 @@ function toast(t) {
   requestAnimationFrame(() => e.classList.add('on'));
   setTimeout(() => { e.classList.remove('on'); setTimeout(() => e.remove(), 400); }, 2200);
 }
+/* ---------- beta feedback panel v13 (SOCIAL MEDIA spec, Trey approved Nov 19): one question per screen, a few a day ----------
+   Options are the live Google Form's (APP ROADMAP, 11:21 AM lists). Shown with curly apostrophes, sent with the form's straight ones.
+   Sends whatever was answered (on SUBMIT, or quietly when the panel closes); nothing answered = nothing sent. GA4 gets no answers. */
+const FBX = {
+  rec: { e: 'entry.1058114054', q: 'How likely are you to recommend DAILY FUEL GUIDED to a friend?', t: 'nps' },
+  work: { e: 'entry.1820652490', q: 'Did anything not work?', t: 'gate', yes: 'Everything worked', no: 'Something didn’t',
+    o: ['Video', 'Sound', 'Captions', 'The chime at the end of a timer', 'My screen went dark during a nutrient session'] },
+  conf: { e: 'entry.1844087575', q: 'Was anything confusing or difficult to find?', t: 'gate', yes: 'Nothing, it was clear', no: 'Yes, something was',
+    o: ['Turning sound or captions on or off', 'Pausing a timer', 'Going back a step', 'Knowing how much of the session was left', 'Seeing the full verse', 'Other'], other: 'Other' },
+  email: { e: 'entry.1980362433', q: 'How did today’s session compare with the DAILY FUEL email?', t: 'one', o: ['Better', 'About the same', 'Not as good', 'I don’t really use the email'], once: 1 },
+  music: { e: 'entry.397976073', q: 'Would background music help or distract during the spiritual nutrient sections?', t: 'one', o: ['Help', 'Distract', 'No difference'], once: 1 },
+  cal: { e: 'entry.89823510', q: 'If you could put GUIDED sessions on your own calendar for the days and times you choose, would you?', t: 'one',
+    o: ['Yes, I’d set it up right away', 'Maybe, I’d try it', 'No, the daily email is enough for me', 'No, I don’t use a calendar for this kind of thing'], once: 1 },
+  timed: { e: 'entry.1857659000', q: 'How did the timed elements of the spiritual nutrients feel?', t: 'one', o: ['Too short', 'About right', 'Too long'] },
+  more: { e: 'entry.1279951195', q: 'Is there anything else that would make this more useful or make you more likely to use it?', t: 'text' }
+};
+const FBKEY = 'fftc_guided_fb_v1'; let fbMemo = {};
+function fbMem() { try { return JSON.parse(localStorage.getItem(FBKEY)) || {}; } catch (e) { return fbMemo; } }
+function fbSave(m) { fbMemo = m; try { localStorage.setItem(FBKEY, JSON.stringify(m)); } catch (e) {} }
+function fbToday() { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+const fbDays = (a, b) => Math.round((new Date(b + 'T12:00') - new Date(a + 'T12:00')) / 864e5);
+// [recommend, weekly] · work · confusing · [ONE extra on non-recommend days: next unanswered one-time question, else timed every 3 days] · anything else
+function fbPlan(m, d) {
+  const p = [], recDue = !m.rec || fbDays(m.rec, d) >= 7;
+  if (recDue) p.push('rec');
+  p.push('work', 'conf');
+  if (!recDue) { const nx = ['email', 'music', 'cal'].find(k => !(m.once || {})[k]); if (nx) p.push(nx); else if (!m.timed || fbDays(m.timed, d) >= 3) p.push('timed'); }
+  p.push('more');
+  return p;
+}
+let FB = null;
+const fbSent = s => s.replace(/’/g, "'");
 function feedback() {
-  if (!CFG.feedback) { toast('Feedback form coming soon'); return; }
-  const ua = navigator.userAgent, dev = /iPhone/.test(ua) ? 'iPhone' : /Android/.test(ua) ? 'Android' : DESK ? 'Computer' : '';
-  let u = CFG.feedback + '&entry.1652624993=' + encodeURIComponent(DAY ? DAY.date : '') + '&entry.784985040=' + encodeURIComponent(DAY ? DAY.title : '');
-  if (dev) u += '&entry.1768002246=' + dev;
-  window.open(u, '_blank', 'noopener');
+  const m = fbMem(), d = fbToday();
+  FB = { plan: fbPlan(m, d), i: 0, a: {}, sub: null, sent: false };
+  if (FB.plan.includes('rec')) m.rec = d;   // weekly / rotating questions count as asked when shown
+  if (FB.plan.includes('timed')) m.timed = d;
+  fbSave(m);
+  sheet('<button class="shx" data-act="x-sheet" aria-label="Close">' + IC.x + '</button>' +
+    '<div class="fbhead"><div class="fbtop"><span class="fbeye">Beta feedback</span><span class="fbdots" id="fbdots"></span></div><div id="fbq"></div></div>' +
+    '<div class="fbmidw"><div class="fbmid" id="fbmid"></div><button type="button" class="fbmore" id="fbmore" tabindex="-1">More' + IC.down.replace(' class="dn"', '') + '</button></div>' +
+    '<div class="fbfoot" id="fbfoot"><div id="fbact"></div><div class="fbnav" id="fbnav"><button type="button" id="fbback">Back</button><button type="button" id="fbskip">Skip</button></div></div>');
+  const sh = app.querySelector('.sheet');
+  sh.classList.add('fbsheet');
+  sh._close = () => fbSend(false);
+  $('fbmid').addEventListener('scroll', fbMore, { passive: true });
+  sh.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.id === 'fbmore') return $('fbmid').scrollBy({ top: $('fbmid').clientHeight * .7, behavior: 'smooth' });
+    if (b.id === 'fbback') return fbBack();
+    if (b.id === 'fbskip' || b.dataset.fb === 'next') return fbNext();
+    if (b.dataset.fb === 'submit') return fbSubmit(b);
+    if (b.dataset.fb === 'open') return fbOpen();
+    if (b.dataset.pick != null) return fbPick(b, b.dataset.pick);
+    if (b.dataset.tick != null) return fbTick(b, +b.dataset.tick);
+  });
+  sh.addEventListener('input', e => { if (e.target.id === 'fboth') FB.a.conf_other = e.target.value; if (e.target.id === 'fbtxt') FB.a.more = e.target.value; });
+  fbDraw();
+}
+function fbDraw(dir) {
+  const k = FB.plan[FB.i], q = FBX[k], sub = FB.sub === k, an = dir < 0 ? ' back' : '', A = FB.a[k];
+  $('fbdots').innerHTML = FB.plan.map((_, j) => '<i class="' + (j < FB.i ? 'done' : j === FB.i ? 'now' : '') + '"></i>').join('');
+  $('fbq').innerHTML = '<div class="fbscr' + an + '">' + (FB.i === 0 && !sub ? '<p class="fbintro">Your feedback makes a huge difference, so thank you.</p>' : '') +
+    '<div class="fbq2">' + esc(q.q) + '</div>' + (q.t === 'gate' && sub ? '<div class="fbsub">Choose any that apply</div>' : '') + '</div>';
+  const row = (lab, on, attr, cls) => '<button type="button" class="fbrow' + (cls || '') + (on ? ' on' : '') + '" ' + attr + '>' + esc(lab) + '<span class="tk">✓</span></button>';
+  let h = '', act = '';
+  if (q.t === 'nps') {
+    h += '<div class="fbnps">';
+    for (let i = 0; i <= 10; i++) h += '<button type="button" class="fbrow' + (A === String(i) ? ' on' : '') + '" data-pick="' + i + '">' + i + '</button>';
+    h += '</div><div class="fbnpsl"><span>Not at all likely</span><span>Extremely likely</span></div><div class="fbnpsk"><b>0</b> = Not at all likely · <b>10</b> = Extremely likely</div>';
+  } else if (q.t === 'one') h += '<div class="fbrows">' + q.o.map((o, j) => row(o, A === o, 'data-pick="' + j + '"')).join('') + '</div>';
+  else if (q.t === 'gate' && !sub) h += '<div class="fbrows">' + row(q.yes, A && A[0] === q.yes, 'data-pick="-1"') + row(q.no, A && A[0] !== q.yes, 'data-fb="open"') + '</div>';
+  else if (q.t === 'gate') {
+    const sel = A && A[0] !== q.yes ? A : [];
+    h += '<div class="fbrows">' + q.o.map((o, j) => row(o, sel.includes(o), 'data-tick="' + j + '"', ' m') +
+      (q.other && o === q.other ? '<input class="fboth" id="fboth" placeholder="Tell us what" value="' + esc(FB.a[k + '_other'] || '') + '"' + (sel.includes(q.other) ? '' : ' hidden') + '>' : '')).join('') + '</div>';
+    act = '<button type="button" class="btn fbgo" data-fb="next">Next</button>';
+  } else if (q.t === 'text') {
+    h += '<textarea class="fbtxt" id="fbtxt" rows="4">' + esc(A || '') + '</textarea>';
+    act = '<button type="button" class="btn fbgo fbsend" data-fb="submit"><span class="txt">Submit feedback</span><span class="dots"><i></i><i></i><i></i></span></button>';
+  }
+  $('fbmid').innerHTML = '<div class="fbscr' + an + '">' + h + '</div>';
+  $('fbmid').closest('.sheet').classList.toggle('fblist', q.t === 'gate' && sub); // computer: the panel grows to fit an opened list (Trey + APP ROADMAP, 11:21)
+  $('fbmid').scrollTop = 0; requestAnimationFrame(fbMore);
+  $('fbact').innerHTML = act;
+  $('fbback').classList.toggle('gone', FB.i === 0 && !sub);
+  $('fbskip').classList.toggle('gone', q.t === 'text');
+}
+function fbPick(b, j) {
+  const k = FB.plan[FB.i], q = FBX[k];
+  FB.a[k] = q.t === 'nps' ? String(j) : q.t === 'gate' ? [q.yes] : q.o[+j];
+  if (q.once) { const m = fbMem(); m.once = m.once || {}; m.once[k] = 1; fbSave(m); }
+  b.parentNode.querySelectorAll('.fbrow').forEach(r => r.classList.remove('on', 'pick'));
+  b.classList.add('pick'); haptic();
+  const at = FB.i; setTimeout(() => { if (FB && FB.i === at && !FB.done) fbNext(); }, 320);
+}
+function fbOpen() { const k = FB.plan[FB.i]; if (FB.a[k] && FB.a[k][0] === FBX[k].yes) delete FB.a[k]; FB.sub = k; fbDraw(1); }
+function fbTick(b, j) {
+  const k = FB.plan[FB.i], q = FBX[k], o = q.o[j];
+  let s = (FB.a[k] || []).filter(x => x !== q.yes);
+  s = s.includes(o) ? s.filter(x => x !== o) : s.concat(o);
+  if (s.length) FB.a[k] = s; else delete FB.a[k];
+  b.classList.toggle('on', s.includes(o));
+  if (q.other && o === q.other) { const f = $('fboth'); f.hidden = !s.includes(o); if (!f.hidden) f.focus(); }
+  fbMore();
+}
+function fbMore() { const m = $('fbmid'), b = $('fbmore'); if (!m || !b) return; b.classList.toggle('on', m.scrollHeight > m.clientHeight + 4 && m.scrollTop + m.clientHeight < m.scrollHeight - 24); }
+addEventListener('resize', fbMore);
+function fbNext() { FB.sub = null; if (FB.i < FB.plan.length - 1) { FB.i++; fbDraw(1); } }
+function fbBack() { if (FB.sub) { FB.sub = null; fbDraw(-1); return; } if (FB.i > 0) { FB.i--; fbDraw(-1); } }
+function fbPayload() {
+  const p = new URLSearchParams();
+  for (const k in FBX) {
+    const v = FB.a[k], e = FBX[k].e;
+    if (v == null || v === '' || (typeof v === 'string' && !v.trim())) continue;
+    if (Array.isArray(v)) v.forEach(x => { if (FBX[k].other && x === FBX[k].other) { p.append(e, '__other_option__'); p.append(e + '.other_option_response', FB.a[k + '_other'] || ''); } else p.append(e, fbSent(x)); });
+    else p.append(e, fbSent(v));
+  }
+  if (![...p.keys()].length) return null;
+  const ua = navigator.userAgent;
+  p.append('entry.1652624993', DAY ? DAY.date : '');
+  p.append('entry.784985040', DAY ? DAY.title : '');
+  p.append('entry.1768002246', /iPhone|iPad/.test(ua) ? 'iPhone' : /Android/.test(ua) ? 'Android' : 'Computer');
+  return p;
+}
+function fbSend(final) {
+  if (!FB || FB.sent) return Promise.resolve();
+  const body = fbPayload(); if (!body) return Promise.resolve();
+  FB.sent = true;
+  return fetch(CFG.fbAction, { method: 'POST', mode: 'no-cors', body, keepalive: !final })
+    .then(() => ev('guided_control', { control: 'feedback_sent' }))
+    .catch(() => { ev('guided_control', { control: 'feedback_failed' }); errEv('feedback_failed', 'network'); });
+}
+function fbSubmit(b) {
+  b.classList.add('sending'); b.disabled = true; $('fbnav').style.visibility = 'hidden'; FB.done = true;
+  // Trey (Nov 19): a failed send still shows thanks (logged as feedback_failed); no link to the Google Form.
+  Promise.all([fbSend(true), new Promise(ok => setTimeout(ok, 900))]).then(() => {
+    if (!$('fbmid')) return;
+    $('fbdots').innerHTML = ''; $('fbq').innerHTML = ''; const f = $('fbfoot'); if (f) f.remove();
+    $('fbmid').innerHTML = '<div class="fbdone"><div class="chk">✓</div><div class="prh">Thank you for helping make DAILY FUEL better</div><p>We are grateful for our community who contributes to the work we do and the impact we can make.</p></div>';
+    fbMore();
+  });
 }
 function cue() { const el = $('cont'), c = $('cue'); c.classList.toggle('on', el.scrollHeight > el.clientHeight + 2 && el.scrollTop + el.clientHeight < el.scrollHeight - 4); }
 $('cont').addEventListener('scroll', cue, { passive: true });

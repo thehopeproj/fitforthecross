@@ -19,7 +19,7 @@
         "provider": "stream",
         "id": "0a17f4d9be29e628002cb8e1889f4b16"
       },
-      "seconds": 205
+      "seconds": 205.1
     },
     {
       "type": "nutrient",
@@ -36,7 +36,7 @@
         "provider": "stream",
         "id": "f1f1f821574ad5eb3bda0f8a2f82dbeb"
       },
-      "seconds": 107
+      "seconds": 106.9
     }
   ],
   "coaching_notes": "The chorus of a well-known song sets the tone for today's session:"
