@@ -681,9 +681,9 @@ function toast(t) {
 const FBX = {
   rec: { e: 'entry.1058114054', q: 'How likely are you to recommend DAILY FUEL GUIDED to a friend?', t: 'nps' },
   work: { e: 'entry.1820652490', q: 'Did anything not work?', t: 'gate', yes: 'Everything worked', no: 'Something didn’t',
-    o: ['Video', 'Sound', 'Captions', 'The chime at the end of a timer', 'My screen went dark during a nutrient session'] },
+    o: ['Video', 'Sound', 'Captions', 'The chime at the end of a timed section', 'My screen went dark during a timed section'] },
   conf: { e: 'entry.1844087575', q: 'Was anything confusing or difficult to find?', t: 'gate', yes: 'Nothing, it was clear', no: 'Yes, something was',
-    o: ['Turning sound or captions on or off', 'Pausing a timer', 'Going back a step', 'Knowing how much of the session was left', 'Seeing the full verse', 'Other'], other: 'Other' },
+    o: ['Turning sound or captions on or off', 'Pausing a timed section', 'Going back a step', 'Knowing how much of the session was left', 'Seeing the full verse', 'Other'], other: 'Other' },
   email: { e: 'entry.1980362433', q: 'How did today’s session compare with the DAILY FUEL email?', t: 'one', o: ['Better', 'About the same', 'Not as good', 'I don’t really use the email'], once: 1 },
   music: { e: 'entry.397976073', q: 'Would background music help or distract during the spiritual nutrient sections?', t: 'one', o: ['Help', 'Distract', 'No difference'], once: 1 },
   cal: { e: 'entry.89823510', q: 'If you could put GUIDED sessions on your own calendar for the days and times you choose, would you?', t: 'one',
