@@ -1,0 +1,51 @@
+{
+  "schema": "0.6",
+  "date": "2026-11-23",
+  "status": "LOCKED",
+  "title": "EFFECT",
+  "tagline": "Be aware of the effect of God's grace.",
+  "training_focus": "Grace",
+  "focus_line": "Grace is the undeserved kindness and power of God working in us and for us.",
+  "verse": {
+    "text": "But by the grace of God I am what I am, and his grace to me was not without effect. No, I worked harder than all of them—yet not I, but the grace of God that was with me.",
+    "reference": "1 Corinthians 15:10",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "c87299990ebe2d75f6dc59cfd166cb7b"
+      },
+      "seconds": 217
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Bible Study",
+      "name_as_written": "Bible Study",
+      "macro": "word",
+      "minutes": 8,
+      "prompt": "Read 1 Corinthians 15:3–10. What do you think the primary point of this passage is? How would you apply it to your life?"
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Prayer",
+      "name_as_written": "Prayer",
+      "macro": "prayer",
+      "minutes": 4,
+      "prompt": "Praise God for the effect His grace has had on your life. Ask Him to point out new areas of growth."
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "1ef33a5cc76f1cc2a7e35494e1e7d451"
+      },
+      "seconds": 112
+    }
+  ],
+  "coaching_notes": "In the gym, you have strength work and accessory work. Today's session is spiritual strength work. Paul reminds you to make the main thing the main thing. Jesus is the source of your spiritual strength."
+}

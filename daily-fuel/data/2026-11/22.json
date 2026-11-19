@@ -1,0 +1,43 @@
+{
+  "schema": "0.6",
+  "date": "2026-11-22",
+  "status": "LOCKED",
+  "title": "TODAY",
+  "tagline": "Grace welcomes you today.",
+  "training_focus": "Grace",
+  "focus_line": "Grace is the undeserved kindness and power of God working in us and for us.",
+  "verse": {
+    "text": "Then he said, \"Jesus, remember me when you come into your kingdom.\" Jesus answered him, \"Truly I tell you, today you will be with me in paradise.\"",
+    "reference": "Luke 23:42–43",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "a3460ca1ba0fbde2e1dea7f8061dc82e"
+      },
+      "seconds": 229
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Scripture Visualization",
+      "name_as_written": "Scripture Visualization",
+      "macro": "word",
+      "minutes": 7,
+      "prompt": "Picture the cross beside Jesus — nothing left to offer, no time to earn anything — and hear \"today you will be with me\" spoken to you."
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "81f9f637ee6f5ab33d92c7d68bcda3eb"
+      },
+      "seconds": 116
+    }
+  ],
+  "coaching_notes": "No amount of good works will get you into heaven. Only Jesus' finished work on the cross can do that. Rest and recover with your Savior today and celebrate the work He's done for you."
+}

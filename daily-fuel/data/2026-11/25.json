@@ -1,0 +1,58 @@
+{
+  "schema": "0.6",
+  "date": "2026-11-25",
+  "status": "LOCKED",
+  "title": "REMEMBER",
+  "tagline": "Don't forget His benefits.",
+  "training_focus": "Grace",
+  "focus_line": "Grace is the undeserved kindness and power of God working in us and for us.",
+  "verse": {
+    "text": "Praise the Lord, my soul, and forget not all his benefits—who forgives all your sins and heals all your diseases, who redeems your life from the pit and crowns you with love and compassion.",
+    "reference": "Psalm 103:2–4",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "cd3244eb82d589ba9634459cdd1f076b"
+      },
+      "seconds": 186
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Meditation",
+      "name_as_written": "Meditation",
+      "macro": "word",
+      "minutes": 3,
+      "prompt": "Focus on \"who forgives all your sins and heals all your diseases.\""
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Gratitude",
+      "name_as_written": "Gratitude",
+      "macro": "micro",
+      "minutes": 6,
+      "prompt": "Praise God for His benefits — list them by name."
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Worship",
+      "name_as_written": "Worship",
+      "macro": "word",
+      "minutes": 9
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "0504b390df08934027e59448e18de928"
+      },
+      "seconds": 126
+    }
+  ],
+  "coaching_notes": "Today's session is all about reflection. Think of it like reviewing your spiritual training plan over the past three to six months. Remember, God has a plan for your growth so keep stacking your spiritual reps and trust the process."
+}

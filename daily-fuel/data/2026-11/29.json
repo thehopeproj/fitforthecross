@@ -1,0 +1,43 @@
+{
+  "schema": "0.6",
+  "date": "2026-11-29",
+  "status": "LOCKED",
+  "title": "FLOW",
+  "tagline": "Grace flows like a river.",
+  "training_focus": "Grace",
+  "focus_line": "Grace is the undeserved kindness and power of God working in us and for us.",
+  "verse": {
+    "text": "Then the angel showed me the river of the water of life, as clear as crystal, flowing from the throne of God and of the Lamb down the middle of the great street of the city.",
+    "reference": "Revelation 22:1–2",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "0a17f4d9be29e628002cb8e1889f4b16"
+      },
+      "seconds": 205
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Scripture Visualization",
+      "name_as_written": "Scripture Visualization",
+      "macro": "word",
+      "minutes": 8,
+      "prompt": "See grace as a river — clear as crystal, flowing from the throne of God — and picture yourself standing in its current where it never runs dry."
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "f1f1f821574ad5eb3bda0f8a2f82dbeb"
+      },
+      "seconds": 107
+    }
+  ],
+  "coaching_notes": "The chorus of a well-known song sets the tone for today's session:"
+}

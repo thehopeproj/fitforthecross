@@ -1,0 +1,43 @@
+{
+  "schema": "0.6",
+  "date": "2026-11-20",
+  "status": "LOCKED",
+  "title": "LOOK BACK",
+  "tagline": "The Lord has been good to you.",
+  "training_focus": "Grace",
+  "focus_line": "Grace is the undeserved kindness and power of God working in us and for us.",
+  "verse": {
+    "text": "The Lord is gracious and righteous; our God is full of compassion. The Lord protects the unwary; when I was brought low, he saved me. Return to your rest, my soul, for the Lord has been good to you.",
+    "reference": "Psalm 116:5–7",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "791cfbd75184a9eb60f9e6fd90317140"
+      },
+      "seconds": 189
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Journaling",
+      "name_as_written": "Journaling",
+      "macro": "micro",
+      "minutes": 10,
+      "prompt": "Trace your life backward and write about some of God's most gracious moments to you. Ask Him to reveal moments where you missed His grace at the time."
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "f53b0606f7b33c96e0cf7577a1008960"
+      },
+      "seconds": 109
+    }
+  ],
+  "coaching_notes": "Today our monthly progressive discipline of journaling looks backward. Trace your life and write the specific moments God was gracious to you — and don't skip the ones that didn't feel like grace at the time. Distance has a way of often revealing God's hand in the very seasons you were sure He'd left you. Return to your rest, my soul; the Lord has been good to you."
+}

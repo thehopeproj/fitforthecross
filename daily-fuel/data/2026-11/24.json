@@ -1,0 +1,51 @@
+{
+  "schema": "0.6",
+  "date": "2026-11-24",
+  "status": "LOCKED",
+  "title": "BE STRONG",
+  "tagline": "Be strong in grace.",
+  "training_focus": "Grace",
+  "focus_line": "Grace is the undeserved kindness and power of God working in us and for us.",
+  "verse": {
+    "text": "You then, my son, be strong in the grace that is in Christ Jesus.",
+    "reference": "2 Timothy 2:1",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "00dc76d368b3924f76834961d2cbc04d"
+      },
+      "seconds": 167
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Scripture Reflection",
+      "name_as_written": "Scripture Reflection",
+      "macro": "word",
+      "minutes": 5,
+      "prompt": "Notice strength is found in grace, not in grinding harder — where are you trying to be strong in your own strength?"
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Envisioning",
+      "name_as_written": "Envisioning",
+      "macro": "micro",
+      "minutes": 5,
+      "prompt": "Picture yourself spiritually strong in grace. How does that change the challenges you face?"
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "4463536385b8de9f01236be5b034cf61"
+      },
+      "seconds": 87
+    }
+  ],
+  "coaching_notes": "Today you might feel some healthy tension in this session, which is a good thing. It's easy to think strength and grace might be opposites, but they are not. Learning to be strong in grace teaches you not to rely on your strength alone."
+}

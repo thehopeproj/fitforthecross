@@ -1,0 +1,43 @@
+{
+  "schema": "0.6",
+  "date": "2026-11-28",
+  "status": "LOCKED",
+  "title": "RESTORATION",
+  "tagline": "God wants to restore you.",
+  "training_focus": "Grace",
+  "focus_line": "Grace is the undeserved kindness and power of God working in us and for us.",
+  "verse": {
+    "text": "And the God of all grace, who called you to his eternal glory in Christ, after you have suffered a little while, will himself restore you and make you strong, firm and steadfast.",
+    "reference": "1 Peter 5:10",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "e92aa224e938d0b0b81aba7a2fa11b8b"
+      },
+      "seconds": 174
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Silence",
+      "name_as_written": "Silence",
+      "macro": "micro",
+      "minutes": 8,
+      "prompt": "Rest in these four words — restore, strong, firm, steadfast — and let the God of all grace carry whatever burdens you cannot."
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "32a5885c68942da8ee8ae5689a7d4fb2"
+      },
+      "seconds": 107
+    }
+  ],
+  "coaching_notes": "Fitness, like faith, is a journey of restoration. That's why it doesn't happen overnight. Think of all that changed in your brain chemistry and your metabolic pathways as you became fit. Now apply that same patience, discipline, and vision to your faith life."
+}

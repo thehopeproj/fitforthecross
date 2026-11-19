@@ -1,0 +1,43 @@
+{
+  "schema": "0.6",
+  "date": "2026-11-27",
+  "status": "LOCKED",
+  "title": "FULLNESS",
+  "tagline": "God's fullness is a gift.",
+  "training_focus": "Grace",
+  "focus_line": "Grace is the undeserved kindness and power of God working in us and for us.",
+  "verse": {
+    "text": "Out of his fullness we have all received grace in place of grace already given.",
+    "reference": "John 1:16",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "418ba4362e63e4172be273d9c57887b6"
+      },
+      "seconds": 182
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Journaling",
+      "name_as_written": "Journaling",
+      "macro": "micro",
+      "minutes": 12,
+      "prompt": "This is the summit of your journaling this month. Go back through what you wrote earlier — the condemnation you handed over (Nov 6), the grievance you released (Nov 13), and the gracious moments you traced looking back (Nov 20). In one sitting, bring it together: how has God's grace shaped you this month, and where is He asking you to keep growing in it?"
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "40be9db9f1d02c6fb6e38d348a2f0246"
+      },
+      "seconds": 100
+    }
+  ],
+  "coaching_notes": "Here's the summit. You've been stacking your journaling reps all month — receiving grace, extending it, tracing it backward through your life. Today you stand back and look at the whole build. Don't rush it. See how far God's grace has already carried you, then trust that it will continue to carry you."
+}

@@ -1,0 +1,51 @@
+{
+  "schema": "0.6",
+  "date": "2026-11-30",
+  "status": "LOCKED",
+  "title": "THE BLESSING",
+  "tagline": "The Lord gives you peace.",
+  "training_focus": "Grace",
+  "focus_line": "Grace is the undeserved kindness and power of God working in us and for us.",
+  "verse": {
+    "text": "The Lord bless you and keep you; the Lord make his face shine on you and be gracious to you; the Lord turn his face toward you and give you peace.",
+    "reference": "Numbers 6:24–26",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "0262421931e3cdc8b8b56986683aae0c"
+      },
+      "seconds": 166
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Sabbath Scripture",
+      "name_as_written": "Sabbath Scripture",
+      "macro": "word",
+      "minutes": 5,
+      "prompt": "Read the blessings of today's verse slowly as a restful close to the month, hearing it as God's word spoken over you."
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Prayer",
+      "name_as_written": "Prayer",
+      "macro": "prayer",
+      "minutes": 5,
+      "prompt": "Look back across the month and talk to God about where His grace changed you. What area of growth can you carry into next month?"
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "d5b2fe58fcce88430a39865fc1c7f7ac"
+      },
+      "seconds": 122
+    }
+  ],
+  "coaching_notes": "What challenges you is what changes you. And sometimes God's grace is challenging. Some days, it can be challenging to believe you're even worthy of His grace. But you are. Because you are a child of the most high King — the King of grace. And His grace, His disciplined grace, changes lives."
+}
