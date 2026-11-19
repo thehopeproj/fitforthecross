@@ -400,3 +400,20 @@ html,body{overscroll-behavior:none}
  .stage.rise .room div,.stage.rise .mid{animation:none}
  .room video.leave{transform:none;opacity:0;transition:opacity .45s ease}
 }
+/* ===== Nov 19 fixes (HQ list from Trey's run) ===== */
+/* NO ORPHANS, everywhere in GUIDED (Trey standard): balanced wrapping on all text; long nutrient body text keeps "pretty" (rule above wins) */
+.app :not(input,textarea){text-wrap:balance}
+.cont .nverse,.cont .nprompt{text-wrap:pretty}
+/* ONE WAY TO CLOSE (Trey standard): every panel closes with its X at top right, phones too */
+.prsheet .shx{display:grid}.pr .prh{padding-right:44px}
+.sheet:has(> .shx) > .mi:first-of-type{margin-right:44px}
+/* prayer: while "a pastor to reach out" is ticked, name is required, so "(optional)" goes */
+.pr.want .opt{display:none}
+/* desktop hint: centered right above NEXT, arrow pointing down at it (phones keep swipe-up) */
+.hint .dn{display:none}
+@media (min-width:900px){
+ .hint{left:auto;right:calc(var(--pr) + 14px);width:260px;white-space:nowrap;bottom:76px;align-items:center;text-align:center}
+ .hint svg:not(.dn){display:none}.hint .dn{display:block}
+ .hint.on{animation:nudgeDown 1.8s ease-in-out infinite}
+ @keyframes nudgeDown{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+}

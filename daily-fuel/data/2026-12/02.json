@@ -17,9 +17,9 @@
       "role": "warmup",
       "video": {
         "provider": "stream",
-        "id": "a1e6d4204cccd8b3603ccbb34fa94c08"
+        "id": "f239979f70833d056e97914e58858745"
       },
-      "seconds": 235
+      "seconds": 234
     },
     {
       "type": "nutrient",
@@ -34,7 +34,7 @@
       "role": "wrapup",
       "video": {
         "provider": "stream",
-        "id": "1d5b3fe9004fbddbdacbadb80800bb02"
+        "id": "88f5d6e9b2c920f1d4c76976e1542489"
       },
       "seconds": 90
     }

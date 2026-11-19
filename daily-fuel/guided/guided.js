@@ -28,6 +28,7 @@ const IC = {
   pause: '<svg viewBox="0 0 24 24"><rect x="5.5" y="3" width="4.5" height="18" rx="2.2"/><rect x="14" y="3" width="4.5" height="18" rx="2.2"/></svg>',
   book: '<svg viewBox="0 0 24 24"><path d="M3 5.5c3-1.3 6-1.3 9 .8 3-2.1 6-2.1 9-.8V19c-3-1.3-6-1.3-9 .8-3-2.1-6-2.1-9-.8z"/><path d="M12 6.3V19.8"/></svg>',
   up: '<svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg>',
+  down: '<svg class="dn" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>',
   x: '<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>',
   dots: '<svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>',
 };
@@ -107,7 +108,7 @@ document.body.insertAdjacentHTML('afterbegin',
   '<button class="ic dots" data-act="menu" aria-label="More">' + IC.dots + '</button></div></div>' +
   '<div class="mid" id="midw"><div class="cont full sc" id="cont"></div><div class="more-cue" id="cue"></div><div class="edge" id="edge"><b id="eb"></b></div><div class="vline" id="vline"><b id="vlb"></b></div>' +
   '<div class="cap" id="cap" aria-live="off"><p><span id="capt"></span></p></div><div class="pill2" id="det"><button class="pp" id="pp" data-act="toggle" aria-label="Pause"></button><div class="track scrub" id="tr"><b id="tb"></b></div><span class="rem" id="rem"></span></div></div>' +
-  '<div class="bar off" id="bar"><img class="bmark" src="' + BASE + 'fftc-mark-w.png" alt=""><div class="hline"><b id="hb"></b></div><div class="hint" id="hint">' + IC.up + '<span class="m">Swipe up when you’re ready</span><span class="d">Click Next when you’re ready</span></div>' +
+  '<div class="bar off" id="bar"><img class="bmark" src="' + BASE + 'fftc-mark-w.png" alt=""><div class="hline"><b id="hb"></b></div><div class="hint" id="hint">' + IC.up + '<span class="m">Swipe up when you’re ready</span><span class="d">Click Next when you’re ready</span>' + IC.down + '</div>' +
   '<div class="l1" id="l1"></div><div class="l2" id="l2"></div>' +
   '<div class="dnav"><button data-act="back">← Back</button><button data-act="next">Next →</button></div></div>' +
   '</section></div>');
@@ -610,12 +611,12 @@ function prayer() {
   sheet('<button class="shx" data-act="x-sheet" aria-label="Close">' + IC.x + '</button>' + '<form class="pr" novalidate>' +
     '<div class="prh">Prayer request</div><p class="prsub">We are humbled and honored to pray for you. All prayer requests are kept confidential and only seen by one of our pastors.</p>' +
     '<label class="prl">Your request<textarea name="request" rows="5" required placeholder="How can we pray for you?"></textarea></label>' +
-    '<label class="prl"><span>Your name <i>(optional)</i></span><input name="name" autocomplete="name"></label>' +
+    '<label class="prl"><span>Your name <i class="opt">(optional)</i></span><input name="name" autocomplete="name"></label>' +
     '<label class="prc"><input type="checkbox" name="pastor"><span class="bx"></span><span>I’d like a pastor to reach out to me</span></label>' +
     '<label class="prl pre">Your email<input name="email" type="email" autocomplete="email" placeholder="you@email.com"></label>' +
     '<p class="prerr" id="prerr" role="alert"></p>' +
     '<button class="btn prsend" type="submit"><span class="txt">Send prayer request</span><span class="dots"><i></i><i></i><i></i></span></button></form>' +
-    '<div class="prdone"><div class="chk">✓</div><div class="prh">Your prayers are on their way</div><p><span class="prall">We will be praying for you.</span><span class="prpast">One of our pastors will review your prayer request and be in touch.</span></p><button class="btn ghost" type="button" data-act="pr-done">Done</button></div>');
+    '<div class="prdone"><div class="chk">✓</div><div class="prh">Your prayers are on their way</div><p><span class="prall">We will be praying for you.</span><span class="prpast">One of our pastors will review your prayer request and be in touch.</span></p></div>');
   const sh = app.querySelector('.sheet'), f = sh.querySelector('form');
   sh.classList.add('prsheet');
   f.pastor.addEventListener('change', () => f.classList.toggle('want', f.pastor.checked));
@@ -625,6 +626,7 @@ function sendPrayer(f, sh) {
   const r = f.request.value.trim(), em = f.email.value.trim(), err = $('prerr'), want = f.pastor.checked;
   err.textContent = '';
   if (!r) { err.textContent = 'Please write your request.'; f.request.focus(); return; }
+  if (want && !f.elements['name'].value.trim()) { err.textContent = 'Tell us who we are reaching out to.'; f.elements['name'].focus(); return; }
   if (want && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) { err.textContent = 'Add your email so one of our pastors can reach out.'; f.email.focus(); return; }
   const b = f.querySelector('.prsend'); b.classList.add('sending'); b.disabled = true;
   const P = CFG.prayer, body = new URLSearchParams();
@@ -693,7 +695,7 @@ function act(a) {
     case 'menu': ev('guided_control', { control: 'menu_open' });
       { const on = soundPref !== false && !(V.classList.contains('on') && V.muted);
         const sw = (act, label, v) => '<button class="mi" data-act="' + act + '" role="switch" aria-checked="' + v + '">' + label + '<span class="tgl' + (v ? ' on' : '') + '"></span></button>';
-        sheet('<button class="mi" data-act="fb-menu">Share beta feedback</button>' + sw('sound', 'Sound', on) + sw('cc', 'Captions', CC) + '<button class="mi" data-act="restart-menu">Restart session</button>'); }
+        sheet('<button class="shx" data-act="x-sheet" aria-label="Close">' + IC.x + '</button>' + '<button class="mi" data-act="fb-menu">Share beta feedback</button>' + sw('sound', 'Sound', on) + sw('cc', 'Captions', CC) + '<button class="mi" data-act="restart-menu">Restart session</button>'); }
       break;
     case 'toggle': toggle(); break;
     case 'unmute': unmute(); break;

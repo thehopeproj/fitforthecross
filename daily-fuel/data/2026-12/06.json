@@ -17,9 +17,9 @@
       "role": "warmup",
       "video": {
         "provider": "stream",
-        "id": "e14ccb83e8b317e7ff8e9e8d1f31c36c"
+        "id": "8920d034b7605bafc3c83a90c67f5119"
       },
-      "seconds": 163
+      "seconds": 161
     },
     {
       "type": "nutrient",
@@ -34,9 +34,9 @@
       "role": "wrapup",
       "video": {
         "provider": "stream",
-        "id": "de8dde4c035cb038a50f37bf6ef394c0"
+        "id": "57616d6af5af2d11378b479b23bff752"
       },
-      "seconds": 167
+      "seconds": 165
     }
   ],
   "coaching_notes": "The greatest spiritual moments in your life most likely started with something small that seemed insignificant. Look for the small moments where God is at work right now."

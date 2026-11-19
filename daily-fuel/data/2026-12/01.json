@@ -17,9 +17,9 @@
       "role": "warmup",
       "video": {
         "provider": "stream",
-        "id": "3fc2180c35c564e7f41981c2610b036f"
+        "id": "11bc8774d66a281cb6ef63aa851dc46b"
       },
-      "seconds": 202
+      "seconds": 201
     },
     {
       "type": "nutrient",
@@ -50,9 +50,9 @@
       "role": "wrapup",
       "video": {
         "provider": "stream",
-        "id": "f4d971d76cbb12f5f059c6c5d16203c5"
+        "id": "9b9918b09a748915dd5614f8d705712c"
       },
-      "seconds": 104
+      "seconds": 103
     }
   ],
   "coaching_notes": "What you put your hope in matters. This month, allow God to reveal sources of hope that don't serve you."

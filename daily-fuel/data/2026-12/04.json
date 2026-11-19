@@ -17,9 +17,9 @@
       "role": "warmup",
       "video": {
         "provider": "stream",
-        "id": "591d60c3071e45a56d3b1344f7fa37d7"
+        "id": "e4dd682e2601e36dde39fbf9351fe2e1"
       },
-      "seconds": 222
+      "seconds": 221
     },
     {
       "type": "action",
@@ -32,9 +32,9 @@
       "role": "wrapup",
       "video": {
         "provider": "stream",
-        "id": "2b54c9040c3675c8d139fc4652ffee65"
+        "id": "774506596fa1e6e959680253f02a391a"
       },
-      "seconds": 211
+      "seconds": 209
     }
   ],
   "coaching_notes": "Advent means \"coming\" or \"arrival.\" This is the time to prepare your heart for the celebration of Christ's birth at Christmas. Let encouragement be part of your preparation."
