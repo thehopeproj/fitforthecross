@@ -253,59 +253,94 @@ html,body{overscroll-behavior:none}
 /* set up the slide layers at page open, not at the first slide */
 .room div,.mid,.room video{will-change:transform}
 @media (min-width:900px){.endpad .copy{max-width:420px}}
-/* ---- GUIDED v10: desktop frame + prayer panel (SOCIAL MEDIA spec, Trey approved Nov 18) ---- */
-/* ===== v10: DESKTOP = the session lives in a FRAME; outside the frame is styled background ===== */
-.room .blr{display:none}
-.hint .d{display:none}
+/* ===== v11: DESKTOP = "coach beside the page" (APP ROADMAP mock-up 9, Trey approved Nov 18; refined by SOCIAL MEDIA) ===== */
+.room .blr{display:none}.hint .d{display:none}.vsum,.vline{display:none}
 @media (min-width:900px){
- /* outside the frame: the day's room, very blurred and dark, plus a soft vignette */
  html,body{background:#0b0a0a}
  body::before{content:"";position:fixed;inset:-10%;background:var(--roombg,#0b0a0a) center/cover no-repeat;filter:blur(70px) brightness(.22) saturate(.9);z-index:0}
  body::after{content:"";position:fixed;inset:0;background:radial-gradient(ellipse at center,rgba(11,10,10,0) 40%,rgba(11,10,10,.7) 100%);z-index:0}
- /* the frame: everything (step lines, X/⋯, video, bar) belongs inside it */
- .app{--fh:min(860px,calc(100vh - 56px));--fw:min(1320px,calc(100vw - 72px));--vt:0px;--vb:70px;--vw:calc((var(--fh) - var(--vt) - var(--vb)) * .5625);
-  position:relative;z-index:1;max-width:none;width:var(--fw);height:var(--fh);margin:auto;border-radius:22px;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,.7),0 0 0 1px rgba(241,239,230,.09)}
+ /* the frame = two fixed panes: coach (9:16, full height) + page (790 px) */
+ .app{--fh:min(860px,calc(100vh - 56px));--cw:calc(var(--fh) * .5625);--pl:60px;--pr:44px;
+  position:relative;z-index:1;max-width:none;width:min(calc(var(--cw) + 790px),calc(100vw - 72px));height:var(--fh);margin:auto;border-radius:22px;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,.7),0 0 0 1px rgba(241,239,230,.09)}
  .desk body{align-items:center}
- /* inside the frame: blurred room fills it; the video sits sharp between the top row and the bar, never under them */
- .room .blr{display:block;position:absolute;inset:-8%;background:#000 center/cover no-repeat;opacity:0;filter:blur(48px) brightness(.42) saturate(1.1);transition:opacity .9s ease}
- .room .blr.on{opacity:1}
- .room div{top:var(--vt);bottom:var(--vb);left:0;right:0;background-size:contain;background-color:transparent}
- .room.dim div{opacity:0!important}
- .room.dim .blr{filter:blur(48px) brightness(.3) saturate(.8)}
- .room::after{background:linear-gradient(rgba(14,13,13,.55),rgba(14,13,13,0) 16%)}
- .top{padding:22px 28px 0}
- /* content column on non-video screens */
- .cont{width:100%;max-width:760px;margin:0 auto;padding:0 40px 24px}
- .cont.full{padding:6px 40px 0;max-width:760px}
+ .stage{background:#121111}
+ /* LEFT pane: the coach, the whole session. Sharp on videos; light blur + dim on every other screen */
+ .room{right:auto;width:var(--cw);background:#000}
+ .room div{inset:0;background-size:cover}
+ .room.dim div{filter:blur(3px) brightness(.42) saturate(.75)}
+ .room::after{background:linear-gradient(rgba(14,13,13,0) 66%,rgba(14,13,13,.78));opacity:0;transition:opacity .4s}
+ .stage.isvid .room::after{opacity:1}
+ /* RIGHT pane: top row, content, bottom row */
+ .top,.mid,.stage .bar{margin-left:var(--cw)}
+ .mid{position:static}
+ .top{display:flex;align-items:center;gap:16px;padding:26px var(--pr) 0 var(--pl)}
+ .top .segs{flex:1}
+ .top.off .util{display:flex}.top.off{padding-bottom:0}
+ .top .util{height:44px;margin:0;gap:12px;flex:none}
+ .top .util .ic:not(.dots){order:2}
+ .top .ic{width:44px;height:44px;background:transparent;box-shadow:none;border:1.5px solid rgba(241,239,230,.3);-webkit-backdrop-filter:none;backdrop-filter:none}
+ .top .ic:hover{background:rgba(241,239,230,.1)}
+ .top .ic svg{width:20px;height:20px;stroke-width:2.4}
+ .snd{display:none!important}
+ .cont{max-width:none;margin:0;padding:0 var(--pr) 0 var(--pl)}
+ .cont.full{padding:22px var(--pr) 0 var(--pl)}
+ /* nutrients: bigger, centered in the page */
  .cont .kick{font-size:14px}
- .cont .nword{font-size:64px;letter-spacing:-2px}
+ .cont .nword{font-size:68px;letter-spacing:-2.4px}
  .cont .nverse{font-size:26px;padding-left:20px;border-left-width:6px}.cont .nverse cite{font-size:13px}
- .cont .nprompt{font-size:28px;line-height:1.3}
- .mast .mbox{height:32px}.dfg{font-size:54px;letter-spacing:-2.5px}.dfg small{font-size:14px}
- .band{margin:14px -40px 0}
- .std1{font-size:14px;margin-top:18px}.htitle{font-size:72px;letter-spacing:-3px}.htag{font-size:22px}
- .hverse{font-size:20px;padding-left:18px;border-left-width:6px}.hverse cite{font-size:12px}
- .shead{font-size:13px;margin-top:22px}.steps li{font-size:17px;padding:10px 0}
- .close{font-size:54px}.closel{font-size:21px;max-width:620px}.tmr .tt{font-size:38px}
- .endpad .btn{max-width:420px}
- .edge{right:max(32px,calc(50% - 420px));top:20px;bottom:24px;width:6px}
- /* video controls + captions stay INSIDE the video's width */
- .pill2{left:50%;right:auto;width:calc(var(--vw) - 40px);max-width:440px;bottom:18px;transform:translate(-50%,10px)}.pill2.open{transform:translate(-50%,0)}
- .cap{bottom:22px}.cap p{max-width:calc(var(--vw) - 48px)}.cap span{font-size:21px}
- .mid:has(.pill2.open) .cap{transform:translateY(-80px)}
- /* bottom bar: inside the frame; Back/Next + mark on the right */
- .stage .bar{padding-left:28px;padding-right:28px}
- .bmark{right:28px}
- .desk .dnav{position:absolute;right:92px;bottom:20px;margin:0;width:260px}
+ .cont .nprompt{font-size:30px;line-height:1.3}
+ /* opening / end */
+ .mast .mbox{height:30px}.dfg{font-size:50px;letter-spacing:-2.3px}.dfg small{font-size:13px}
+ .band{margin:14px 0 0}
+ .std1{font-size:14px;margin-top:20px}.htitle{font-size:76px;letter-spacing:-3px}.htag{font-size:22px}
+ .hverse{font-size:21px;padding-left:18px;border-left-width:6px}.hverse cite{font-size:12px}
+ .shead{font-size:13px;margin-top:24px}.steps li{font-size:17px;padding:10px 0}
+ .close{font-size:54px}.closel{font-size:21px}.tmr .tt{font-size:38px}
+ .endpad .btn{max-width:none}
+ /* during a video the page shows the day at half brightness, with ticks on finished nutrients */
+ .stage.isvid .vsum{display:block;opacity:.5}
+ .vsum .htitle{font-size:56px;letter-spacing:-2.2px;margin-top:0}
+ .vsum .steps li{display:flex;justify-content:space-between}.vsum .tick{color:var(--orange);font-weight:700}
+ .stage.isvid .cont{justify-content:center}
+ /* timer = vertical orange bar on the seam; video = thin line under the coach (never touching) */
+ .edge{left:calc(var(--cw) + 18px);right:auto;top:26px;bottom:24px;width:6px;border-radius:3px}
+ .edge b{border-radius:3px}
+ .vline{display:block;position:absolute;left:18px;width:calc(var(--cw) - 36px);bottom:16px;height:3px;border-radius:2px;background:rgba(241,239,230,.28);opacity:0;transition:opacity .4s;z-index:4}
+ .stage.isvid .vline{opacity:1}.vline b{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--orange);border-radius:2px}
+ .stage .bar .hline{display:none}
+ /* captions + video controls live in the coach pane */
+ .cap{left:0;right:auto;width:var(--cw);bottom:34px;padding:0 22px}.cap p{max-width:none}.cap span{font-size:20px}
+ .mid:has(.pill2.open) .cap{transform:translateY(-70px)}
+ .pill2{left:calc(var(--cw) / 2);right:auto;width:calc(var(--cw) - 48px);max-width:380px;bottom:34px;transform:translate(-50%,10px)}.pill2.open{transform:translate(-50%,0)}
+ /* bottom row of the page: day title + reference left (nutrients), BEGIN / Back / Next + mark right */
+ .stage .bar{background:transparent;padding:0 var(--pr) 24px var(--pl);display:flex;flex-direction:column;justify-content:flex-end;min-height:72px}
+ .stage.isvid .bar .l1,.stage.isvid .bar .l2{visibility:hidden}
+ .stage .bar .l1{font-size:22px}.stage .bar .l2{font-size:15px}
+ .bmark{right:var(--pr);bottom:26px;height:36px}
+ .desk .dnav{position:absolute;right:calc(var(--pr) + 52px);bottom:24px;margin:0;width:auto;gap:10px}
+ .desk .dnav button{width:122px;height:42px}
  .bar.off .dnav{display:none}
- /* end of a timer on a computer: the hint says what to click, and NEXT lights up */
+ .hint{left:var(--pl);right:auto;align-items:flex-start}
  .hint .m{display:none}.hint .d{display:inline}.desk .hint span.d{display:inline}
  .bar.ready .dnav button:last-child{background:var(--orange);border-color:var(--orange);color:#fff;animation:readyPulse 1.8s ease-in-out infinite}
  @keyframes readyPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,83,0,.55)}50%{box-shadow:0 0 0 8px rgba(255,83,0,0)}}
- .start{padding-bottom:26px}
- .desk .start .dk{width:320px}
+ /* BEGIN bottom right of the page */
+ .start{align-items:flex-end;padding-bottom:24px}
+ .desk .start .dk{width:240px}
+ /* prayer panel opens over the page (coach stays in view) */
+ .scrim{left:var(--cw)}
+ .sheet{left:calc(var(--cw) + (100% - var(--cw)) / 2);right:auto;width:min(520px,calc(100% - var(--cw) - 64px));bottom:auto;top:50%;border-radius:18px;transform:translate(-50%,-44%);opacity:0;transition:transform .3s,opacity .25s}
+ .sheet.on{transform:translate(-50%,-50%);opacity:1}.sheet .grab{display:none}
+ .prsheet{max-height:calc(100% - 40px);overflow-y:auto}
 }
-@media (min-width:900px) and (hover:hover){.start > :not(.dk){display:none}.start{padding-top:18px}}
+@media (min-width:900px) and (max-height:800px){
+ .cont .nword{font-size:56px}.cont .nprompt{font-size:25px}.cont .nverse{font-size:22px}
+ .dfg{font-size:42px}.htitle{font-size:60px}.htag{font-size:19px}.hverse{font-size:18px}.steps li{font-size:15px;padding:7px 0}.std1{margin-top:14px}.shead{margin-top:16px}
+ .close{font-size:44px}.closel{font-size:18px}.tmr .tt{font-size:30px}.tmr{margin-top:14px}
+ .prl textarea{height:96px}.prl{margin-top:10px}.prc{margin-top:12px}
+}
+.desk .start .sw{display:none!important}
+@media (min-width:900px) and (hover:hover){.start > :not(.dk){display:none!important}.start{padding-top:18px}}
 /* prayer request panel */
 .prsheet{max-height:92%;overflow-y:auto}
 .pr .prh,.prdone .prh{font-family:LS;font-weight:800;font-size:30px;letter-spacing:-1px;text-transform:uppercase;line-height:.95}
@@ -331,10 +366,37 @@ html,body{overscroll-behavior:none}
 .prdone{display:none;text-align:center;padding:10px 0 4px}.prdone p{font-size:17px;line-height:1.4;margin:10px 0 18px}
 .prdone .chk{width:56px;height:56px;border-radius:50%;background:var(--orange);color:#fff;font-size:28px;font-weight:700;display:grid;place-items:center;margin:0 auto 14px}
 .prsheet.sent .pr{display:none}.prsheet.sent .prdone{display:block}
-@media (min-width:900px){.sheet{left:50%;right:auto;width:520px;bottom:auto;top:50%;border-radius:18px;transform:translate(-50%,-40%);opacity:0;transition:transform .3s,opacity .25s}.sheet.on{transform:translate(-50%,-50%);opacity:1}.sheet .grab{display:none}}
 /* v10 + the real player */
 .prpast{display:none}.prsheet.want .prpast{display:inline}.prsheet.want .prall{display:none}
+@media (min-width:900px){.room video{object-fit:cover}}
+/* verse drawer: small X at its top right closes it */
+.shx{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(41,39,39,.35);display:grid;place-items:center;background:transparent;cursor:pointer}
+.shx:hover{background:rgba(41,39,39,.08)}
+.shx svg{width:16px;height:16px;stroke:var(--ink);fill:none;stroke-width:2.4;stroke-linecap:round}
+.vsheet blockquote{margin-right:40px}
+@media (min-width:900px){.vsheet{padding:30px 32px 30px}.vsheet blockquote{font-size:24px;margin-right:44px}.vsheet cite{font-size:12px}}
+/* no orphans on nutrient screens: names balanced, verse + prompt wrapped "pretty" (balance where pretty isn't supported) */
+.cont .nword{text-wrap:balance}
+.cont .nverse,.cont .nprompt{text-wrap:balance;text-wrap:pretty}
+/* end screen, computer (option C, Trey + APP ROADMAP Nov 18): prayer = the one button under the content;
+   Restart session in Back's spot, Share beta feedback in Next's spot (a habit click opens feedback, not a restart); FFTC mark bottom right */
+.emark{display:none}
 @media (min-width:900px){
- .room video{top:var(--vt);bottom:auto;height:calc(100% - var(--vt) - var(--vb));object-fit:contain;background:transparent}
- .room.dim.onvid .blr{filter:blur(48px) brightness(.42) saturate(1.1)}
+ .desk .dnav button{width:184px;flex:none;height:42px;font-size:11.5px;letter-spacing:1.4px}
+ .endpad .pray{margin-top:24px}
+ .endpad .pray .btn{width:320px;min-height:48px;border-radius:10px;font-size:13px}
+ .endpad .fb{position:absolute;bottom:24px;width:184px!important;max-width:none;min-height:42px!important;height:42px;margin:0!important;border-radius:10px;border:1.5px solid rgba(241,239,230,.5);font-size:11.5px;letter-spacing:1.4px;padding:0}
+ .endpad .ers{right:calc(var(--pr) + 52px + 184px + 10px)}
+ .endpad .efb{right:calc(var(--pr) + 52px)}
+ .emark{display:block;position:absolute;right:var(--pr);bottom:26px;height:36px;opacity:.95}
+}
+/* prayer panel: close X on computers only (phones swipe down / tap outside) */
+.prsheet .shx{display:none}
+@media (min-width:900px){.prsheet .shx{display:grid}.pr .prh{padding-right:44px}}
+/* v11 computer (CODE): no slide-up between screens: the coach stays in his pane and the video fades to the dimmed frame.
+   .mid must not be a containing block here, or the seam bar and video line are placed from the page pane instead of the frame. */
+@media (min-width:900px){
+ .mid{will-change:auto}
+ .stage.rise .room div,.stage.rise .mid{animation:none}
+ .room video.leave{transform:none;opacity:0;transition:opacity .45s ease}
 }

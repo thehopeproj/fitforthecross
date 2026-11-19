@@ -105,7 +105,7 @@ document.body.insertAdjacentHTML('afterbegin',
   '<button class="ic" data-act="close" aria-label="Close">' + IC.x + '</button>' +
   '<button class="snd" id="snd" data-act="unmute" aria-label="Tap for sound"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="spk" d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="x" d="M16 9.5l5 5M21 9.5l-5 5"/></svg><span class="lbl">Tap for sound</span></button>' +
   '<button class="ic dots" data-act="menu" aria-label="More">' + IC.dots + '</button></div></div>' +
-  '<div class="mid" id="midw"><div class="cont full sc" id="cont"></div><div class="more-cue" id="cue"></div><div class="edge" id="edge"><b id="eb"></b></div>' +
+  '<div class="mid" id="midw"><div class="cont full sc" id="cont"></div><div class="more-cue" id="cue"></div><div class="edge" id="edge"><b id="eb"></b></div><div class="vline" id="vline"><b id="vlb"></b></div>' +
   '<div class="cap" id="cap" aria-live="off"><p><span id="capt"></span></p></div><div class="pill2" id="det"><button class="pp" id="pp" data-act="toggle" aria-label="Pause"></button><div class="track scrub" id="tr"><b id="tb"></b></div><span class="rem" id="rem"></span></div></div>' +
   '<div class="bar off" id="bar"><img class="bmark" src="' + BASE + 'fftc-mark-w.png" alt=""><div class="hline"><b id="hb"></b></div><div class="hint" id="hint">' + IC.up + '<span class="m">Swipe up when you’re ready</span><span class="d">Click Next when you’re ready</span></div>' +
   '<div class="l1" id="l1"></div><div class="l2" id="l2"></div>' +
@@ -169,14 +169,19 @@ function endHTML() {
       ? '<div class="pray"><button class="btn" data-act="prayer">Submit a prayer request</button></div>'
       : '<div class="pray"><a class="btn" data-act="prayer" href="mailto:' + CFG.mail + '?subject=' + encodeURIComponent(subj) + '">Submit a prayer request</a>' +
         '<div class="copy"><span>' + CFG.mail + '</span><button data-act="copy">Copy email</button></div></div>') +
-    '<button class="btn ghost fb" data-act="fb-end">Share beta feedback</button>' +
-    '<button class="btn ghost fb" data-act="restart-end">Restart session</button></div>';
+    '<button class="btn ghost fb efb" data-act="fb-end">Share beta feedback</button>' +
+    '<button class="btn ghost fb ers" data-act="restart-end">Restart session</button>' +
+    '<img class="emark" src="' + BASE + 'fftc-mark-w.png" alt=""></div>';
 }
 function content(k) {
   if (k < 0) return homeHTML();
   if (k >= S.length) return endHTML();
   const s = S[k];
-  if (s.t === 'video') return '';
+  if (s.t === 'video') {
+    const li = S.map((x, j) => x.t === 'video' ? '' : '<li>' + esc(x.label) + (j < k ? '<b class="tick">✓</b>' : '') + '</li>').join('');
+    return '<div class="vsum"><div class="htitle">' + esc(DAY.title) + '</div><div class="htag">' + esc(DAY.tagline) + '</div>' +
+      '<blockquote class="hverse">' + verseHTML() + '</blockquote><div class="shead"><span>Today’s session</span><span>' + totalMin() + ' min</span></div><ol class="steps">' + li + '</ol></div>';
+  }
   if (s.t === 'action') return '<div class="kick">' + s.min + ' MINUTES OF</div><div class="nword">' + esc(s.label) + '</div>' +
     '<blockquote class="nverse">' + esc(s.instruction) + '<cite>' + esc(s.descriptor) + '</cite></blockquote><hr class="nsep"><p class="nprompt">' + CFG.actPrompt + '</p>';
   return '<div class="kick">' + s.min + ' MINUTES OF</div><div class="nword">' + esc(s.label) + '</div>' +
@@ -395,6 +400,7 @@ function draw() {
   $('hb').style.width = p * 100 + '%';
   $('rem').textContent = fmt(s) + ' / ' + fmt(t);
   if (!isVid()) $('eb').style.height = p * 100 + '%';
+  else $('vlb').style.width = p * 100 + '%';
 }
 function toggle() {
   if (!cur || finished()) return;
@@ -412,7 +418,7 @@ function setPP() { $('pp').innerHTML = running() ? IC.pause : IC.play; }
 let detT = null;
 function detail(on, quiet) {
   const b = $('det');
-  if (!cur || n < 0 || n >= S.length || finished()) { b.classList.remove('open'); return; }
+  if (!cur || n < 0 || n >= S.length || finished() || (DESKTOP && !isVid())) { b.classList.remove('open'); return; }
   if (on && !quiet && !b.classList.contains('open')) ev('guided_control', { control: 'pill_open' });
   b.classList.toggle('open', on);
   clearTimeout(detT);
@@ -552,6 +558,8 @@ function go(k, via) {
   $('bR').classList.toggle('on', wrap);
   $('bW').classList.toggle('on', !wrap);
   $('room').classList.toggle('onvid', vid);
+  const stg = $('stage');
+  stg.classList.toggle('isvid', vid); stg.classList.toggle('isnut', timed); stg.classList.toggle('ishome', n < 0); stg.classList.toggle('isend', n >= S.length);
   $('top').classList.toggle('off', !isStep);
   segs();
   $('det').classList.remove('open');
@@ -561,6 +569,7 @@ function go(k, via) {
   $('bar').classList.toggle('notrack', isStep && !vid);
   $('edge').classList.toggle('on', timed);
   $('eb').style.height = '0';
+  $('vlb').style.width = '0';
   $('cue').classList.remove('on');
   if (isStep) {
     $('l1').textContent = DAY.title;
@@ -585,10 +594,12 @@ function go(k, via) {
 
 /* ---------- v10 computer: hover shows the controls; video fits between the frame top and the bar ---------- */
 let mvT = 0;
-app.addEventListener('mousemove', () => {
-  if (!DESKTOP) return;
+app.addEventListener('mousemove', e => {
+  if (!DESKTOP || !S || !cur || n < 0 || n >= S.length || finished() || app.querySelector('.sheet')) return;
+  const r = $('room').getBoundingClientRect(), over = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+  if (!over) { if (!e.target.closest('#det') && running()) $('det').classList.remove('open'); return; }
   const t = Date.now(); if (t - mvT < 250) return; mvT = t;
-  if (S && cur && n >= 0 && n < S.length && !finished() && !app.querySelector('.sheet')) detail(true, true);
+  detail(true, true);
 });
 app.addEventListener('mouseleave', () => { if (DESKTOP && running()) $('det').classList.remove('open'); });
 function fitVid() { const b = $('bar'); if (b && !b.classList.contains('off')) app.style.setProperty('--vb', b.offsetHeight + 'px'); }
@@ -596,7 +607,7 @@ addEventListener('resize', fitVid);
 
 /* ---------- prayer request panel (v10, Trey's final wording Nov 18) ---------- */
 function prayer() {
-  sheet('<form class="pr" novalidate>' +
+  sheet('<button class="shx" data-act="x-sheet" aria-label="Close">' + IC.x + '</button>' + '<form class="pr" novalidate>' +
     '<div class="prh">Prayer request</div><p class="prsub">We are humbled and honored to pray for you. All prayer requests are kept confidential and only seen by one of our pastors.</p>' +
     '<label class="prl">Your request<textarea name="request" rows="5" required placeholder="How can we pray for you?"></textarea></label>' +
     '<label class="prl"><span>Your name <i>(optional)</i></span><input name="name" autocomplete="name"></label>' +
@@ -686,13 +697,13 @@ function act(a) {
       break;
     case 'toggle': toggle(); break;
     case 'unmute': unmute(); break;
-    case 'pr-done': closeSheets(); break;
+    case 'pr-done': case 'x-sheet': closeSheets(); break;
     case 'cc': CC = !CC; try { localStorage.setItem('fftc_cc', CC ? '1' : '0'); } catch (e) {} ev('guided_control', { control: CC ? 'captions_on' : 'captions_off' }); flip('cc', CC); drawCap(V.currentTime || 0); break;
     case 'sound': { const sb = document.querySelector('.sheet [data-act=sound]'), on = !(sb && sb.getAttribute('aria-checked') === 'true'); setSound(on, on ? 'sound_on' : 'sound_off'); flip('sound', on); } break;
     case 'back': go(n - 1, 'button'); break;
     case 'next': go(n + 1, 'button'); break;
     case 'begin': go(0, 'button'); break;
-    case 'verse': ev('guided_control', { control: 'verse_open' }); sheet('<blockquote>' + verseHTML() + '</blockquote>'); break;
+    case 'verse': ev('guided_control', { control: 'verse_open' }); sheet('<button class="shx" data-act="x-sheet" aria-label="Close">' + IC.x + '</button>' + '<blockquote>' + verseHTML() + '</blockquote>'); app.querySelector('.sheet').classList.add('vsheet'); break;
     case 'fb-menu': closeSheets(); feedback(); break;
     case 'fb-end': ev('guided_end_action', { action: 'feedback' }); feedback(); break;
     case 'restart-menu': ev('guided_control', { control: 'restart' }); go(0, 'restart'); break;
