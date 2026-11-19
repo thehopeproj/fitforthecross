@@ -846,7 +846,7 @@ function act(a) {
     case 'next': go(n + 1, 'button'); break;
     case 'begin': go(0, 'button'); break;
     case 'verse': ev('guided_control', { control: 'verse_open' }); sheet('<button class="shx" data-act="x-sheet" aria-label="Close">' + IC.x + '</button>' + '<blockquote>' + verseHTML() + '</blockquote>'); app.querySelector('.sheet').classList.add('vsheet'); break;
-    case 'fb-menu': closeSheets(); feedback(); break;
+    case 'fb-menu': closeSheets(); if (running()) toggle(); feedback(); break; // fix 7: feedback mid-step pauses; stays paused after close
     case 'fb-end': ev('guided_end_action', { action: 'feedback' }); feedback(); break;
     case 'restart-menu': ev('guided_control', { control: 'restart' }); go(0, 'restart'); break;
     case 'restart-end': ev('guided_end_action', { action: 'restart' }); go(0, 'restart'); break;
