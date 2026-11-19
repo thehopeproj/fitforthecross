@@ -1,0 +1,59 @@
+{
+  "schema": "0.6",
+  "date": "2026-12-08",
+  "status": "LOCKED",
+  "title": "WATCHFUL",
+  "tagline": "Keep watch, and keep giving thanks.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "Devote yourselves to prayer, being watchful and thankful.",
+    "reference": "Colossians 4:2",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "1a09d8ea04aad8f709e7a94ab18c0acf"
+      },
+      "seconds": 257
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Gratitude",
+      "name_as_written": "Gratitude",
+      "macro": "micro",
+      "minutes": 4,
+      "prompt": "Thank God for specific ways He's been faithful while you've waited."
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Examen",
+      "name_as_written": "Examen",
+      "macro": "micro",
+      "minutes": 4,
+      "prompt": "Look back over the past week and notice where God was present, even in the small things."
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Worship",
+      "name_as_written": "Worship",
+      "macro": "word",
+      "minutes": 4,
+      "prompt": "Let your waiting turn to praise — worship the God who is worth the wait."
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "a8cba6c5000792fcd9d518c6acc28628"
+      },
+      "seconds": 159
+    }
+  ],
+  "coaching_notes": "Waiting. It's not the workout you probably want. But waiting shapes your perspective. It can shift your mindset from feeling like you're waiting on God to the realization that you're actually waiting with Him."
+}

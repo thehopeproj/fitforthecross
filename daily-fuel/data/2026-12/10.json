@@ -1,0 +1,43 @@
+{
+  "schema": "0.6",
+  "date": "2026-12-10",
+  "status": "LOCKED",
+  "title": "SOURCE",
+  "tagline": "Good hope comes from God.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "May our Lord Jesus Christ himself and God our Father, who loved us and by his grace gave us eternal encouragement and good hope, encourage your hearts and strengthen you in every good deed and word.",
+    "reference": "2 Thessalonians 2:16–17",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "c8948ffdb91b463588bf824f241d025c"
+      },
+      "seconds": 237
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Meditation",
+      "name_as_written": "Meditation",
+      "macro": "word",
+      "minutes": 9,
+      "prompt": "Focus on the following words: \"…eternal encouragement and good hope.\""
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "f405b5ee10347fcf26f1b9a4727c042e"
+      },
+      "seconds": 158
+    }
+  ],
+  "coaching_notes": "Eternal encouragement and good hope. God is building spiritual strength in you right now. Sit with Him today and receive it."
+}

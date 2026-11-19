@@ -1,0 +1,43 @@
+{
+  "schema": "0.6",
+  "date": "2026-12-09",
+  "status": "LOCKED",
+  "title": "FILLED",
+  "tagline": "God fills us with joy and peace.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "May the God of hope fill you with all joy and peace as you trust in him, so that you may overflow with hope by the power of the Holy Spirit.",
+    "reference": "Romans 15:13",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "e82f61b0dabbc975486363db9086a135"
+      },
+      "seconds": 228
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Memorization",
+      "name_as_written": "Scripture Memorization",
+      "macro": "word",
+      "minutes": 6,
+      "prompt": "Memorize Romans 15:13 up to here: \"May the God of hope fill you with all joy and peace.\" (New this week: \"fill you with all joy and peace.\")"
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "6e8d9474ef6b66b265bf0e9983269027"
+      },
+      "seconds": 79
+    }
+  ],
+  "coaching_notes": "Another session of Scripture memorization today. Think of it like learning an exercise in the gym. It's not enough to know what to do. It's also the time spent doing it. Stay focused!"
+}

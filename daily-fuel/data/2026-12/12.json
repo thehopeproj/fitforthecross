@@ -1,0 +1,51 @@
+{
+  "schema": "0.6",
+  "date": "2026-12-12",
+  "status": "LOCKED",
+  "title": "ENDURE",
+  "tagline": "His love endures — so can your hope.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "Enter his gates with thanksgiving and his courts with praise; give thanks to him and praise his name. For the Lord is good and his love endures forever; his faithfulness continues through all generations.",
+    "reference": "Psalm 100:4–5",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "56f7e9a84e0751ea63be64e7378becfa"
+      },
+      "seconds": 285
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Worship",
+      "name_as_written": "Worship",
+      "macro": "word",
+      "minutes": 5,
+      "prompt": "Enter His presence with thanksgiving — sing or speak praise for who He is."
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Gratitude",
+      "name_as_written": "Gratitude",
+      "macro": "micro",
+      "minutes": 5,
+      "prompt": "How has God's faithfulness been present in your life?"
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "85a124ae84c1232f328dcb1341d64ec7"
+      },
+      "seconds": 162
+    }
+  ],
+  "coaching_notes": "Looking for a song for your worship block today? Check out \"Yes and Amen\" (feat. Chris McClarney) by Jesus Culture. All God's promises are yes and amen."
+}

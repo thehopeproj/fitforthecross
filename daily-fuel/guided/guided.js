@@ -653,8 +653,9 @@ function sheet(h) {
   app.append(sc, sh);
   requestAnimationFrame(() => { sc.classList.add('on'); sh.classList.add('on'); });
   let sy = null, d = 0;
-  sh.addEventListener('touchstart', e => { if (e.target.closest('textarea,input,label,button')) { sy = null; return; } sy = e.touches[0].clientY; d = 0; sh.style.transition = 'none'; }, { passive: true });
-  sh.addEventListener('touchmove', e => { if (sy === null) return; d = Math.max(0, e.touches[0].clientY - sy); sh.style.transform = 'translateY(' + d + 'px)'; }, { passive: true });
+  // Swipe down closes the panel only when it is already scrolled to the top; otherwise the drag just scrolls it.
+  sh.addEventListener('touchstart', e => { if (e.target.closest('textarea,input,label,button') || sh.scrollTop > 0) { sy = null; return; } sy = e.touches[0].clientY; d = 0; sh.style.transition = 'none'; }, { passive: true });
+  sh.addEventListener('touchmove', e => { if (sy === null) return; if (sh.scrollTop > 0) { sy = null; d = 0; sh.style.transition = ''; sh.style.transform = ''; return; } d = Math.max(0, e.touches[0].clientY - sy); sh.style.transform = 'translateY(' + d + 'px)'; }, { passive: true });
   sh.addEventListener('touchend', () => { if (sy === null) return; sy = null; sh.style.transition = ''; if (d > 60) closeSheets(); else sh.style.transform = ''; }, { passive: true });
 }
 const WIDE = matchMedia('(min-width:900px)');
@@ -739,6 +740,7 @@ app.addEventListener('touchend', e => {
 }, { passive: true });
 addEventListener('keydown', e => {
   if (e.target.closest && e.target.closest('input,textarea,select')) return; // typing in the prayer form
+  if (app.querySelector('.sheet')) { if (e.key === 'Escape') closeSheets(); return; } // arrows/space do nothing while a panel is open
   if (e.key === 'ArrowDown' || e.key === 'ArrowRight') go(n + 1, 'key');
   if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') go(n - 1, 'key');
   if (e.key === ' ') { e.preventDefault(); toggle(); }
@@ -746,7 +748,7 @@ addEventListener('keydown', e => {
 });
 let wl = 0;
 app.addEventListener('wheel', e => {
-  if (e.target.closest('.cont')) return;
+  if (e.target.closest('.cont') || app.querySelector('.sheet')) return; // never move a step while a panel is open
   const t = Date.now();
   if (t - wl < 800 || Math.abs(e.deltaY) < 25) return;
   wl = t;

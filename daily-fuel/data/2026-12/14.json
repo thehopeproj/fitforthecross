@@ -1,0 +1,51 @@
+{
+  "schema": "0.6",
+  "date": "2026-12-14",
+  "status": "LOCKED",
+  "title": "KNOWN",
+  "tagline": "Make God's hope known.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "To them God has chosen to make known among the Gentiles the glorious riches of this mystery, which is Christ in you, the hope of glory.",
+    "reference": "Colossians 1:27",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "3b38c89efd95dc95da79babe1af57634"
+      },
+      "seconds": 254
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Bible Study",
+      "name_as_written": "Bible Study",
+      "macro": "word",
+      "minutes": 6,
+      "prompt": "Read Colossians 1:24–29 and sit with the mystery: \"Christ in you, the hope of glory.\""
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Journaling",
+      "name_as_written": "Journaling",
+      "macro": "micro",
+      "minutes": 4,
+      "prompt": "What changes when your hope is in Jesus rather than the world?"
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "0c5642c5c3cbca36ab5501932c77588f"
+      },
+      "seconds": 125
+    }
+  ],
+  "coaching_notes": "Hope in Jesus is clean fuel. It's an energy source that can sustain you through the hardest seasons of your life. Hope in the world is junk food. It may taste great but there's no real nutritional value."
+}

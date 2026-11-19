@@ -1,0 +1,43 @@
+{
+  "schema": "0.6",
+  "date": "2026-12-13",
+  "status": "LOCKED",
+  "title": "ARISE",
+  "tagline": "The light of the world has come.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "Arise, shine, for your light has come, and the glory of the Lord rises upon you. See, darkness covers the earth and thick darkness is over the peoples, but the Lord rises upon you and his glory appears over you.",
+    "reference": "Isaiah 60:1–2",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "5c66e6fb558f81a3a7b401eb1327a1a1"
+      },
+      "seconds": 151
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Scripture Visualization",
+      "name_as_written": "Scripture Visualization",
+      "macro": "word",
+      "minutes": 8,
+      "prompt": "Picture a world under heavy darkness, then one light breaking over the horizon — the light of the world rising and shining on you."
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "b18724a71e99edc576e51f2ea1e6c999"
+      },
+      "seconds": 101
+    }
+  ],
+  "coaching_notes": "No matter where you are today, God's light is there. Building spiritual strength starts with the right spiritual source. Your soul was made to run on the fuel of God."
+}

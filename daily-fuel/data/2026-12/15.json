@@ -1,0 +1,59 @@
+{
+  "schema": "0.6",
+  "date": "2026-12-15",
+  "status": "LOCKED",
+  "title": "JOYFUL",
+  "tagline": "Let God's hope fill you.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "Be joyful in hope, patient in affliction, faithful in prayer.",
+    "reference": "Romans 12:12",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "042f5e21ffcd5dc916370963986e6e45"
+      },
+      "seconds": 221
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Scripture Reflection",
+      "name_as_written": "Scripture Reflection",
+      "macro": "word",
+      "minutes": 4,
+      "prompt": "Name an affliction testing your patience right now — what would it look like to meet it joyful in hope?"
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Intercessory Prayer",
+      "name_as_written": "Intercessory Prayer",
+      "macro": "prayer",
+      "minutes": 4,
+      "prompt": "Pray for someone in affliction who needs hope today."
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Gratitude",
+      "name_as_written": "Gratitude",
+      "macro": "micro",
+      "minutes": 4,
+      "prompt": "Thank God for a hope that has carried you through a difficult time."
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "c0ed1851f8505a0898a793aa7dd57239"
+      },
+      "seconds": 140
+    }
+  ],
+  "coaching_notes": "Load. Recovery. Adaptation. If there's no load there's little chance of growth. When you see affliction as load, it changes your perspective."
+}

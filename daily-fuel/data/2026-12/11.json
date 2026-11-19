@@ -1,0 +1,41 @@
+{
+  "schema": "0.6",
+  "date": "2026-12-11",
+  "status": "LOCKED",
+  "title": "SERVE",
+  "tagline": "Be someone's hope today.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "God is not unjust; he will not forget your work and the love you have shown him as you have helped his people and continue to help them.",
+    "reference": "Hebrews 6:10",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "50033b1df4053cfb32ddb17b0b21e45e"
+      },
+      "seconds": 208
+    },
+    {
+      "type": "action",
+      "descriptor": "As Many Rounds As Possible",
+      "instruction": "Be someone's hope today through service — give your time or your hands to meet a real need, and thank God for the chance to be used.",
+      "minutes": 4
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "fb048a131cdebd98d27e8e729dbdf9f3"
+      },
+      "seconds": 106
+    }
+  ],
+  "coaching_notes": "I want to challenge you today to serve in a way that's outside your norm. Push yourself outside your comfort zone and there you'll find new spiritual growth."
+}
