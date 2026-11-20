@@ -1,0 +1,104 @@
+
+@font-face{font-family:LS;src:url(/daily-fuel/guided/ls-800.ttf) format("truetype");font-weight:800;font-display:swap}
+@font-face{font-family:NH;src:url(/daily-fuel/guided/nh-500.otf) format("opentype");font-weight:500;font-display:swap}
+@font-face{font-family:NH;src:url(/daily-fuel/guided/nh-700.otf) format("opentype");font-weight:700;font-display:swap}
+:root{--paper:#f7f8e6;--ink:#292727;--red:#FF5300;--red-d:#d94700;--muted:#6f6b66;--tab:#e8e4d6;--line:rgba(41,39,39,.18)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--paper)}
+body{font-family:NH,"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:500;color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+a{color:inherit}
+.page{position:relative;max-width:620px;margin:0 auto;min-height:100vh;overflow:hidden}
+/* card details: orange right edge + faint vertical rules on the left */
+.page::after{content:"";position:fixed;top:0;bottom:0;right:max(0px,calc(50% - 310px));width:6px;background:var(--red);z-index:5}
+.page::before{content:"";position:absolute;left:0;top:0;bottom:0;width:22px;background:repeating-linear-gradient(90deg,transparent 0 5px,rgba(41,39,39,.06) 5px 6px);pointer-events:none}
+.wrap{padding:0 26px 0 24px}
+/* masthead (same build as the DAILY FUEL card) */
+.mast{padding-top:calc(env(safe-area-inset-top) + 26px)}
+.mrow{display:flex;align-items:center;gap:8px}
+.mbox{display:flex;align-items:center;border:2px solid var(--ink);height:26px}
+.mbox img{height:19px;padding:0 4px;border-right:2px solid var(--ink)}
+.mbox span{font-family:NH;font-weight:700;font-size:12.5px;letter-spacing:-.2px;padding:0 7px;white-space:nowrap}
+.bars{height:26px;width:84px;background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 3px,var(--ink) 3px 4px,transparent 4px 6px,var(--ink) 6px 9px,transparent 9px 10px)}
+.df{font-family:NH;font-weight:700;font-size:clamp(56px,17vw,92px);letter-spacing:-.045em;line-height:.86;margin-top:6px}
+.band{height:30px;margin:16px -26px 0 -24px;border-top:1.5px dashed var(--ink);border-bottom:1.5px dashed var(--ink);position:relative}
+.band::before,.band::after{content:"";position:absolute;left:0;right:0;height:5px;background:var(--ink)}
+.band::before{top:6px}.band::after{bottom:6px}
+/* today */
+.kick{font-family:NH;font-weight:700;font-size:12px;letter-spacing:1.6px;text-transform:uppercase}
+.today{margin-top:24px;color:var(--red);line-height:1.5}
+.intro{font-size:18px;margin-top:6px}
+.trow{display:flex;align-items:center;gap:14px;margin-top:22px}
+.title{font-family:LS;font-weight:800;font-size:clamp(46px,13vw,68px);letter-spacing:-.03em;line-height:.9;color:var(--red);text-transform:uppercase}
+.ticks{flex:none;width:44px;height:clamp(30px,8vw,40px);background:repeating-linear-gradient(90deg,#a9a6a0 0 3px,transparent 3px 7px)}
+.tag{font-size:21px;line-height:1.25;margin-top:8px}
+.verse{margin-top:24px;border-left:6px solid var(--red);padding:2px 0 2px 16px}
+.verse p{font-weight:700;font-size:20px;line-height:1.32;letter-spacing:-.2px}
+.verse cite{display:block;font-style:normal;font-weight:700;font-size:12px;letter-spacing:1.8px;text-transform:uppercase;color:var(--red);margin-top:10px}
+/* card panels */
+.panel{margin-top:28px;border:1.5px solid var(--ink);border-radius:14px;overflow:hidden;background:rgba(255,255,255,.18)}
+.ph{background:var(--tab);border-bottom:1.5px solid var(--ink);border-radius:12px 12px 0 0;padding:11px 16px 10px;font-family:NH;font-weight:700;font-size:19px;letter-spacing:-.3px;text-transform:uppercase}
+.pb{padding:6px 18px 18px}
+.step{padding:16px 0}
+.step h3{font-family:NH;font-weight:700;font-size:18px;letter-spacing:-.2px;line-height:1.2}
+.step p{font-size:17px;line-height:1.4;margin-top:4px}
+.sep{display:flex;align-items:center;gap:0}
+.sep i{flex:1;height:1.5px;background:var(--ink)}
+.sep b{flex:none;width:30px;height:10px;background:repeating-linear-gradient(115deg,var(--ink) 0 3px,transparent 3px 6px)}
+.notes{font-size:17px;line-height:1.45;padding-top:14px}
+.glyphs{display:flex;justify-content:space-between;align-items:center;margin-top:16px;opacity:.85}
+.glyphs .px{width:52px;height:12px;background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 4px,var(--ink) 4px 7px,transparent 7px 9px)}
+.glyphs svg{width:40px;height:18px;stroke:var(--ink);fill:none;stroke-width:1.4}
+/* signup */
+.sign{margin-top:36px;background:var(--ink);color:var(--paper);padding:30px 24px 30px;position:relative}
+.sign h2{font-family:LS;font-weight:800;font-size:clamp(28px,8.4vw,40px);letter-spacing:-.02em;line-height:.95;text-transform:uppercase}
+.sign h2 em{font-style:normal;color:var(--red)}
+.sign .sub{font-size:16px;color:rgba(247,248,230,.75);margin-top:10px}
+.sign .cta{margin-top:20px}
+.cta{display:flex;align-items:center;justify-content:center;gap:12px;height:58px;border:0;border-radius:29px;background:var(--red);color:#fff;font-family:NH;font-weight:700;font-size:16px;letter-spacing:1.4px;text-transform:uppercase;cursor:pointer;width:100%}
+.cta:hover{background:var(--red-d)}
+.cta svg{width:26px;height:14px;stroke:#fff;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+/* closing copy + FFTC link */
+.site{font-size:19px;line-height:1.4;margin-top:32px}
+.more{display:inline-flex;align-items:center;gap:10px;margin-top:14px;font-weight:700;font-size:16px;letter-spacing:1px;text-transform:uppercase;color:var(--red);text-decoration:none}
+.more svg{width:22px;height:12px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.footer{margin-top:40px;background:var(--ink);padding:40px 24px calc(env(safe-area-inset-bottom) + 40px)}
+.footer__inner{display:flex;flex-direction:column;align-items:center;text-align:center;gap:24px}
+.footer__brand{font-family:LS;font-weight:800;font-size:16px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.08em}
+.footer__brand span{display:block;margin-top:4px;font-family:NH;font-weight:500;font-size:13.5px;color:rgba(255,255,255,.3)}
+.footer__org-link{color:inherit;text-decoration:underline;text-underline-offset:2px}
+.footer__org-link:hover{color:rgba(255,255,255,.7)}
+.footer__nonprofit{text-transform:none;letter-spacing:.02em}
+.footer__socials{display:flex;align-items:center;gap:20px}
+.footer__social{color:rgba(255,255,255,.4);display:flex;align-items:center;transition:color .2s}
+.footer__social:hover{color:rgba(255,255,255,.85)}
+.footer__social svg{width:20px;height:20px;fill:currentColor}
+/* signup modal (DAILY FUEL card look) */
+.modal{position:fixed;inset:0;z-index:30;background:rgba(20,19,19,.72);display:none;align-items:center;justify-content:center;padding:18px}
+.modal.on{display:flex}
+.mbox2{position:relative;width:100%;max-width:460px;max-height:calc(100vh - 36px);overflow-y:auto;background:var(--paper);border:1.5px solid var(--ink);border-radius:16px;padding:30px 22px 24px;border-right:6px solid var(--red)}
+.mbox2 h2{font-family:LS;font-weight:800;font-size:34px;letter-spacing:-.02em;line-height:.95;text-transform:uppercase;margin-top:8px}
+.msub{font-size:16px;line-height:1.4;color:#4c4844;margin-top:10px}
+.mbox2 form{margin-top:20px;display:flex;flex-direction:column;gap:12px}
+.mrow2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mbox2 label{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:12px;letter-spacing:1.2px;text-transform:uppercase;min-width:0}
+.mbox2 input{font:inherit;font-family:NH;font-weight:500;font-size:17px;letter-spacing:0;text-transform:none;height:50px;border-radius:10px;border:1.5px solid rgba(41,39,39,.35);background:#fff;color:var(--ink);padding:0 14px;width:100%}
+.mbox2 input:focus{outline:2px solid var(--red);outline-offset:0;border-color:var(--red)}
+.mbox2 .cta{margin-top:6px}
+.cta .txt{display:flex;align-items:center;gap:12px}
+.cta .dots{display:none;gap:7px;align-items:center}
+.cta .dots i{width:9px;height:9px;border-radius:50%;background:#fff;animation:dot 1.2s ease-in-out infinite}
+.cta .dots i:nth-child(2){animation-delay:.2s}.cta .dots i:nth-child(3){animation-delay:.4s}
+@keyframes dot{0%,80%,100%{opacity:.3;transform:scale(.75)}40%{opacity:1;transform:scale(1)}}
+.cta.sending .txt{display:none}.cta.sending .dots{display:flex}.cta:disabled{cursor:default;background:var(--red)}
+.mx{position:absolute;top:10px;right:10px;width:40px;height:40px;border:0;border-radius:50%;background:transparent;cursor:pointer;display:grid;place-items:center}
+.mx svg{width:20px;height:20px;stroke:var(--ink);stroke-width:2.4;stroke-linecap:round;fill:none}
+.mdone{display:none;text-align:center;padding:12px 0 6px}
+.modal.done #mform{display:none}.modal.done .mdone{display:block}
+.chk{width:56px;height:56px;border-radius:50%;background:var(--red);color:#fff;font-size:28px;font-weight:700;display:grid;place-items:center;margin:0 auto}
+.mdone h3{font-family:LS;font-weight:800;font-size:34px;text-transform:uppercase;margin-top:14px}
+.mdone p{font-size:17px;line-height:1.4;margin-top:8px}
+@media (min-width:700px){.page{border-left:1px solid var(--line)}}
+h1,h2,h3,.title,.tag,.verse p,.sign h2,.mdone h3{text-wrap:balance}
+.step p,.notes,.site,.msub{text-wrap:pretty}
+.mbox2 .mhp{position:absolute;left:-5000px}
+.merr{display:none;color:var(--red-d);font-size:14px;font-weight:700}

@@ -15,3 +15,6 @@
 
 /daily-fuel/2026-11/*
   X-Robots-Tag: noindex
+
+/daily-fuel/today/*
+  X-Robots-Tag: noindex
