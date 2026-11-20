@@ -1,0 +1,43 @@
+{
+  "schema": "0.6",
+  "date": "2026-12-27",
+  "status": "LOCKED",
+  "title": "THE WORD",
+  "tagline": "Hope is full of grace and truth.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "The Word became flesh and made his dwelling among us. We have seen his glory, the glory of the one and only Son, who came from the Father, full of grace and truth.",
+    "reference": "John 1:14",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "d26f053f36a7d204c985c92c57068717"
+      },
+      "seconds": 177.81
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Scripture Visualization",
+      "name_as_written": "Scripture Visualization",
+      "macro": "word",
+      "minutes": 8,
+      "prompt": "Picture the eternal Word of God coming to live among us as one of us — the glory of heaven you could see with your eyes, the hope of the world you could hold in your arms."
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "6fd0e3f1715ccf6b5de1e26d3dd36935"
+      },
+      "seconds": 89.71
+    }
+  ],
+  "coaching_notes": "Imagine you're getting ready for a workout when Jesus walks up and asks to join you. What would it feel like to work out with the Savior of the world?"
+}

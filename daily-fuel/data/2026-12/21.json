@@ -1,0 +1,51 @@
+{
+  "schema": "0.6",
+  "date": "2026-12-21",
+  "status": "LOCKED",
+  "title": "REMEMBER",
+  "tagline": "Hope remembers.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "I will remember the deeds of the Lord; yes, I will remember your miracles of long ago. I will consider all your works and meditate on all your mighty deeds.",
+    "reference": "Psalm 77:11–12",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "0374a37b5927dbc600e86ad614855fee"
+      },
+      "seconds": 208.92
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Bible Study",
+      "name_as_written": "Bible Study",
+      "macro": "word",
+      "minutes": 6,
+      "prompt": "Read Psalm 77 and watch the psalmist move from despair to hope by remembering what God has done."
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Journaling",
+      "name_as_written": "Journaling",
+      "macro": "micro",
+      "minutes": 4,
+      "prompt": "Build a list of the specific things God has done in your life, and use this time to rebuild or strengthen your hope."
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "c19addc69cb52285dcdf6328a735f47a"
+      },
+      "seconds": 97.45
+    }
+  ],
+  "coaching_notes": "The Lord has a plan for your life. Use today's session to revisit parts of that plan. How amazing it is to see God's redemptive work in your life."
+}

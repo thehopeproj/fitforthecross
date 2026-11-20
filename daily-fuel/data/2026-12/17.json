@@ -1,0 +1,43 @@
+{
+  "schema": "0.6",
+  "date": "2026-12-17",
+  "status": "LOCKED",
+  "title": "HEALING",
+  "tagline": "Healing rises with the Son.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "But for you who revere my name, the sun of righteousness will rise with healing in its rays. And you will go out and frolic like well-fed calves.",
+    "reference": "Malachi 4:2",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "d7c693d192f8a9f59d183c8493042620"
+      },
+      "seconds": 220.78
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Praying Scripture",
+      "name_as_written": "Praying Scripture",
+      "macro": "word",
+      "minutes": 6,
+      "prompt": "Pray Malachi 4:2 back to God slowly — ask for the healing that rises with Him, and picture yourself free and full of life."
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "16262abd702e14d06dcc74cd06eba01b"
+      },
+      "seconds": 72.32
+    }
+  ],
+  "coaching_notes": "Healing takes time. Especially emotional healing. Keep clinging to the hope that God is at work in you even when you don't see it."
+}

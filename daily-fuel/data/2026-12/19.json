@@ -1,0 +1,51 @@
+{
+  "schema": "0.6",
+  "date": "2026-12-19",
+  "status": "LOCKED",
+  "title": "UNCHANGING",
+  "tagline": "The Giver of hope never changes.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "Every good and perfect gift is from above, coming down from the Father of the heavenly lights, who does not change like shifting shadows.",
+    "reference": "James 1:17",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "feff6836f62861532e94c5b8696c57e7"
+      },
+      "seconds": 170.11
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Scripture Reflection",
+      "name_as_written": "Scripture Reflection",
+      "macro": "word",
+      "minutes": 5,
+      "prompt": "Trace a good gift in your life back to its source — the unchanging Father."
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Gratitude",
+      "name_as_written": "Gratitude",
+      "macro": "micro",
+      "minutes": 5,
+      "prompt": "Thank God for the gifts you'd stopped noticing — keep naming them as more come to mind."
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "41f7f92647285b489557a2f7e1228709"
+      },
+      "seconds": 117.08
+    }
+  ],
+  "coaching_notes": "It's easy to forget the goodness of God. My prayer for you today is that you would remember some of those you've forgotten."
+}

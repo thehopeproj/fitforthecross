@@ -1,0 +1,43 @@
+{
+  "schema": "0.6",
+  "date": "2026-12-16",
+  "status": "LOCKED",
+  "title": "TRUST",
+  "tagline": "Trust in the Lord with all your heart.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "May the God of hope fill you with all joy and peace as you trust in him, so that you may overflow with hope by the power of the Holy Spirit.",
+    "reference": "Romans 15:13",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "65899bc8c567d9d1c740339ae74a0f83"
+      },
+      "seconds": 163.61
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Memorization",
+      "name_as_written": "Scripture Memorization",
+      "macro": "word",
+      "minutes": 8,
+      "prompt": "Memorize Romans 15:13 up to here: \"May the God of hope fill you with all joy and peace as you trust in him,\" (New this week: \"as you trust in him.\")"
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "585b95734ca87859b6e1600d24cbb3c0"
+      },
+      "seconds": 65.05
+    }
+  ],
+  "coaching_notes": "King David wrote that he had hidden God's word in his heart. When you're memorizing Scripture, let this be your mindset."
+}

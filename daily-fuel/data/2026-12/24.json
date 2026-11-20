@@ -1,0 +1,43 @@
+{
+  "schema": "0.6",
+  "date": "2026-12-24",
+  "status": "LOCKED",
+  "title": "IMMANUEL",
+  "tagline": "God with us.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "\"The virgin will conceive and give birth to a son, and they will call him Immanuel\" (which means \"God with us\").",
+    "reference": "Matthew 1:23",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "e9e63b1787a85a027b11fdd970fb8566"
+      },
+      "seconds": 221.25
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Contemplative Prayer",
+      "name_as_written": "Contemplative Prayer",
+      "macro": "prayer",
+      "minutes": 10,
+      "prompt": "Sit in the wonder of Christmas Eve — God with us. Let the name Immanuel settle over every place you've felt alone."
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "47d0191a97ef01c14985c153ae0f2c11"
+      },
+      "seconds": 125.97
+    }
+  ],
+  "coaching_notes": "God with us. If today feels lonely or empty, remember God is with you. And He loves you more than you'll ever know."
+}

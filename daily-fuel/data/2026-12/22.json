@@ -1,0 +1,59 @@
+{
+  "schema": "0.6",
+  "date": "2026-12-22",
+  "status": "LOCKED",
+  "title": "PRESENCE",
+  "tagline": "The Lord your God is with you.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "The Lord your God is with you, the Mighty Warrior who saves. He will take great delight in you; in his love he will no longer rebuke you, but will rejoice over you with singing.",
+    "reference": "Zephaniah 3:17",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "7f83535fc5054aa0d0b413ef8d495304"
+      },
+      "seconds": 215.87
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Breath Prayer",
+      "name_as_written": "Breath Prayer",
+      "macro": "prayer",
+      "minutes": 4,
+      "prompt": "Breathe in \"The Lord my God,\" breathe out \"is with me.\""
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Scripture Reflection",
+      "name_as_written": "Scripture Reflection",
+      "macro": "word",
+      "minutes": 4,
+      "prompt": "Where do you most need to know God is with you this week?"
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Gratitude",
+      "name_as_written": "Gratitude",
+      "macro": "micro",
+      "minutes": 4,
+      "prompt": "Thank God for a moment this year when you felt His presence."
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "a13843a75afe0e2edbfad6e1a0aeae79"
+      },
+      "seconds": 102.87
+    }
+  ],
+  "coaching_notes": "I love to remind athletes that presence matters. Because presence creates the opportunity to do quality work. And quality work leads to quality fitness. Think about how that applies to your spiritual life."
+}

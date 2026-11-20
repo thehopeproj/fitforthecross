@@ -1,0 +1,51 @@
+{
+  "schema": "0.6",
+  "date": "2026-12-26",
+  "status": "LOCKED",
+  "title": "WHOLE HEART",
+  "tagline": "Thank Him with all your heart.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "I will give thanks to you, Lord, with all my heart; I will tell of all your wonderful deeds.",
+    "reference": "Psalm 9:1",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "61f3b518333817fb53ee5564f62d964e"
+      },
+      "seconds": 166.67
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Gratitude",
+      "name_as_written": "Gratitude",
+      "macro": "micro",
+      "minutes": 5,
+      "prompt": "Name what you're most thankful for right now and tell God plainly."
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Worship",
+      "name_as_written": "Worship",
+      "macro": "word",
+      "minutes": 10,
+      "prompt": "Let your thanks become praise for the God who is good."
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "26c31c57d686fb2ff2198d35b6308be3"
+      },
+      "seconds": 133.71
+    }
+  ],
+  "coaching_notes": "During today's session, be mindful of any areas of your heart where you may be struggling to thank God. What would it look like for those to change?"
+}

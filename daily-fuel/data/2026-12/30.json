@@ -1,0 +1,43 @@
+{
+  "schema": "0.6",
+  "date": "2026-12-30",
+  "status": "LOCKED",
+  "title": "POWER",
+  "tagline": "God's Spirit gives you power.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "May the God of hope fill you with all joy and peace as you trust in him, so that you may overflow with hope by the power of the Holy Spirit.",
+    "reference": "Romans 15:13",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "0fdd0d74e41fa227910c9dda50737924"
+      },
+      "seconds": 208.78
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Memorization",
+      "name_as_written": "Scripture Memorization",
+      "macro": "word",
+      "minutes": 12,
+      "prompt": "The whole verse now: \"May the God of hope fill you with all joy and peace as you trust in him, so that you may overflow with hope by the power of the Holy Spirit.\" Recite it from memory and carry it into the new year."
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "a63bc2d2e8d9df27a126884dbc5a9359"
+      },
+      "seconds": 113.9
+    }
+  ],
+  "coaching_notes": "Record a video of you reciting the whole verse from memory and send it to someone in your life who needs hope."
+}

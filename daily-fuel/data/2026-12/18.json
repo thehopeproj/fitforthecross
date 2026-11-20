@@ -1,0 +1,41 @@
+{
+  "schema": "0.6",
+  "date": "2026-12-18",
+  "status": "LOCKED",
+  "title": "ACCEPTED",
+  "tagline": "Jesus accepted you.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "Accept one another, then, just as Christ accepted you, in order to bring praise to God.",
+    "reference": "Romans 15:7",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "003efa90efe4e8dfeea2222aed84d13d"
+      },
+      "seconds": 231.32
+    },
+    {
+      "type": "action",
+      "descriptor": "For Quality",
+      "instruction": "Open your door or your table to someone today — welcome them the way Jesus welcomed you, and thank God for the people He's placed in your life.",
+      "minutes": 4
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "2362f27bb9553009edcf3d7b4f6c674b"
+      },
+      "seconds": 92.07
+    }
+  ],
+  "coaching_notes": "Community requires cultivation. Just like you work on new skills in the gym or new recipes in the kitchen, community is an essential nutrient for a rich and satisfying life. So work on it."
+}

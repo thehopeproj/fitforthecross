@@ -1,0 +1,59 @@
+{
+  "schema": "0.6",
+  "date": "2026-12-29",
+  "status": "LOCKED",
+  "title": "SHAPED",
+  "tagline": "You are shaped by God's leading.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "Remember how the Lord your God led you all the way in the wilderness these forty years, to humble and test you in order to know what was in your heart, whether or not you would keep his commands.",
+    "reference": "Deuteronomy 8:2",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "35b4cf33f35f229afdb6d4ad251cbaa5"
+      },
+      "seconds": 304.75
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Inventory",
+      "name_as_written": "Inventory",
+      "macro": "micro",
+      "minutes": 4,
+      "prompt": "Trace the year — where did God lead you, even through wilderness?"
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Gratitude",
+      "name_as_written": "Gratitude",
+      "macro": "micro",
+      "minutes": 4,
+      "prompt": "Name the specific faithfulness of God this year, season by season."
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Listening Prayer",
+      "name_as_written": "Listening Prayer",
+      "macro": "prayer",
+      "minutes": 4,
+      "prompt": "Ask God what He wants you to carry forward, and listen."
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "8bceb6a9da79a9428e5d781fc5426917"
+      },
+      "seconds": 167.21
+    }
+  ],
+  "coaching_notes": "Nothing that God did this year was by accident. He shaped you and formed you so that you would know Him more deeply."
+}

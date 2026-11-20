@@ -1,0 +1,43 @@
+{
+  "schema": "0.6",
+  "date": "2026-12-20",
+  "status": "LOCKED",
+  "title": "GLORIFY",
+  "tagline": "Let your soul rejoice in the Lord.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "And Mary said: \"My soul glorifies the Lord and my spirit rejoices in God my Savior, for he has been mindful of the humble state of his servant. From now on all generations will call me blessed, for the Mighty One has done great things for me — holy is his name.\"",
+    "reference": "Luke 1:46–49",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "542dd7430bbc79516138abe13d05df6d"
+      },
+      "seconds": 173.03
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Scripture Visualization",
+      "name_as_written": "Scripture Visualization",
+      "macro": "word",
+      "minutes": 8,
+      "prompt": "Stand with Mary as hope grows within her — hear a young woman answer an impossible promise not with fear but with a song of praise."
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "5a03eb82dac6c3be4c462d28ffdf13a3"
+      },
+      "seconds": 125.44
+    }
+  ],
+  "coaching_notes": "You may not see the fruit of your faithfulness. That's when you need hope in God more than ever. The fruit of your faith may be for a future generation."
+}

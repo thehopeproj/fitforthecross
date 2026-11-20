@@ -1,0 +1,43 @@
+{
+  "schema": "0.6",
+  "date": "2026-12-31",
+  "status": "LOCKED",
+  "title": "NEW THING",
+  "tagline": "He is doing a new thing.",
+  "training_focus": "Hope",
+  "focus_line": "Hope is the confident expectation in God's promises, anchored in Christ.",
+  "verse": {
+    "text": "Forget the former things; do not dwell on the past. See, I am doing a new thing! Now it springs up; do you not perceive it? I am making a way in the wilderness and streams in the wasteland.",
+    "reference": "Isaiah 43:18–19",
+    "translation": "NIV"
+  },
+  "session": [
+    {
+      "type": "video",
+      "role": "warmup",
+      "video": {
+        "provider": "stream",
+        "id": "766aa3248717779a000849ffdd1ef060"
+      },
+      "seconds": 283.07
+    },
+    {
+      "type": "nutrient",
+      "nutrient": "Journaling",
+      "name_as_written": "Journaling",
+      "macro": "micro",
+      "minutes": 10,
+      "prompt": "Return to your December 1 entry. Where is your hope now, and where did your gratitude grow this month? Then name the new thing you sense God beginning."
+    },
+    {
+      "type": "video",
+      "role": "wrapup",
+      "video": {
+        "provider": "stream",
+        "id": "b773583f268e97528f651df9ff7de87e"
+      },
+      "seconds": 194.13
+    }
+  ],
+  "coaching_notes": "Being grateful is more than responding positively to great things. Spiritual strength means you can be grateful no matter the circumstances. Be content with God. But don't become complacent in your faith."
+}
