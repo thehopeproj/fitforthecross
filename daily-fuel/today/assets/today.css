@@ -100,5 +100,64 @@ a{color:inherit}
 @media (min-width:700px){.page{border-left:1px solid var(--line)}}
 h1,h2,h3,.title,.tag,.verse p,.sign h2,.mdone h3{text-wrap:balance}
 .step p,.notes,.site,.msub{text-wrap:pretty}
-.mbox2 .mhp{position:absolute;left:-5000px}
+.mhp{position:absolute;left:-5000px}
 .merr{display:none;color:var(--red-d);font-size:14px;font-weight:700}
+
+/* buttons: slight round, not a pill (Trey, Nov 20). Same on phone and desktop, and the same radius GUIDED uses */
+.cta{border-radius:12px}
+.sub .nb{white-space:nowrap}
+/* ===== mock-up 10: additions. Phone layout (below 1000 px) is the live page, unchanged ===== */
+.sign .inline{display:none}
+.sform{margin-top:20px;display:flex;flex-direction:column;gap:12px}
+.sform label{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:12px;letter-spacing:1.2px;text-transform:uppercase;min-width:0}
+.sform input{font:inherit;font-family:NH;font-weight:500;font-size:17px;letter-spacing:0;text-transform:none;height:50px;border-radius:10px;border:1.5px solid rgba(41,39,39,.35);background:#fff;color:var(--ink);padding:0 14px;width:100%}
+.sform input:focus{outline:2px solid var(--red);outline-offset:0;border-color:var(--red)}
+.sform .cta{margin-top:6px}
+.idone{display:none;text-align:center;padding:22px 0 4px}
+.idone h3{font-family:LS;font-weight:800;font-size:30px;text-transform:uppercase;margin-top:14px}
+.idone p{font-size:16px;line-height:1.4;margin-top:8px;color:rgba(247,248,230,.8)}
+.inline.done .sform{display:none}.inline.done .idone{display:block}
+@media (min-width:1000px){
+ html,body{background:#eceddb}
+ .page{max-width:none;overflow:visible;border-left:0;background:#eceddb}
+ .page::before,.page::after{display:none}
+ /* two columns: today's FUEL (the card) + the invitation (stays in view) */
+ .cols{max-width:1200px;margin:0 auto;padding:40px 40px 64px;display:grid;grid-template-columns:minmax(0,1fr) 376px;gap:44px;align-items:start}
+ .card{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:4px;overflow:hidden;padding-bottom:40px}
+ .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:22px;background:repeating-linear-gradient(90deg,transparent 0 5px,rgba(41,39,39,.06) 5px 6px);pointer-events:none}
+ .card::after{content:"";position:absolute;top:0;bottom:0;right:0;width:6px;background:var(--red)}
+ .card .wrap{padding:0 46px 0 44px}
+ .card .mast{padding-top:34px}
+ .mbox{height:30px}.mbox img{height:22px}.mbox span{font-size:14px}.bars{height:30px;width:100px}
+ .card{container-type:inline-size}
+ /* SOCIAL MEDIA, Nov 20: type scales with the card so 1000–1180 px windows keep one-line masthead and title */
+ .df{font-size:min(108px,15.4cqi);margin-top:8px}
+ .band{margin:18px -46px 0 -44px}
+ .today{margin-top:28px;font-size:13px}
+ .intro{font-size:19px}
+ .title{font-size:min(82px,11.7cqi)}.ticks{width:52px;height:48px}
+ .tag{font-size:25px;margin-top:10px}
+ .verse{margin-top:28px;max-width:680px;padding-left:20px}
+ .verse p{font-size:min(24px,3.5cqi);line-height:1.3}
+ .verse cite{font-size:13px}
+ /* session + coaching notes side by side, as on the printed card */
+ .panels{display:grid;grid-template-columns:1fr;gap:22px;margin-top:34px;align-items:stretch}
+ @container (min-width:640px){.panels{grid-template-columns:1fr 1fr}}
+ .panels .panel{margin-top:0;display:flex;flex-direction:column}
+ .panels .pb{flex:1;display:flex;flex-direction:column}
+ .panels .glyphs{margin-top:auto;padding-top:18px}
+ .step p,.notes{color:#3f3c3b}
+ /* the invitation */
+ .side{position:sticky;top:28px}
+ .side .sign{margin-top:0;border-radius:16px;padding:30px 26px 28px}
+ .sign h2{font-size:29px;text-wrap:nowrap}
+ .sign h2 em{display:block}
+ .sign .openbtn{display:none}
+ .sign .inline{display:block}
+ .sign .sform label{color:rgba(247,248,230,.85)}
+ .sign .sform input{border-color:transparent}
+ .side .about{padding:0 6px}
+ .site{font-size:17px;line-height:1.45;margin-top:26px;color:#3f3c3b}
+ .footer{margin-top:0}
+}
+.sign .merr{color:#ff8a57}
