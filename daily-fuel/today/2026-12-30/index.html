@@ -16,7 +16,7 @@
 <meta property="og:image" content="https://fitforthecross.com/images/fftc-og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preload" href="/daily-fuel/guided/nh-700.otf" as="font" type="font/otf" crossorigin>
-<link rel="stylesheet" href="/daily-fuel/today/assets/today.css?v=651ea39e02">
+<link rel="stylesheet" href="/daily-fuel/today/assets/today.css?v=732a29f46f">
 </head>
 <body>
 <div class="page">
@@ -124,7 +124,7 @@
   document.querySelector('iframe[name="mc-'+place+'"]').addEventListener('load',function(){
    if(!form.dataset.submitted)return;
    if(typeof gtag==='function'){gtag('event','sign_up',{method:'today_page',placement:place});gtag('event','conversion',{'send_to':'AW-16954441745/ueitCMiawLEdEJGAwZQ_'})}
-   if(place==='modal')modal.classList.add('done');else form.closest('.inline').classList.add('done');
+   if(place==='modal')modal.classList.add('done');else{form.closest('.inline').classList.add('done');form.closest('.sign').classList.add('done')}
   });
   form.addEventListener('submit',function(ev){
    var bad=[].find.call(form.querySelectorAll('.mrow2 input,input[type=email]'),function(i){return !i.value.trim()||!i.checkValidity()});
