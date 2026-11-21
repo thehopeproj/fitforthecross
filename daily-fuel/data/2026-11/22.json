@@ -7,7 +7,7 @@
   "training_focus": "Grace",
   "focus_line": "Grace is the undeserved kindness and power of God working in us and for us.",
   "verse": {
-    "text": "Then he said, \"Jesus, remember me when you come into your kingdom.\" Jesus answered him, \"Truly I tell you, today you will be with me in paradise.\"",
+    "text": "Then he said, ‘Jesus, remember me when you come into your kingdom.’ Jesus answered him, ‘Truly I tell you, today you will be with me in paradise.’",
     "reference": "Luke 23:42–43",
     "translation": "NIV"
   },
@@ -27,7 +27,7 @@
       "name_as_written": "Scripture Visualization",
       "macro": "word",
       "minutes": 7,
-      "prompt": "Picture the cross beside Jesus — nothing left to offer, no time to earn anything — and hear \"today you will be with me\" spoken to you."
+      "prompt": "Picture the cross beside Jesus — nothing left to offer, no time to earn anything — and hear “today you will be with me” spoken to you."
     },
     {
       "type": "video",
