@@ -594,7 +594,7 @@ function go(k, via) {
   c.classList.remove('done');
   c.classList.add('out');
   clearTimeout(swapT);
-  swapT = setTimeout(() => { c.innerHTML = content(n); c.classList.toggle('full', !isStep); c.classList.toggle('long', !!(S[n] && S[n].passage)); c.scrollTop = 0; c.classList.remove('out'); if (finished) c.classList.add('done'); endCue(); cue(); }, first || slide ? 0 : 280);
+  swapT = setTimeout(() => { c.innerHTML = content(n); c.classList.toggle('full', !isStep); c.classList.toggle('long', !!(S[n] && S[n].passage)); c.scrollTop = 0; c.classList.remove('out'); if (finished) c.classList.add('done'); cue(); }, first || slide ? 0 : 280);
   first = false;
 
   if (vid) startVideo(s);
@@ -877,29 +877,18 @@ app.addEventListener('click', e => {
   if (e.target.closest('#det') || !running()) { detail(true); return; }
   detail(!$('det').classList.contains('open'));
 });
-let y0 = null, x0 = null, top1 = true, bot1 = true, longScr = false, scrollT = 0;
-// A screen that scrolls (a full passage): reaching the bottom never moves on by itself. Only a new swipe up,
-// started after the text has sat still at the bottom for a moment, goes to the next step (Trey, Nov 23).
-$('cont').addEventListener('scroll', () => { scrollT = Date.now(); endCue(); }, { passive: true });
-function endCue() {
-  const c = $('cont'), long = c.scrollHeight > c.clientHeight + 2, at = c.scrollTop + c.clientHeight >= c.scrollHeight - 2;
-  let h = c.querySelector('.nexthint');
-  if (!long || n < 0 || n + 1 >= S.length) { if (h) h.remove(); return; }
-  if (!h) { const x = S[n + 1]; h = document.createElement('p'); h.className = 'nexthint'; h.textContent = 'Swipe up again for ' + (x.t === 'video' ? 'the ' + (x.role === 'wrapup' ? 'wrap-up' : 'warm-up') : x.label); c.appendChild(h); }
-  h.classList.toggle('on', at);
-}
+let y0 = null, x0 = null, top1 = true, bot1 = true;
 app.addEventListener('touchstart', e => {
   if (e.target.closest('.sheet,.scrim,button,.track')) return;
   y0 = e.touches[0].clientY; x0 = e.touches[0].clientX;
   const el = $('cont');
-  longScr = el.scrollHeight > el.clientHeight + 2;
-  if (longScr) { top1 = el.scrollTop <= 1; bot1 = el.scrollTop + el.clientHeight >= el.scrollHeight - 2 && Date.now() - scrollT > 600; } else top1 = bot1 = true;
+  if (el.scrollHeight > el.clientHeight + 2) { top1 = el.scrollTop <= 1; bot1 = el.scrollTop + el.clientHeight >= el.scrollHeight - 2; } else top1 = bot1 = true;
 }, { passive: true });
 app.addEventListener('touchend', e => {
   if (y0 === null) return;
   const dy = e.changedTouches[0].clientY - y0, dx = e.changedTouches[0].clientX - x0;
   y0 = null;
-  if (Math.abs(dy) > (longScr ? 80 : 50) && Math.abs(dy) > Math.abs(dx)) { if (dy < 0 && bot1) go(n + 1, 'swipe'); else if (dy > 0 && top1) go(n - 1, 'swipe'); }
+  if (Math.abs(dy) > 50 && Math.abs(dy) > Math.abs(dx)) { if (dy < 0 && bot1) go(n + 1, 'swipe'); else if (dy > 0 && top1) go(n - 1, 'swipe'); }
 }, { passive: true });
 addEventListener('keydown', e => {
   if (e.target.closest && e.target.closest('input,textarea,select')) return; // typing in the prayer form

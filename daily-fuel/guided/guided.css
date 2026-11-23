@@ -486,7 +486,5 @@ html,body{overscroll-behavior:none}
 @media (min-width:700px){.cont .nverse.npass{font-size:20px}}
 .npass .ppara{display:block}.npass .ppara + .ppara{margin-top:.7em}
 .cont .nprompt + .nsep{margin-top:20px}
-/* end of a scrolling screen: tells you the next swipe moves on (Nov 23) */
-.nexthint{margin:22px 0 8px;font-weight:700;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(241,239,230,.55);opacity:0;transition:opacity .4s}
-.nexthint.on{opacity:1}
-.nexthint::after{content:' ↑'}
+/* passage screens: 100px of room under the passage so a reading swipe doesn't land on the bottom edge (Trey, Nov 23) */
+.cont.long::after{content:'';display:block;flex:none;height:100px}
