@@ -63,6 +63,8 @@ if (!TEAM) {
 }
 
 let DAY = null, S = null, WRAP = -1, NEXT = null;
+// Each timed step keeps its time when you leave it, so a swipe back picks up where it was (Trey, Nov 23). Restart clears it.
+const kept = {};
 let n = -1, cur = null, hiddenAt = null, runStart = null, viewed = new Set(), completeSent = false;
 
 function stepType(k) {
@@ -527,6 +529,7 @@ function endLeave() {
   $('stage').classList.remove('rise');
 }
 function leaveStep(slide) {
+  if (T && cur && n >= 0 && n < S.length) kept[n] = Math.min(T.total * 1000, T.acc + (T.run ? (Date.now() - T.since) * SPEED : 0));
   closeStep();
   clearInterval(tm); tm = null;
   clearTimeout(autoT);
@@ -551,6 +554,7 @@ function go(k, via) {
   leaveStep(slide);
   closeSheets(true);
   hint(false);
+  if (via === 'restart') Object.keys(kept).forEach(j => delete kept[j]);
   n = k;
   cur = { k: n, t0: Date.now(), hidden: 0, paused: 0, scrubBack: 0, watched: 0, lastT: null, completed: false, chimeAt: null, closed: false };
   const isStep = n >= 0 && n < S.length, s = isStep ? S[n] : null, vid = isStep && s.t === 'video', timed = isStep && !vid, c = $('cont');
@@ -590,12 +594,14 @@ function go(k, via) {
   c.classList.remove('done');
   c.classList.add('out');
   clearTimeout(swapT);
-  swapT = setTimeout(() => { c.innerHTML = content(n); c.classList.toggle('full', !isStep); c.classList.toggle('long', !!(S[n] && S[n].passage)); c.scrollTop = 0; c.classList.remove('out'); cue(); }, first || slide ? 0 : 280);
+  swapT = setTimeout(() => { c.innerHTML = content(n); c.classList.toggle('full', !isStep); c.classList.toggle('long', !!(S[n] && S[n].passage)); c.scrollTop = 0; c.classList.remove('out'); if (finished) c.classList.add('done'); endCue(); cue(); }, first || slide ? 0 : 280);
   first = false;
 
   if (vid) startVideo(s);
   // After a slide, wait for it to finish before starting keep-awake (a second video starting mid-slide stutters on iPhone).
-  if (timed) { T = { total: s.total, acc: 0, since: Date.now(), run: true }; if (slide) { clearTimeout(wakeT); wakeT = setTimeout(() => { if (T && T.run) wake(); }, 650); } else wake(); }
+  const back = timed ? kept[n] || 0 : 0, finished = timed && back >= s.total * 1000;
+  if (finished) { T = { total: s.total, acc: s.total * 1000, since: Date.now(), run: false }; cur.chimeAt = Date.now(); } // already done: no second chime
+  else if (timed) { T = { total: s.total, acc: back, since: Date.now(), run: true }; if (slide) { clearTimeout(wakeT); wakeT = setTimeout(() => { if (T && T.run) wake(); }, 650); } else wake(); }
   requestAnimationFrame(fitVid);
   if (isStep) { tm = setInterval(tick, vid ? 100 : 250); draw(); setPP(); }
   haptic();
@@ -871,18 +877,29 @@ app.addEventListener('click', e => {
   if (e.target.closest('#det') || !running()) { detail(true); return; }
   detail(!$('det').classList.contains('open'));
 });
-let y0 = null, x0 = null, top1 = true, bot1 = true;
+let y0 = null, x0 = null, top1 = true, bot1 = true, longScr = false, scrollT = 0;
+// A screen that scrolls (a full passage): reaching the bottom never moves on by itself. Only a new swipe up,
+// started after the text has sat still at the bottom for a moment, goes to the next step (Trey, Nov 23).
+$('cont').addEventListener('scroll', () => { scrollT = Date.now(); endCue(); }, { passive: true });
+function endCue() {
+  const c = $('cont'), long = c.scrollHeight > c.clientHeight + 2, at = c.scrollTop + c.clientHeight >= c.scrollHeight - 2;
+  let h = c.querySelector('.nexthint');
+  if (!long || n < 0 || n + 1 >= S.length) { if (h) h.remove(); return; }
+  if (!h) { const x = S[n + 1]; h = document.createElement('p'); h.className = 'nexthint'; h.textContent = 'Swipe up again for ' + (x.t === 'video' ? 'the ' + (x.role === 'wrapup' ? 'wrap-up' : 'warm-up') : x.label); c.appendChild(h); }
+  h.classList.toggle('on', at);
+}
 app.addEventListener('touchstart', e => {
   if (e.target.closest('.sheet,.scrim,button,.track')) return;
   y0 = e.touches[0].clientY; x0 = e.touches[0].clientX;
   const el = $('cont');
-  if (el.scrollHeight > el.clientHeight + 2) { top1 = el.scrollTop <= 1; bot1 = el.scrollTop + el.clientHeight >= el.scrollHeight - 2; } else top1 = bot1 = true;
+  longScr = el.scrollHeight > el.clientHeight + 2;
+  if (longScr) { top1 = el.scrollTop <= 1; bot1 = el.scrollTop + el.clientHeight >= el.scrollHeight - 2 && Date.now() - scrollT > 600; } else top1 = bot1 = true;
 }, { passive: true });
 app.addEventListener('touchend', e => {
   if (y0 === null) return;
   const dy = e.changedTouches[0].clientY - y0, dx = e.changedTouches[0].clientX - x0;
   y0 = null;
-  if (Math.abs(dy) > 50 && Math.abs(dy) > Math.abs(dx)) { if (dy < 0 && bot1) go(n + 1, 'swipe'); else if (dy > 0 && top1) go(n - 1, 'swipe'); }
+  if (Math.abs(dy) > (longScr ? 80 : 50) && Math.abs(dy) > Math.abs(dx)) { if (dy < 0 && bot1) go(n + 1, 'swipe'); else if (dy > 0 && top1) go(n - 1, 'swipe'); }
 }, { passive: true });
 addEventListener('keydown', e => {
   if (e.target.closest && e.target.closest('input,textarea,select')) return; // typing in the prayer form
