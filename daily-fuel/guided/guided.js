@@ -65,6 +65,7 @@ if (!TEAM) {
 let DAY = null, S = null, WRAP = -1, NEXT = null;
 // Each timed step keeps its time when you leave it, so a swipe back picks up where it was (Trey, Nov 23). Restart clears it.
 const kept = {};
+let autoPaused = false;
 let n = -1, cur = null, hiddenAt = null, runStart = null, viewed = new Set(), completeSent = false;
 
 function stepType(k) {
@@ -913,12 +914,20 @@ document.addEventListener('visibilitychange', () => {
     if (hiddenAt) return;
     hiddenAt = Date.now();
     if (n < S.length && cur) { closeStep(); ev('guided_exit', { seconds_into_step: sec(hiddenAt - cur.t0) }); }
+    // Leaving the page pauses the session (Trey, Nov 23): a timer that ran out while you were in another app is a lost step.
+    if (n >= 0 && n < S.length && cur && running()) {
+      autoPaused = true; cur.paused++;
+      if (isVid()) { userPaused = true; V.pause(); }
+      else { T.acc += (hiddenAt - T.since) * SPEED; T.run = false; unwake(); }
+      setPP();
+    }
   } else if (hiddenAt) {
     const away = Date.now() - hiddenAt;
     if (cur) cur.hidden += away;
     hiddenAt = null;
     if (n < S.length) ev('guided_return', { away_seconds: sec(away) });
     if (T && T.run) wake();
+    if (autoPaused) { autoPaused = false; setPP(); detail(true); } // back: the play/pause pill is on screen, paused
   }
 });
 
