@@ -27,7 +27,45 @@
       "name_as_written": "Bible Study",
       "macro": "word",
       "minutes": 8,
-      "prompt": "Read 1 Corinthians 15:3–10. What do you think the primary point of this passage is? How would you apply it to your life?"
+      "prompt": "Read 1 Corinthians 15:3–10. What do you think the primary point of this passage is? How would you apply it to your life?",
+      "passage": {
+        "reference": "1 Corinthians 15:3–10",
+        "translation": "NIV",
+        "verses": [
+          [
+            3,
+            "For what I received I passed on to you as of first importance: that Christ died for our sins according to the Scriptures,"
+          ],
+          [
+            4,
+            "that he was buried, that he was raised on the third day according to the Scriptures,"
+          ],
+          [
+            5,
+            "and that he appeared to Cephas, and then to the Twelve."
+          ],
+          [
+            6,
+            "After that, he appeared to more than five hundred of the brothers and sisters at the same time, most of whom are still living, though some have fallen asleep."
+          ],
+          [
+            7,
+            "Then he appeared to James, then to all the apostles,"
+          ],
+          [
+            8,
+            "and last of all he appeared to me also, as to one abnormally born."
+          ],
+          [
+            9,
+            "For I am the least of the apostles and do not even deserve to be called an apostle, because I persecuted the church of God."
+          ],
+          [
+            10,
+            "But by the grace of God I am what I am, and his grace to me was not without effect. No, I worked harder than all of them—yet not I, but the grace of God that was with me."
+          ]
+        ]
+      }
     },
     {
       "type": "nutrient",

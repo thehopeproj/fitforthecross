@@ -136,7 +136,7 @@ function load(d) {
       const m = x.minutes || CFG.actMinutes;
       return { t: 'action', label: CFG.actName, descriptor: x.descriptor, instruction: x.instruction, min: m, total: m * 60 };
     }
-    return { t: 'nutrient', nutrient: x.nutrient, label: x.name_as_written || x.nutrient, word: x.macro === 'word', prompt: x.prompt, min: x.minutes, total: x.minutes * 60 };
+    return { t: 'nutrient', nutrient: x.nutrient, label: x.name_as_written || x.nutrient, word: x.macro === 'word', prompt: x.prompt, passage: x.passage || null, min: x.minutes, total: x.minutes * 60 };
   });
   WRAP = S.findIndex(s => s.t === 'video' && s.role === 'wrapup');
   const w = S.find(s => s.role === 'warmup'), r = S.find(s => s.role === 'wrapup');
@@ -151,6 +151,8 @@ function load(d) {
 /* ---------- screens ---------- */
 function totalMin() { return Math.round(S.reduce((a, s) => a + (s.total || 0), 0) / 60); }
 function verseHTML() { return '“' + esc(DAY.verse.text) + '”<cite>' + esc(DAY.verse.reference + ' ' + (DAY.verse.translation || 'NIV')) + '</cite>'; }
+// The full passage a prompt names (HQ, Nov 23): takes the verse block's place, small verse numbers, panel scrolls.
+function passageHTML(p) { return '“' + p.verses.map(v => '<sup>' + v[0] + '</sup>' + esc(v[1])).join(' ') + '”<cite>' + esc(p.reference + ' ' + (p.translation || 'NIV')) + '</cite>'; }
 function homeHTML() {
   const [y, m, d] = DAY.date.split('-').map(Number), dt = new Date(y, m - 1, d), mo = MON[m - 1];
   const li = S.filter(s => s.t !== 'video').map(s => '<li>' + esc(s.label) + '</li>').join('');
@@ -186,7 +188,7 @@ function content(k) {
   if (s.t === 'action') return '<div class="kick">' + s.min + ' MINUTES OF</div><div class="nword">' + esc(s.label) + '</div>' +
     '<blockquote class="nverse">' + esc(s.instruction) + '<cite>' + esc(s.descriptor) + '</cite></blockquote><hr class="nsep"><p class="nprompt">' + CFG.actPrompt + '</p>';
   return '<div class="kick">' + s.min + ' MINUTES OF</div><div class="nword">' + esc(s.label) + '</div>' +
-    (s.word ? '<blockquote class="nverse">' + verseHTML() + '</blockquote><hr class="nsep">' : '') +
+    (s.passage ? '<blockquote class="nverse npass">' + passageHTML(s.passage) + '</blockquote><hr class="nsep">' : s.word ? '<blockquote class="nverse">' + verseHTML() + '</blockquote><hr class="nsep">' : '') +
     (s.prompt ? '<p class="nprompt">' + esc(s.prompt) + '</p>' : '');
 }
 function segs() { $('segs').innerHTML = S.map((_, j) => '<i class="' + (j < n || n >= S.length ? 'done' : j === n ? 'cur' : '') + '"></i>').join(''); }
@@ -583,7 +585,7 @@ function go(k, via) {
   c.classList.remove('done');
   c.classList.add('out');
   clearTimeout(swapT);
-  swapT = setTimeout(() => { c.innerHTML = content(n); c.classList.toggle('full', !isStep); c.scrollTop = 0; c.classList.remove('out'); cue(); }, first || slide ? 0 : 280);
+  swapT = setTimeout(() => { c.innerHTML = content(n); c.classList.toggle('full', !isStep); c.classList.toggle('long', !!(S[n] && S[n].passage)); c.scrollTop = 0; c.classList.remove('out'); cue(); }, first || slide ? 0 : 280);
   first = false;
 
   if (vid) startVideo(s);

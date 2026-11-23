@@ -27,7 +27,29 @@
       "name_as_written": "Bible Study",
       "macro": "word",
       "minutes": 6,
-      "prompt": "Read Proverbs 23:15–18 and sit with the promise of a future that will not be cut off."
+      "prompt": "Read Proverbs 23:15–18 and sit with the promise of a future that will not be cut off.",
+      "passage": {
+        "reference": "Proverbs 23:15–18",
+        "translation": "NIV",
+        "verses": [
+          [
+            15,
+            "My son, if your heart is wise, then my heart will be glad indeed;"
+          ],
+          [
+            16,
+            "my inmost being will rejoice when your lips speak what is right."
+          ],
+          [
+            17,
+            "Do not let your heart envy sinners, but always be zealous for the fear of the Lord."
+          ],
+          [
+            18,
+            "There is surely a future hope for you, and your hope will not be cut off."
+          ]
+        ]
+      }
     },
     {
       "type": "nutrient",

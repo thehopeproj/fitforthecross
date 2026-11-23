@@ -478,3 +478,9 @@ html,body{overscroll-behavior:none}
 @media (min-width:900px){.fbsheet{width:min(560px,calc(100% - var(--cw) - 48px))!important;height:520px;max-height:calc(100% - 40px);padding:22px 28px 16px}.fbq2{font-size:24px}.fbmid{margin:0 -28px;padding:0 28px 12px}}
 /* computer: an opened checklist never scrolls; the panel grows to fit it (Trey + APP ROADMAP, Nov 19 11:21) */
 @media (min-width:900px){.fbsheet.fblist{height:auto;min-height:520px}.fbsheet.fblist .fbmid{-webkit-mask:none;overflow:visible}}
+/* full passage a prompt names (Nov 23): top-aligned so the panel scrolls from the start; smaller type; small verse numbers */
+.cont.long{justify-content:flex-start;padding-top:18px}
+.cont .nverse.npass{font-size:17px;line-height:1.4;text-wrap:pretty}
+.npass sup{font-size:.6em;color:var(--orange);vertical-align:.5em;line-height:0;margin:0 2px 0 1px}
+.npass sup:first-child{margin-left:0}
+@media (min-width:700px){.cont .nverse.npass{font-size:20px}}
