@@ -152,7 +152,11 @@ function load(d) {
 function totalMin() { return Math.round(S.reduce((a, s) => a + (s.total || 0), 0) / 60); }
 function verseHTML() { return '“' + esc(DAY.verse.text) + '”<cite>' + esc(DAY.verse.reference + ' ' + (DAY.verse.translation || 'NIV')) + '</cite>'; }
 // The full passage a prompt names (HQ, Nov 23): takes the verse block's place, small verse numbers, panel scrolls.
-function passageHTML(p) { return '“' + p.verses.map(v => '<sup>' + v[0] + '</sup>' + esc(v[1])).join(' ') + '”<cite>' + esc(p.reference + ' ' + (p.translation || 'NIV')) + '</cite>'; }
+function passageHTML(p) {
+  const paras = [], starts = p.paragraphs || [];
+  p.verses.forEach(v => { if (!paras.length || starts.includes(v[0])) paras.push([]); paras[paras.length - 1].push('<sup>' + v[0] + '</sup>' + esc(v[1])); });
+  return paras.map((x, i) => '<span class="ppara">' + (i ? '' : '“') + x.join(' ') + (i === paras.length - 1 ? '”' : '') + '</span>').join('') + '<cite>' + esc(p.reference + ' ' + (p.translation || 'NIV')) + '</cite>';
+}
 function homeHTML() {
   const [y, m, d] = DAY.date.split('-').map(Number), dt = new Date(y, m - 1, d), mo = MON[m - 1];
   const li = S.filter(s => s.t !== 'video').map(s => '<li>' + esc(s.label) + '</li>').join('');
@@ -188,8 +192,9 @@ function content(k) {
   if (s.t === 'action') return '<div class="kick">' + s.min + ' MINUTES OF</div><div class="nword">' + esc(s.label) + '</div>' +
     '<blockquote class="nverse">' + esc(s.instruction) + '<cite>' + esc(s.descriptor) + '</cite></blockquote><hr class="nsep"><p class="nprompt">' + CFG.actPrompt + '</p>';
   return '<div class="kick">' + s.min + ' MINUTES OF</div><div class="nword">' + esc(s.label) + '</div>' +
-    (s.passage ? '<blockquote class="nverse npass">' + passageHTML(s.passage) + '</blockquote><hr class="nsep">' : s.word ? '<blockquote class="nverse">' + verseHTML() + '</blockquote><hr class="nsep">' : '') +
-    (s.prompt ? '<p class="nprompt">' + esc(s.prompt) + '</p>' : '');
+    (s.passage ? (s.prompt ? '<p class="nprompt">' + esc(s.prompt) + '</p>' : '') + '<hr class="nsep">' + '<blockquote class="nverse npass">' + passageHTML(s.passage) + '</blockquote>' : // prompt first, then the passage (Trey, Nov 23)
+    (s.word ? '<blockquote class="nverse">' + verseHTML() + '</blockquote><hr class="nsep">' : '') +
+    (s.prompt ? '<p class="nprompt">' + esc(s.prompt) + '</p>' : ''));
 }
 function segs() { $('segs').innerHTML = S.map((_, j) => '<i class="' + (j < n || n >= S.length ? 'done' : j === n ? 'cur' : '') + '"></i>').join(''); }
 

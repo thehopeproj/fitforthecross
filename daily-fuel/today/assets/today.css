@@ -170,3 +170,4 @@ h1,h2,h3,.title,.tag,.verse p,.sign h2,.mdone h3{text-wrap:balance}
 .pass sup:first-child{margin-left:0}
 /* NIV notice (Biblica terms; HQ Nov 23) */
 .footer__niv{max-width:560px;margin:24px auto 0;text-align:center;font-family:NH,Helvetica,Arial,sans-serif;font-weight:500;font-size:11.5px;line-height:1.5;letter-spacing:.01em;text-transform:none;color:rgba(255,255,255,.3);text-wrap:pretty}
+.step .pass p + p{margin-top:.7em}

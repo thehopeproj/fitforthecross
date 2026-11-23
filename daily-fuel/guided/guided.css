@@ -484,3 +484,5 @@ html,body{overscroll-behavior:none}
 .npass sup{font-size:.6em;color:var(--orange);vertical-align:.5em;line-height:0;margin:0 2px 0 1px}
 .npass sup:first-child{margin-left:0}
 @media (min-width:700px){.cont .nverse.npass{font-size:20px}}
+.npass .ppara{display:block}.npass .ppara + .ppara{margin-top:.7em}
+.cont .nprompt + .nsep{margin-top:20px}
