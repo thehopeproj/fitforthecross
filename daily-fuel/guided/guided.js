@@ -271,7 +271,7 @@ V.addEventListener('timeupdate', () => {
   if (!V.paused && V.duration && isFinite(V.duration) && V.duration - t < 0.05) finishVideo('timeupdate');
 });
 V.addEventListener('seeked', () => { if (cur) cur.lastT = V.currentTime; drawCap(V.currentTime); });
-V.addEventListener('play', setPP);
+V.addEventListener('play', () => { if (autoPaused && isVid()) { V.pause(); return; } setPP(); }); // iPhone resumes media on return; GUIDED waits for Play
 V.addEventListener('pause', () => { setPP(); if (isVid() && cur && !userPaused && !dragging && V.currentTime > 1 && endOf() - V.currentTime < 0.1) finishVideo('pause_event_at_end'); });
 V.addEventListener('waiting', () => {
   if (V.duration && isFinite(V.duration) && V.duration - V.currentTime < 0.1 && V.currentTime > 1) { finishVideo('waiting_at_end'); return; } clearTimeout(stallT); stallT = setTimeout(() => errEv('video_stall', 'waiting_4s'), 4000); });
@@ -417,11 +417,11 @@ function draw() {
 function toggle() {
   if (!cur || finished()) return;
   if (isVid()) {
-    if (V.paused) { userPaused = false; V.play().catch(() => {}); ev('guided_control', { control: 'play' }); }
+    if (V.paused) { userPaused = false; autoPaused = false; V.play().catch(() => {}); ev('guided_control', { control: 'play' }); }
     else { userPaused = true; V.pause(); cur.paused++; ev('guided_control', { control: 'pause' }); }
   } else if (T) {
     if (T.run) { T.acc += (Date.now() - T.since) * SPEED; T.run = false; cur.paused++; unwake(); ev('guided_control', { control: 'pause' }); }
-    else { T.since = Date.now(); T.run = true; wake(); ev('guided_control', { control: 'play' }); }
+    else { autoPaused = false; T.since = Date.now(); T.run = true; wake(); ev('guided_control', { control: 'play' }); }
   }
   setPP();
   detail(true);
@@ -556,6 +556,7 @@ function go(k, via) {
   closeSheets(true);
   hint(false);
   if (via === 'restart') Object.keys(kept).forEach(j => delete kept[j]);
+  autoPaused = false;
   n = k;
   cur = { k: n, t0: Date.now(), hidden: 0, paused: 0, scrubBack: 0, watched: 0, lastT: null, completed: false, chimeAt: null, closed: false };
   const isStep = n >= 0 && n < S.length, s = isStep ? S[n] : null, vid = isStep && s.t === 'video', timed = isStep && !vid, c = $('cont');
@@ -915,7 +916,9 @@ document.addEventListener('visibilitychange', () => {
     hiddenAt = Date.now();
     if (n < S.length && cur) { closeStep(); ev('guided_exit', { seconds_into_step: sec(hiddenAt - cur.t0) }); }
     // Leaving the page pauses the session (Trey, Nov 23): a timer that ran out while you were in another app is a lost step.
-    if (n >= 0 && n < S.length && cur && running()) {
+    // iPhone may pause the video itself before this runs, so a video counts as playing unless the person paused it.
+    const vidOn = isVid() && !userPaused && !(cur && cur.completed);
+    if (n >= 0 && n < S.length && cur && (vidOn || (!isVid() && running()))) {
       autoPaused = true; cur.paused++;
       if (isVid()) { userPaused = true; V.pause(); }
       else { T.acc += (hiddenAt - T.since) * SPEED; T.run = false; unwake(); }
@@ -927,7 +930,7 @@ document.addEventListener('visibilitychange', () => {
     hiddenAt = null;
     if (n < S.length) ev('guided_return', { away_seconds: sec(away) });
     if (T && T.run) wake();
-    if (autoPaused) { autoPaused = false; setPP(); detail(true); } // back: the play/pause pill is on screen, paused
+    if (autoPaused) { if (isVid() && !V.paused) V.pause(); setPP(); detail(true); } // back: the play/pause pill is on screen, paused (stays paused until Play)
   }
 });
 
